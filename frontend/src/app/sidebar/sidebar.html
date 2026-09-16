@@ -1,0 +1,162 @@
+<aside class="sidebar">
+
+  <!-- Brand -->
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <svg viewBox="0 0 24 24" fill="white" aria-hidden="true" width="18" height="18"><path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM4 19h16v2H4v-2zM20 3H4v2l8 7 8-7V3z"/></svg>
+    </div>
+    <div>
+      <div class="sb-nm">InvoiceIQ</div>
+      <div class="sb-tg">AP Automation Platform</div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════
+       SUPER ADMIN MENU
+  ════════════════════════════════ -->
+  @if (!showEntityMenu()) {
+
+    <div class="sb-sec">Entities</div>
+
+    <a class="nb" routerLink="/entities" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M3 13h8v8H3v-8zm10-10h8v18h-8V3zM3 3h8v8H3V3z"/></svg></i>
+      <span>All Entities</span>
+    </a>
+
+    <a class="nb" routerLink="/entities/create" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></i>
+      <span>Create Entity</span>
+    </a>
+
+    <div class="sb-sec">Platform Config</div>
+
+    <a class="nb" routerLink="/models-quality" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4v-2zm2-8h3v6H6v-6zm5-4h3v10h-3V7zm5 2h3v8h-3V9z"/></svg></i>
+      <span>Models &amp; Quality</span>
+    </a>
+
+    <a class="nb" routerLink="/document-classification" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg></i>
+      <span>Document Classify</span>
+    </a>
+
+    <a class="nb" routerLink="/provider-governance" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M12 2l7 4v6c0 5.55-3.84 10.74-9 12C4.84 22.74 1 17.55 1 12V6l11-4z"/></svg></i>
+      <span>Provider Governance</span>
+    </a>
+
+    <a class="nb" routerLink="/api-integrations" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.01 4.01 0 0 0 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg></i>
+      <span>API Integrations</span>
+    </a>
+
+    <div class="sb-sec">Administration</div>
+
+    <a class="nb" routerLink="/audit-logs" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-2 9l-2-2-1.41 1.41L11 21l4.59-4.59L14.17 15l-3.17 3z"/></svg></i>
+      <span>Audit Logs</span>
+    </a>
+
+    <a class="nb" routerLink="/super-admin-console" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></i>
+      <span>Admin Console</span>
+    </a>
+
+  } @else {
+
+  <!-- ════════════════════════════════
+       ENTITY USER MENU
+  ════════════════════════════════ -->
+
+    @if (isSuperAdmin()) {
+      <a class="nb nb-back" routerLink="/entities">
+        <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></i>
+        <span>All Entities</span>
+      </a>
+      <div class="sb-entity-ctx">
+        <span class="sb-entity-label">Viewing</span>
+        <span class="sb-entity-name">{{ getEntityName() }}</span>
+      </div>
+    }
+
+    <div class="sb-sec">Workspace</div>
+
+    <a class="nb" routerLink="/entity-dashboard" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M3 13h8v8H3v-8zm10-10h8v18h-8V3zM3 3h8v8H3V3z"/></svg></i>
+      <span>Dashboard</span>
+    </a>
+
+    <!--<a class="nb" routerLink="/operations-command-center" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg></i>
+      <span>Operations Center</span>
+    </a>-->
+
+    <a class="nb" routerLink="/transactions" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3l4 4h-3v4h-2v-4H8l4-4zm0 10H8v-2h8v2z"/></svg></i>
+      <span>Transactions</span>
+    </a>
+
+    <a class="nb" routerLink="/reconciliation" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM4 19h16v2H4v-2zM20 3H4v2l8 7 8-7V3z"/></svg></i>
+      <span>Reconciliation</span>
+    </a>
+
+    <a class="nb" routerLink="/exception-queue" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></i>
+      <span>Exception Queue</span>
+    </a>
+
+    <a class="nb" routerLink="/approval-queue" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></i>
+      <span>Approvals</span>
+    </a>
+
+    <!--<div class="sb-sec">Settings</div>
+
+    <a class="nb" routerLink="/models-quality" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4v-2zm2-8h3v6H6v-6zm5-4h3v10h-3V7zm5 2h3v8h-3V9z"/></svg></i>
+      <span>Models &amp; Quality</span>
+    </a>
+
+    <a class="nb" routerLink="/document-classification" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg></i>
+      <span>Document Classify</span>
+    </a>
+
+    <a class="nb" routerLink="/data-connectors" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M4 7h16v2H4V7zm2-4h12v2H6V3zm-2 8h16v2H4v-2zm0 4h16v2H4v-2zm0 4h16v2H4v-2z"/></svg></i>
+      <span>Data Connectors</span>
+    </a>-->
+
+    <div class="sb-sec">Administration</div>
+
+    <a class="nb" routerLink="/user-management" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></i>
+      <span>User Management</span>
+    </a>
+
+    <a class="nb" routerLink="/entity-audit-logs" [queryParams]="entityParams()" routerLinkActive="active">
+      <i class="nb-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-2 9l-2-2-1.41 1.41L11 21l4.59-4.59L14.17 15l-3.17 3z"/></svg></i>
+      <span>Audit Log</span>
+    </a>
+
+  }
+
+  <!-- Bottom: user info + logout -->
+  <div class="sb-bot">
+    <button class="nb nb-logout" type="button" (click)="logout()">
+      <i class="nb-ico">
+        <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      </i>
+      <span>Logout</span>
+    </button>
+    <div class="sb-user">
+      <div class="sb-ava">{{ getUserInitials() }}</div>
+      <div class="sb-user-info">
+        <div class="sb-user-nm">{{ getUserName() }}</div>
+        <div class="sb-user-rl">{{ getUserRole() }}</div>
+      </div>
+    </div>
+  </div>
+
+</aside>

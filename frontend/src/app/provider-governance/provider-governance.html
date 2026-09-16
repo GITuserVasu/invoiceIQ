@@ -1,0 +1,256 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand" aria-label=" eProbito-logo">
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Dashboard</b>
+        <div class="crumb">  Dashboard > Provider Governance</div>
+      </div>
+      <div class="mini-stats">
+        <div class="spark">
+          <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 22px;"></i><i style="height: 15px;"></i><i style="height: 24px;"></i>
+        </div>
+        <div class="global-actions">
+          <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+          <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+          <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <main class="content">
+    <section class="hero">
+      <h1>Maintain Paid OCR and LLM Providers Per Entity</h1>
+      <p>Enable providers like Reducto and other market vendors per entity, assign priority and fallback, and enforce quality and cost controls before production.</p>
+      <div class="hero-meta">
+        <span class="hero-pill">Multi-Vendor Routing</span>
+        <span class="hero-pill">Cost Guardrails</span>
+        <span class="hero-pill">Journey Step 7 of 9</span>
+      </div>
+    </section>
+
+    <section class="kpis">
+      <article class="kpi"><b id="kpiProviders">0</b><span>Registered Providers</span></article>
+      <article class="kpi"><b id="kpiAssignments">0</b><span>Entity Assignments</span></article>
+      <article class="kpi"><b id="kpiFallback">0</b><span>Fallback Chains</span></article>
+      <article class="kpi"><b id="kpiActive">0</b><span>Active Deployments</span></article>
+    </section>
+
+    <!-- Provider Catalog -->
+    <article class="panel">
+      <header class="panel-head">
+        <h2>Provider Catalog</h2>
+        <span class="subtle">Click a provider card to assign to an entity, or register a new provider</span>
+      </header>
+      <div class="version-builder">
+        <div class="actions" style="margin-bottom:4px">
+          <button class="btn primary" type="button" id="openProviderPopupBtn">+ Register New Provider</button>
+        </div>
+        <p class="mini-note">Providers loaded from database. Click a card to pre-fill the assignment form.</p>
+        <div class="model-cards" id="providerCards">
+          <p style="color:#7388a1">Loading providers...</p>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin:0 12px 12px">
+        <table>
+          <thead>
+            <tr>
+              <th>Provider</th>
+              <th>Type</th>
+              <th>Base URL</th>
+              <th>Vault Ref</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="providerRegistryRows">
+            <tr><td colspan="5" style="text-align:center;color:#7388a1">Loading providers...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- Register Provider popup -->
+    <div class="popup-overlay" id="providerFormPopup" aria-hidden="true">
+      <div class="popup-panel">
+        <div class="popup-head">
+          <h3>Register New Provider</h3>
+          <button class="btn" type="button" id="closeProviderPopupBtn">Close</button>
+        </div>
+        <div class="popup-body">
+          <div class="version-grid">
+            <div class="field full">
+              <label for="popupProviderNameInput">Provider Name <span style="color:#e34">*</span></label>
+              <input id="popupProviderNameInput" type="text" placeholder="e.g. OpenAI, Anthropic, Reducto" />
+            </div>
+            <div class="field">
+              <label for="popupProviderTypeInput">Provider Type <span style="color:#e34">*</span></label>
+              <select id="popupProviderTypeInput">
+                <option value="LLM API">LLM API</option>
+                <option value="OCR API">OCR API</option>
+                <option value="Hybrid API">Hybrid API</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="popupProviderStatusInput">Status</label>
+              <select id="popupProviderStatusInput">
+                <option value="Active">Active</option>
+                <option value="Pilot">Pilot</option>
+                <option value="Disabled">Disabled</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="popupProviderBaseUrlInput">Base URL <span style="color:#e34">*</span></label>
+              <input id="popupProviderBaseUrlInput" type="text" placeholder="https://api.provider.com/v1" />
+            </div>
+            <div class="field">
+              <label for="popupProviderVaultRefInput">Vault Reference <span style="color:#e34">*</span></label>
+              <input id="popupProviderVaultRefInput" type="text" placeholder="kv://prod/provider/openai" />
+            </div>
+            <div class="field full">
+              <label for="popupProviderApiKeyInput">API Key <span style="color:#e34">*</span></label>
+              <input id="popupProviderApiKeyInput" type="password" placeholder="sk-live-..." />
+            </div>
+            <div class="field full">
+              <label for="popupProviderNotesInput">Notes (optional)</label>
+              <input id="popupProviderNotesInput" type="text" placeholder="Rate limit, usage policy, environment details" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="button" id="registerProviderBtn">Register Provider</button>
+            <button class="btn" type="button" id="clearProviderFormBtn">Clear</button>
+          </div>
+          <p class="mini-note" id="providerFormStatus">Fill all required fields and click Register Provider.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Assign Provider To Entity panel -->
+    <article class="panel" id="journeyAssignPanel">
+      <header class="panel-head">
+        <h2>Assign Provider To Entity</h2>
+        <span class="subtle">Map registered provider to entity with use case and rollout strategy</span>
+      </header>
+      <section class="version-builder">
+        <div class="vb-summary">
+          <div class="vb-col">
+            <span class="vb-label">Selected Entity</span>
+            <span class="vb-value" id="assignEntityDisplay">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Provider</span>
+            <span class="vb-value" id="assignProviderDisplay">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Use Case</span>
+            <span class="vb-value" id="assignUseCaseDisplay">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Rollout</span>
+            <span class="vb-value" id="assignRolloutDisplay">—</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="button" id="openAssignPopupBtn">Assign Provider To Entity</button>
+        </div>
+        <p class="mini-note" id="assignmentStatus">Click a provider card above or use the button to assign a provider to an entity.</p>
+      </section>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Use Case</th>
+              <th>Provider</th>
+              <th>Rollout</th>
+              <th>Owner</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="entityProviderRows">
+            <tr><td colspan="6" style="text-align:center;color:#7388a1">Loading assignments...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <a class="btn" routerLink="/document-classification">Create Own Model</a>
+        <button class="btn primary" type="button" id="publishRoutingBtn">Publish Entity Routing</button>
+      </div>
+    </article>
+
+    <!-- Assign Provider popup -->
+    <div class="popup-overlay" id="assignFormPopup" aria-hidden="true">
+      <div class="popup-panel narrow">
+        <div class="popup-head">
+          <h3>Assign Provider To Entity</h3>
+          <button class="btn" type="button" id="closeAssignPopupBtn">Close</button>
+        </div>
+        <div class="popup-body">
+          <div class="version-grid">
+            <div class="field full">
+              <label for="popupAssignEntitySelect">Entity <span style="color:#e34">*</span></label>
+              <select id="popupAssignEntitySelect">
+                <option value="">— Loading entities... —</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="popupAssignProviderSelect">Provider <span style="color:#e34">*</span></label>
+              <select id="popupAssignProviderSelect">
+                <option value="">— Select provider —</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="popupAssignUseCaseInput">Use Case <span style="color:#e34">*</span></label>
+              <input id="popupAssignUseCaseInput" type="text" placeholder="Invoice + POD" />
+            </div>
+            <div class="field">
+              <label for="popupAssignModeSelect">Rollout Mode</label>
+              <select id="popupAssignModeSelect">
+                <option value="Canary">Canary</option>
+                <option value="Pilot">Pilot</option>
+                <option value="Full">Full</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="popupAssignOwnerInput">Owner <span style="color:#e34">*</span></label>
+              <input id="popupAssignOwnerInput" type="text" placeholder="AI Operations" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="button" id="assignProviderBtn">Assign To Entity</button>
+          </div>
+          <p class="mini-note" id="assignPopupStatus">Select entity and provider, enter use case details, then assign.</p>
+        </div>
+      </div>
+    </div>
+
+    <article class="panel" id="journeyStepPanel">
+      <header class="panel-head">
+        <h2>Step 7 of 9 — Provider Governance</h2>
+        <span class="subtle">Save provider rules and proceed to API integrations</span>
+      </header>
+      <div class="journey-progress">
+        <span class="jp-step done">1. Entity Profile</span>
+        <span class="jp-step done">2. Intake Mode</span>
+        <span class="jp-step done">3. User Access</span>
+        <span class="jp-step done">4. AP / AR Scope</span>
+        <span class="jp-step done">5. Models &amp; Quality</span>
+        <span class="jp-step done">6. Classification</span>
+        <span class="jp-step active">7. Provider Gov</span>
+        <span class="jp-step">8. API Integrations</span>
+        <span class="jp-step">9. Go-Live</span>
+      </div>
+      <div class="actions">
+        <a class="btn" routerLink="/document-classification">← Back to Classification</a>
+        <button class="btn" type="button" id="saveProviderStepBtn">Save Provider Step</button>
+        <button class="btn primary" type="button" id="nextToApiIntegrationsBtn">Next: API Integrations →</button>
+      </div>
+      <div class="note" id="providerJourneyStatus">Step 7 active. Register providers, assign to entities, then continue to API Integrations.</div>
+    </article>
+  </main>
+</div>

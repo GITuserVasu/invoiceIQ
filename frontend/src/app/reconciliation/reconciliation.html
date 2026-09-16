@@ -1,0 +1,404 @@
+<div class="app">
+
+  <!-- ── Sticky Header ──────────────────────────────── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+          <!--<svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+            <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+            <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+          </svg>-->
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Entity Admin</b>
+        <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Reconciliation</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72">Entity Admin</span>
+        <a class="chip" href="/entities">&#8592; All Entities</a>
+        <a class="chip" id="backToDashboardLink" href="entity-dashboard.html">Dashboard</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Main Content ────────────────────────────────── -->
+  <main class="content">
+
+    <!-- Entity banner -->
+    <section class="entity-banner">
+      <div class="eb-icon" id="ebIcon">NT</div>
+      <div class="eb-info">
+        <div class="eb-name" id="ebName">Entity</div>
+        <div class="eb-sub" id="ebSub">Invoice reconciliation &mdash; 3-way match: Purchase Order vs Invoice vs Goods Receipt</div>
+      </div>
+      <div class="eb-pills">
+        <span class="eb-pill" id="ebEntityId">ID: &mdash;</span>
+        <span class="eb-pill ok" id="autoMatchPill">Auto-Match: &mdash;</span>
+        <span class="eb-pill warn" id="exceptionsPill">Exceptions Pending: &mdash;</span>
+        <span class="eb-pill" id="periodPill">Period: &mdash;</span>
+      </div>
+    </section>
+
+    <section class="policy-banner" id="matchingPolicyBanner">
+      <div class="policy-info">
+        <strong id="policyTitle">3-Way Matching Policy</strong>
+        <span id="policyDescription">Purchase Order, Invoice, and GRN are required for this entity.</span>
+      </div>
+      <div class="policy-sources" id="policySources"></div>
+      <span class="policy-source warn" id="policyEway">E-Way Bill: configured per entity</span>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <article class="kpi">
+        <b id="kpiTotal">&mdash;</b>
+        <span>Total Invoices</span>
+        <div class="kpi-trend up" id="kpiTotalTrend">Live from entity data</div>
+      </article>
+      <article class="kpi ok-kpi">
+        <b id="kpiMatched">&mdash;</b>
+        <span id="matchedKpiLabel">3-Way Matched</span>
+        <div class="kpi-trend up" id="kpiMatchedTrend">Live from entity data</div>
+      </article>
+      <article class="kpi warn-kpi">
+        <b id="kpiPartial">&mdash;</b>
+        <span>Partial Match</span>
+        <div class="kpi-trend warn" id="kpiPartialTrend">Live from entity data</div>
+      </article>
+      <article class="kpi bad-kpi">
+        <b id="kpiUnmatched">&mdash;</b>
+        <span>Unmatched / Exceptions</span>
+        <div class="kpi-trend warn" id="kpiUnmatchedTrend">Live from entity data</div>
+      </article>
+      <article class="kpi purple-kpi">
+        <b id="kpiValue">&mdash;</b>
+        <span>Total Invoice Value</span>
+        <div class="kpi-trend up" id="kpiValueTrend">Live from entity data</div>
+      </article>
+    </section>
+
+    <!-- Invoice list -->
+    <article class="panel">
+      <header class="panel-head">
+        <div>
+          <h2>Invoice List</h2>
+          <span class="subtle" id="invoiceListSubtitle">Click any row to open the 3-way reconciliation detail</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn sm" type="button" id="exportBtn">Export CSV</button>
+          <a class="btn sm" id="viewExceptionsBtn" href="discrepancies.html" style="color:var(--bad);border-color:rgba(183,68,68,.3);background:rgba(183,68,68,.06)">&#9888; View All Exceptions</a>
+          <button class="btn sm primary" type="button" id="runMatchBtn">&#9654; Run Auto-Match</button>
+        </div>
+      </header>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="field">
+          <label>Search</label>
+          <div class="input-wrap">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="#a8bcd0" stroke-width="1.4"/><path d="M9 9l2.5 2.5" stroke="#a8bcd0" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input type="text" id="filterSearch" placeholder="Invoice, vendor, PO&hellip;" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Match Status</label>
+          <div class="select-wrap">
+            <select id="filterStatus">
+              <option value="">All Status</option>
+              <option value="matched">3-Way Matched</option>
+              <option value="partial">Partial Match</option>
+              <option value="unmatched">Unmatched</option>
+              <option value="disputed">Disputed</option>
+              <option value="pending">Pending Review</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Vendor</label>
+          <div class="select-wrap">
+            <select id="filterVendor">
+              <option value="">All Vendors</option>
+              <option>Tata Consultancy</option>
+              <option>Infosys Ltd</option>
+              <option>Wipro Technologies</option>
+              <option>HCL Technologies</option>
+              <option>Mahindra Logistics</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Date Range</label>
+          <div class="select-wrap">
+            <select id="filterDate">
+              <option>Jul 2026</option>
+              <option>Jun 2026</option>
+              <option>Last 30 Days</option>
+              <option>Last 90 Days</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Amount Range</label>
+          <div class="select-wrap">
+            <select id="filterAmount">
+              <option value="">Any Amount</option>
+              <option>Below &#8377;1L</option>
+              <option>&#8377;1L &ndash; &#8377;5L</option>
+              <option>&#8377;5L &ndash; &#8377;20L</option>
+              <option>Above &#8377;20L</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Invoice ID</th>
+              <th>Vendor</th>
+              <th>Invoice Amount</th>
+              <th>PO Number</th>
+              <th>GRN Number</th>
+              <th>Match Status</th>
+              <th>Variance</th>
+              <th>Invoice Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceTbody"></tbody>
+        </table>
+        <div class="table-footer"><span id="tableFooter">Showing all 12 invoices</span></div>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<!-- ── Reconciliation Detail Modal ────────────────────── -->
+<div class="recon-overlay hidden" id="reconOverlay">
+  <div class="recon-modal" id="reconModal">
+
+    <div class="recon-modal-header">
+      <div>
+        <h2 id="reconModalTitle">Reconciliation Detail</h2>
+        <div style="font-size:12px;color:#4a8ea4;margin-top:3px" id="reconModalSub">3-Way Match: PO vs Invoice vs GRN</div>
+        <div class="manual-po-panel hidden" id="manualPoPanel">
+          <label for="manualPoSelect">PO number is missing. Select an active PO:</label>
+          <div class="manual-po-controls">
+            <select id="manualPoSelect">
+              <option value="">Select active PO</option>
+            </select>
+            <button class="btn sm" type="button" id="assignPoBtn">Assign PO</button>
+          </div>
+          <span class="manual-po-message" id="manualPoMessage"></span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span id="reconStatusBadge" class="match-badge">&mdash;</span>
+        <button class="modal-close" type="button" id="closeRecon">&#x2715;</button>
+      </div>
+    </div>
+
+    <!-- Process stepper -->
+    <div class="recon-stepper" id="reconStepper"></div>
+    <div class="recon-summary-strip" id="reconSummaryStrip"></div>
+
+    <div class="recon-body">
+
+      <!-- Document Viewer -->
+      <div class="recon-section doc-viewer-section">
+        <div class="doc-type-tabs" id="docTypeTabs">
+          <button class="doc-type-tab active" data-doctype="po">
+            &#128203; Purchase Order
+            <span class="tab-badge" id="tabBadgePo">PO</span>
+          </button>
+          <button class="doc-type-tab" data-doctype="inv">
+            &#129534; Invoice
+            <span class="tab-badge" id="tabBadgeInv">INV</span>
+          </button>
+          <button class="doc-type-tab" id="grnTab" data-doctype="grn">
+            &#128230; Goods Receipt
+            <span class="tab-badge" id="tabBadgeGrn">GRN</span>
+          </button>
+        </div>
+
+        <div class="doc-viewer-layout">
+          <!-- Thumbnail strip -->
+          <div class="doc-thumbs" id="docThumbs"></div>
+
+          <!-- Main view -->
+          <div class="doc-main-view">
+            <div class="doc-toolbar">
+              <div class="doc-toolbar-info">
+                <div class="doc-status-dot" id="docStatusDot" style="background:#9aafc4"></div>
+                <span class="doc-name" id="docViewerName">&mdash;</span>
+                <span class="doc-pages" id="docViewerPages">Page 1 of 1</span>
+              </div>
+              <div class="doc-toolbar-controls">
+                <button class="toolbar-btn" type="button" id="zoomOutBtn" title="Zoom out">&#x2212;</button>
+                <span style="font-size:11px;color:rgba(255,255,255,.5);min-width:34px;text-align:center" id="zoomLabel">100%</span>
+                <button class="toolbar-btn" type="button" id="zoomInBtn" title="Zoom in">&#x2B;</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" type="button" id="prevPageBtn" title="Previous page">&#8592;</button>
+                <button class="toolbar-btn" type="button" id="nextPageBtn" title="Next page">&#8594;</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" type="button" id="toggleMarkersBtn" title="Toggle discrepancy markers">&#9888; Markers</button>
+              </div>
+            </div>
+
+            <div class="doc-canvas" id="docCanvas">
+              <div class="doc-page-wrap" id="docPageWrap">
+                <!-- SVG document injected here -->
+              </div>
+            </div>
+
+            <div class="doc-action-bar">
+              <span class="doc-action-label">Document Action:</span>
+              <button class="doc-act-btn approve" type="button" id="docApproveBtn">&#10003; Approve Document</button>
+              <button class="doc-act-btn reject"  type="button" id="docRejectBtn">&#10007; Reject Document</button>
+              <button class="doc-act-btn flag"    type="button" id="docFlagBtn">&#9888; Flag Discrepancy</button>
+              <button class="doc-act-btn note"    type="button" id="docNoteBtn">&#x270E; Add Note</button>
+              <span style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.35)" id="docActionStatus">No action taken</span>
+            </div>
+
+            <!-- Note panel -->
+            <div class="note-panel hidden" id="notePanel">
+              <textarea id="noteText" placeholder="Add a review note for this document page&hellip;" rows="3"></textarea>
+              <button class="toolbar-btn" type="button" id="saveNoteBtn">Save</button>
+              <button class="toolbar-btn" type="button" id="cancelNoteBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Way document comparison -->
+      <div class="recon-section">
+        <div class="recon-section-head">
+          <div class="recon-section-title">
+            <h3>Document Comparison</h3>
+            <span id="comparisonSubtitle">PO vs Invoice vs GRN side-by-side</span>
+          </div>
+        </div>
+        <div class="three-way-grid" id="threeWayGrid"></div>
+      </div>
+
+      <!-- Line item matching -->
+      <div class="recon-section alt-bg">
+        <div class="recon-section-head">
+          <div class="recon-section-title">
+            <h3>Line Item Matching</h3>
+            <span>Approve, reject, or dispute per line</span>
+          </div>
+          <div class="li-summary-bar" id="liSummaryBar"></div>
+        </div>
+
+        <div class="li-bulk-bar">
+          <span class="li-bulk-label">Bulk Actions</span>
+          <div class="li-bulk-divider"></div>
+          <button class="btn sm ok-btn"  type="button" id="approveAllMatchedBtn">&#10003; Approve Matched</button>
+          <button class="btn sm bad-btn" type="button" id="rejectAllUnmatchedBtn">&#10007; Reject Unmatched</button>
+          <button class="btn sm"         type="button" id="clearAllLineBtn">&#8635; Reset All</button>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+            <span style="font-size:11px;color:#5a7289" id="liApproveProgress">0 / 0 actioned</span>
+            <div style="width:80px">
+              <div class="li-progress-bar"><div class="li-progress-fill" id="liProgressFill" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="li-table-wrap" style="border-radius:0 0 var(--radius-lg) var(--radius-lg);border-top:none">
+          <table class="li-table">
+            <thead>
+              <tr>
+                <th rowspan="2" style="min-width:28px;text-align:center">#</th>
+                <th rowspan="2" style="min-width:165px">Item / Description</th>
+                <th colspan="3" class="group-po">&#128203; Purchase Order</th>
+                <th colspan="3" class="group-inv">&#129534; Invoice</th>
+                <th colspan="3" class="group-grn grn-col">&#128230; GRN</th>
+                <th rowspan="2" style="min-width:60px;text-align:center">Match</th>
+                <th rowspan="2" style="min-width:150px">Action</th>
+              </tr>
+              <tr>
+                <th class="sub-po">Qty</th><th class="sub-po">Rate</th><th class="sub-po">Amount</th>
+                <th class="sub-inv">Qty</th><th class="sub-inv">Rate</th><th class="sub-inv">Amount</th>
+                <th class="sub-grn grn-col">Qty</th><th class="sub-grn grn-col">Rate</th><th class="sub-grn grn-col">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="lineItemTbody"></tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#6a8099;margin-top:8px;padding:0 2px">
+          <span id="liProgressLabel">0 of 0 lines actioned</span>
+          <span id="liProgressPct">0%</span>
+        </div>
+      </div>
+
+      <!-- Field-by-field match table -->
+      <div class="recon-section">
+        <div class="recon-section-head">
+          <div class="recon-section-title">
+            <h3>Invoice Header Matching</h3>
+            <span>Header fields compared before line-item matching</span>
+          </div>
+        </div>
+        <div class="header-match-intro">
+          <strong>What this means:</strong> invoice header values are matched against the PO and GRN. Green values agree, amber values need attention, and red values block automatic posting.
+        </div>
+        <div class="match-table-wrap">
+          <table class="match-table">
+            <thead>
+              <tr>
+                <th style="width:32px"></th>
+                <th>Field</th>
+                <th>Purchase Order</th>
+                <th>Invoice</th>
+                <th class="grn-head">GRN</th>
+                <th>Result</th>
+                <th>Variance</th>
+              </tr>
+            </thead>
+            <tbody id="matchTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Variance summary -->
+      <div class="recon-section alt-bg">
+        <div class="recon-section-head">
+          <div class="recon-section-title">
+            <h3>Variance Summary</h3>
+          </div>
+        </div>
+        <div class="variance-row" id="varianceRow"></div>
+      </div>
+
+      <!-- Approval workflow -->
+      <div class="recon-section">
+        <div class="recon-section-head">
+          <div class="recon-section-title">
+            <h3>Approval Workflow</h3>
+            <span>Current status of each sign-off step</span>
+          </div>
+        </div>
+        <div class="approval-flow" id="approvalFlow"></div>
+      </div>
+
+    </div>
+
+    <div class="recon-modal-footer">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm ok-btn" type="button" id="approveReconBtn">&#10003; Approve &amp; Post</button>
+        <button class="btn sm bad-btn" type="button" id="rejectReconBtn">&#10007; Raise Dispute</button>
+        <button class="btn sm warn-btn" type="button" id="escalateReconBtn">&#9650; Escalate</button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm" type="button">Export Detail</button>
+        <button class="btn sm" type="button" id="closeReconBottom">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

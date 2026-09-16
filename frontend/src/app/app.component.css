@@ -1,0 +1,54 @@
+/* ── App shell layout ─────────────────────────── */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.app-main.full-width {
+  width: 100%;
+}
+
+/* ── Global loader ────────────────────────────── */
+.global-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 26, 44, .2);
+  backdrop-filter: blur(2px);
+}
+
+.global-loader-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 132px;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 1px solid #c9dce8;
+  border-radius: 12px;
+  color: #23415f;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(13, 29, 47, .16);
+  font: 700 12px "DM Sans", "Segoe UI", sans-serif;
+}
+
+.global-loader-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #d8e8f1;
+  border-top-color: #0d7c97;
+  border-radius: 50%;
+  animation: global-loader-spin .7s linear infinite;
+}
+
+@keyframes global-loader-spin {
+  to { transform: rotate(360deg); }
+}

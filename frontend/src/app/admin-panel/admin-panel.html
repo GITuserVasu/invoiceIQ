@@ -1,0 +1,384 @@
+<div class="app">
+
+  <!-- ── Sticky Header ───────────────────────────── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+          <svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+            <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+            <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+          </svg>
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Admin Panel</b>
+        <div class="crumb">  Admin Panel</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip chip-admin">Super Admin</span>
+        <span class="chip chip-live">
+          <i class="live-dot"></i>System Live
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Content ────────────────────────────── -->
+  <main class="ap-content">
+
+    <!-- Hero -->
+    <section class="ap-hero">
+      <div class="ap-hero-text">
+        <h1>Platform Admin Panel</h1>
+        <p>Centralised visibility into platform health, entity status, user activity, and system configuration.</p>
+      </div>
+      <div class="ap-hero-badges">
+        <span class="hero-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 2l7 4v6c0 5.55-3.84 10.74-9 12C4.84 22.74 1 17.55 1 12V6l11-4z"/></svg>
+          v2.6.1 Stable
+        </span>
+        <span class="hero-badge ok">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+          All systems operational
+        </span>
+        <span class="hero-badge muted">Last sync: just now</span>
+      </div>
+    </section>
+
+    <!-- KPI Strip -->
+    <section class="ap-kpis">
+      <article class="ap-kpi">
+        <div class="ap-kpi-icon brand">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8v8H3v-8zm10-10h8v18h-8V3zM3 3h8v8H3V3z"/></svg>
+        </div>
+        <div class="ap-kpi-body">
+          <b>12</b>
+          <span>Active Entities</span>
+          <small class="trend up">+2 this month</small>
+        </div>
+      </article>
+      <article class="ap-kpi">
+        <div class="ap-kpi-icon ok">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        </div>
+        <div class="ap-kpi-body">
+          <b>148</b>
+          <span>Total Users</span>
+          <small class="trend up">+14 this week</small>
+        </div>
+      </article>
+      <article class="ap-kpi">
+        <div class="ap-kpi-icon warn">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-2 9l-2-2-1.41 1.41L11 21l4.59-4.59L14.17 15l-3.17 3z"/></svg>
+        </div>
+        <div class="ap-kpi-body">
+          <b>3</b>
+          <span>Pending Reviews</span>
+          <small class="trend warn">Needs attention</small>
+        </div>
+      </article>
+      <article class="ap-kpi">
+        <div class="ap-kpi-icon bad">
+          <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        </div>
+        <div class="ap-kpi-body">
+          <b>0</b>
+          <span>Critical Alerts</span>
+          <small class="trend ok">All clear</small>
+        </div>
+      </article>
+    </section>
+
+    <!-- Main Grid -->
+    <div class="ap-grid">
+
+      <!-- Left Column -->
+      <div class="ap-col-main">
+
+        <!-- System Health -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <div>
+              <h2>System Health</h2>
+              <span class="subtle">Real-time service status across all platform components.</span>
+            </div>
+            <span class="ap-badge ok">Operational</span>
+          </header>
+          <div class="health-grid">
+            <div class="health-row">
+              <span class="health-dot ok"></span>
+              <span class="health-name">API Gateway</span>
+              <span class="health-latency">12 ms</span>
+              <span class="health-status ok">Healthy</span>
+            </div>
+            <div class="health-row">
+              <span class="health-dot ok"></span>
+              <span class="health-name">Database</span>
+              <span class="health-latency">4 ms</span>
+              <span class="health-status ok">Healthy</span>
+            </div>
+            <div class="health-row">
+              <span class="health-dot ok"></span>
+              <span class="health-name">OCR Service</span>
+              <span class="health-latency">85 ms</span>
+              <span class="health-status ok">Healthy</span>
+            </div>
+            <div class="health-row">
+              <span class="health-dot ok"></span>
+              <span class="health-name">AI / LLM Provider</span>
+              <span class="health-latency">320 ms</span>
+              <span class="health-status ok">Healthy</span>
+            </div>
+            <div class="health-row">
+              <span class="health-dot warn"></span>
+              <span class="health-name">Email Notifications</span>
+              <span class="health-latency">—</span>
+              <span class="health-status warn">Degraded</span>
+            </div>
+            <div class="health-row">
+              <span class="health-dot ok"></span>
+              <span class="health-name">File Storage</span>
+              <span class="health-latency">8 ms</span>
+              <span class="health-status ok">Healthy</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Entity Overview Table -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <div>
+              <h2>Entity Overview</h2>
+              <span class="subtle">All registered entities and their current state.</span>
+            </div>
+            <a class="ap-btn" href="/entities">View All</a>
+          </header>
+          <div class="ap-table-wrap">
+            <table class="ap-table">
+              <thead>
+                <tr>
+                  <th>Entity</th>
+                  <th>Industry</th>
+                  <th>Users</th>
+                  <th>Invoices</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="entity-avatar" style="--c:#0d7c97">AC</span> Acme Corp</td>
+                  <td>Manufacturing</td>
+                  <td>24</td>
+                  <td>1,284</td>
+                  <td><span class="status-pill ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="entity-avatar" style="--c:#bc741f">NT</span> NovaTech</td>
+                  <td>Technology</td>
+                  <td>18</td>
+                  <td>892</td>
+                  <td><span class="status-pill ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="entity-avatar" style="--c:#7c3d97">GP</span> GlobalPharma</td>
+                  <td>Healthcare</td>
+                  <td>31</td>
+                  <td>2,047</td>
+                  <td><span class="status-pill ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="entity-avatar" style="--c:#1a7a4a">SF</span> SkyFinance</td>
+                  <td>Financial</td>
+                  <td>12</td>
+                  <td>456</td>
+                  <td><span class="status-pill warn">Review</span></td>
+                </tr>
+                <tr>
+                  <td><span class="entity-avatar" style="--c:#b74444">DC</span> DevCore</td>
+                  <td>Software</td>
+                  <td>9</td>
+                  <td>213</td>
+                  <td><span class="status-pill muted">Inactive</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <!-- Recent Audit Activity -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <div>
+              <h2>Recent Audit Activity</h2>
+              <span class="subtle">Latest platform-level events and changes.</span>
+            </div>
+            <a class="ap-btn" href="/audit-logs">Full log</a>
+          </header>
+          <div class="ap-activity">
+            <div class="ap-activity-row">
+              <span class="activity-dot brand"></span>
+              <div class="activity-body">
+                <span class="activity-title">Provider policy updated</span>
+                <span class="activity-meta">OpenAI GPT-4o &mdash; rate limit raised to 5000 RPM</span>
+              </div>
+              <span class="activity-time">2 min ago</span>
+            </div>
+            <div class="ap-activity-row">
+              <span class="activity-dot ok"></span>
+              <div class="activity-body">
+                <span class="activity-title">Entity created</span>
+                <span class="activity-meta">SkyFinance &mdash; by super.admin&#64;company.com</span>
+              </div>
+              <span class="activity-time">18 min ago</span>
+            </div>
+            <div class="ap-activity-row">
+              <span class="activity-dot warn"></span>
+              <div class="activity-body">
+                <span class="activity-title">User role changed</span>
+                <span class="activity-meta">john.doe&#64;acme.com &rarr; Entity Admin</span>
+              </div>
+              <span class="activity-time">1 hr ago</span>
+            </div>
+            <div class="ap-activity-row">
+              <span class="activity-dot brand"></span>
+              <div class="activity-body">
+                <span class="activity-title">Model config updated</span>
+                <span class="activity-meta">extraction_model &mdash; confidence threshold 0.82</span>
+              </div>
+              <span class="activity-time">3 hr ago</span>
+            </div>
+            <div class="ap-activity-row">
+              <span class="activity-dot ok"></span>
+              <div class="activity-body">
+                <span class="activity-title">API key rotated</span>
+                <span class="activity-meta">ERP connector &mdash; NovaTech entity</span>
+              </div>
+              <span class="activity-time">5 hr ago</span>
+            </div>
+            <div class="ap-activity-row">
+              <span class="activity-dot muted"></span>
+              <div class="activity-body">
+                <span class="activity-title">Scheduled backup completed</span>
+                <span class="activity-meta">Full DB snapshot &mdash; 2.4 GB</span>
+              </div>
+              <span class="activity-time">6 hr ago</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Right Column -->
+      <div class="ap-col-side">
+
+        <!-- Quick Actions -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <h2>Quick Actions</h2>
+          </header>
+          <div class="quick-actions">
+            <a class="qa-btn" href="/entities/create">
+              <span class="qa-ico brand"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></span>
+              <span>Create Entity</span>
+            </a>
+            <a class="qa-btn" href="/user-management">
+              <span class="qa-ico ok"><svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
+              <span>Add User</span>
+            </a>
+            <a class="qa-btn" href="/provider-governance">
+              <span class="qa-ico warn"><svg viewBox="0 0 24 24"><path d="M12 2l7 4v6c0 5.55-3.84 10.74-9 12C4.84 22.74 1 17.55 1 12V6l11-4z"/></svg></span>
+              <span>Providers</span>
+            </a>
+            <a class="qa-btn" href="/api-integrations">
+              <span class="qa-ico muted"><svg viewBox="0 0 24 24"><path d="M8.1 13.34l2.83-2.83L3.91 3.5a4.01 4.01 0 0 0 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/></svg></span>
+              <span>API Integrations</span>
+            </a>
+            <a class="qa-btn" href="/audit-logs">
+              <span class="qa-ico brand"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg></span>
+              <span>Audit Logs</span>
+            </a>
+            <a class="qa-btn" href="/entity-creation-settings">
+              <span class="qa-ico ok"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a6.989 6.989 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.37 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>
+              <span>Entity Defaults</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Platform Stats -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <h2>Platform Statistics</h2>
+            <span class="subtle">Lifetime totals</span>
+          </header>
+          <div class="stat-list">
+            <div class="stat-row">
+              <span class="stat-label">Invoices processed</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar" style="--fill: 78%; --clr: var(--brand)"></div>
+              </div>
+              <span class="stat-val">4,892</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Touchless rate</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar" style="--fill: 68%; --clr: var(--ok)"></div>
+              </div>
+              <span class="stat-val">68%</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Exceptions resolved</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar" style="--fill: 54%; --clr: var(--accent)"></div>
+              </div>
+              <span class="stat-val">54%</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">API uptime</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar" style="--fill: 99%; --clr: var(--ok)"></div>
+              </div>
+              <span class="stat-val">99.9%</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Active providers</span>
+              <div class="stat-bar-wrap">
+                <div class="stat-bar" style="--fill: 40%; --clr: var(--brand)"></div>
+              </div>
+              <span class="stat-val">4 / 10</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Credentials Reference -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <h2>Admin Credentials</h2>
+          </header>
+          <div class="cred-list">
+            <div class="cred-row"><span>Email</span><code>super.admin&#64;company.com</code></div>
+            <div class="cred-row"><span>Password</span><code>Super&#64;123</code></div>
+          </div>
+          <div class="ap-note">
+            Configure via <code>SUPER_ADMIN_EMAIL</code> and <code>SUPER_ADMIN_PASSWORD</code> env vars in production.
+          </div>
+        </article>
+
+        <!-- Tenant Info -->
+        <article class="ap-panel">
+          <header class="ap-panel-head">
+            <h2>Tenant Info</h2>
+          </header>
+          <div class="kv-list">
+            <div class="kv-row"><span>Tenant Name</span><strong id="apTenantName">—</strong></div>
+            <div class="kv-row"><span>Tenant ID</span><code id="apTenantId">—</code></div>
+            <div class="kv-row"><span>Entities</span><strong id="apEntityCount">—</strong></div>
+            <div class="kv-row"><span>Environment</span><strong>Production</strong></div>
+            <div class="kv-row"><span>Version</span><strong>v2.6.1</strong></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </main>
+</div>

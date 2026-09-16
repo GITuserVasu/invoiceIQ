@@ -1,0 +1,79 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+           
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Admin Settings</b>
+        <div class="crumb">  Entity Creation Defaults</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="ecs-content">
+    <div class="ecs-hero">
+      <h1>Entity Creation Settings</h1>
+      <p>Configure default values that pre-fill the Entity Creation Journey form for new entities.</p>
+    </div>
+
+    <div class="ecs-panel">
+      <div class="ecs-panel-head"><b>Default Field Values</b></div>
+      <div class="ecs-form">
+        <div class="ecs-field">
+          <label>Default Industry</label>
+          <select id="defaultIndustry">
+            <option value="Financial Services">Financial Services</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Retail">Retail</option>
+            <option value="Technology">Technology</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Energy">Energy</option>
+          </select>
+        </div>
+        <div class="ecs-field">
+          <label>Default Region</label>
+          <select id="defaultRegion">
+            <option value="US">United States</option>
+            <option value="EU">European Union</option>
+            <option value="APAC">Asia Pacific</option>
+            <option value="LATAM">Latin America</option>
+            <option value="MEA">Middle East &amp; Africa</option>
+          </select>
+        </div>
+        <div class="ecs-field">
+          <label>Default Matching Method</label>
+          <select id="defaultMatchingMethod">
+            <option value="fuzzy">Fuzzy Match</option>
+            <option value="exact">Exact Match</option>
+            <option value="ml">ML-Based Match</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+        <div class="ecs-field">
+          <label>Default Document Classification</label>
+          <select id="defaultDocClass">
+            <option value="auto">Auto Detect</option>
+            <option value="manual">Manual</option>
+            <option value="rule-based">Rule Based</option>
+          </select>
+        </div>
+        <div class="ecs-field full">
+          <label>Default Roles (comma-separated)</label>
+          <input type="text" id="defaultRoles" value="Entity Admin, Analyst, Reviewer" placeholder="e.g. Entity Admin, Analyst" />
+        </div>
+        <div class="ecs-field full">
+          <label>Onboarding Notes Template</label>
+          <textarea id="onboardingNotes" rows="3" placeholder="Default notes shown during entity onboarding...">Welcome to the entity onboarding journey. Please complete all steps and review the configuration before activating.</textarea>
+        </div>
+      </div>
+      <div class="ecs-footer">
+        <div class="ecs-note">These defaults pre-fill the Entity Creation Journey form. Individual entity admins can override them during setup.</div>
+        <button class="ecs-btn primary" id="saveDefaultsBtn" type="button">Save Defaults</button>
+      </div>
+    </div>
+
+    <div id="ecs-toast" class="ecs-toast"></div>
+  </main>
+</div>

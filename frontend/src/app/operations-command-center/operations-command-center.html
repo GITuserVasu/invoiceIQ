@@ -1,0 +1,221 @@
+<div class="ops-app">
+  <aside class="ops-sidebar">
+    <div class="ops-brand">
+      <span class="ops-brand-mark">JCC</span>
+      <span><strong>Entity Admin</strong><small>Operations</small></span>
+    </div>
+
+    <div class="nav-heading">Operate</div>
+    <nav class="ops-nav">
+      <a class="nav-item active" [href]="link('/operations-command-center')"><span>▦</span>Command center</a>
+      <a class="nav-item" [href]="link('/entity-governance')"><span>◈</span>Governance</a>
+      <a class="nav-item" [href]="link('/reconciliation')"><span>≡</span>AP pipeline</a>
+      <a class="nav-item" [href]="link('/approval-queue')"><span>☑</span>Adjudication <b *ngIf="approvals.length">{{ approvals.length }}</b></a>
+      <a class="nav-item" [href]="link('/exception-queue')"><span>⚠</span>Exceptions <b *ngIf="exceptionCount()">{{ exceptionCount() }}</b></a>
+    </nav>
+
+    <div class="nav-heading">Control</div>
+    <nav class="ops-nav">
+      <a class="nav-item" [href]="link('/data-connectors')"><span>↕</span>Connectors</a>
+      <a class="nav-item" [href]="link('/entity-audit-logs')"><span>◷</span>Audit trail</a>
+      <a class="nav-item" [href]="link('/supplier-portal')"><span>⇄</span>Supplier view</a>
+    </nav>
+
+    <div class="nav-heading">Settings</div>
+    <nav class="ops-nav">
+      <a class="nav-item" [href]="link('/models-quality')"><span>⚙</span>Configuration</a>
+    </nav>
+
+    <div class="ops-sidebar-foot">
+      <strong>{{ entityName }}</strong>
+      <span>Entity operations</span>
+      <button type="button" (click)="loadData()">Refresh data</button>
+    </div>
+  </aside>
+
+  <main class="ops-main">
+    <header class="ops-topbar">
+      <div>
+        <p class="eyebrow">Operations / Command center</p>
+        <h1>{{ entityName }}</h1>
+        <p class="subtitle">Registry-first processing, exceptions, and decisions in one place.</p>
+      </div>
+      <div class="top-actions">
+        <span class="role-chip">Entity Admin</span>
+        <span class="context-chip">Live entity view</span>
+        <a class="outline-button" [href]="link('/transactions')">View transactions</a>
+      </div>
+    </header>
+
+    <section class="ops-content">
+      <div class="loading-panel" *ngIf="loading">
+        Loading operational data...
+      </div>
+
+      <div class="error-panel" *ngIf="!loading && error">
+        {{ error }}
+      </div>
+
+      <ng-container *ngIf="!loading && !error">
+        <section class="kpi-grid">
+          <article class="metric-card">
+            <span class="metric-label">Touchless rate</span>
+            <strong class="metric-value success-text">{{ touchlessRate() }}</strong>
+            <span class="metric-note">Invoices matched automatically</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Needs action</span>
+            <strong class="metric-value warning-text">{{ exceptionCount() + approvals.length }}</strong>
+            <span class="metric-note">Exceptions and approvals waiting</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Value on hold</span>
+            <strong class="metric-value warning-text">{{ formatAmount(holdValue()) }}</strong>
+            <span class="metric-note">Unresolved exception value</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Invoices processed</span>
+            <strong class="metric-value">{{ summary.total_invoices || invoices.length }}</strong>
+            <span class="metric-note">Current entity scope</span>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <article class="panel pipeline-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Operate</p>
+                <h2>AP pipeline</h2>
+                <span>Every invoice, current state, and match signal.</span>
+              </div>
+              <div class="panel-actions">
+                <a class="outline-button" [href]="link('/transactions')">Intake</a>
+                <a class="dark-button" [href]="link('/reconciliation')">Open full pipeline</a>
+              </div>
+            </div>
+
+            <div class="table-wrap" *ngIf="invoices.length; else emptyInvoices">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Invoice</th>
+                    <th>Supplier</th>
+                    <th>Amount</th>
+                    <th>Decision gates</th>
+                    <th>Lane</th>
+                    <th>State</th>
+                    <th>Received</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let invoice of invoices | slice:0:8">
+                    <td><strong class="mono">{{ invoice.invoice_key || invoice.invoice_number || '—' }}</strong></td>
+                    <td>
+                      <strong>{{ invoice.vendor_name || invoice.supplier_name || 'Unknown supplier' }}</strong>
+                      <small>{{ invoice.gstin || 'Supplier record' }}</small>
+                    </td>
+                    <td class="mono">{{ formatAmount(invoice.amount_num || invoice.total_amount) }}</td>
+                    <td>
+                      <span class="gate-dots" aria-label="Authenticity, commercial, tax, and payee gates">
+                        <span><i [class]="gateClass(invoice, 'document')"></i><small>A</small></span>
+                        <span><i [class]="gateClass(invoice, 'match')"></i><small>B</small></span>
+                        <span><i [class]="gateClass(invoice, 'tax')"></i><small>C</small></span>
+                        <span><i [class]="gateClass(invoice, 'payee')"></i><small>D</small></span>
+                      </span>
+                    </td>
+                    <td><span class="lane-pill">{{ invoice.source_channel || invoice.intake_channel || 'Document' }}</span></td>
+                    <td><span class="status-pill" [class]="invoiceStateClass(invoice)">{{ invoiceState(invoice) }}</span></td>
+                    <td class="muted">{{ formatDate(invoice.invoice_date || invoice.created_at) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #emptyInvoices>
+              <div class="empty-state">
+                <strong>No invoices in this entity yet</strong>
+                <span>Connect an intake channel or upload a document to start processing.</span>
+                <div class="empty-actions">
+                  <a class="outline-button" [href]="link('/data-connectors')">Configure intake</a>
+                  <a class="outline-button" [href]="link('/entity-governance')">Review setup</a>
+                  <a class="dark-button" [href]="link('/transactions')">Upload test invoice</a>
+                </div>
+              </div>
+            </ng-template>
+          </article>
+
+          <aside class="attention-column">
+            <article class="panel attention-panel">
+              <div class="panel-header compact">
+                <div>
+                  <p class="eyebrow">Needs attention</p>
+                  <h2>Work queue</h2>
+                </div>
+                <span class="count-badge">{{ exceptionCount() + approvals.length }}</span>
+              </div>
+              <div class="attention-list">
+                <a class="attention-item danger-item" *ngFor="let item of exceptions | slice:0:4" [href]="link('/exception-queue')">
+                  <span class="attention-icon danger-icon">!</span>
+                  <span>
+                    <strong>{{ item.title || item.reason_code || 'Invoice exception' }}</strong>
+                    <small>{{ item.invoice_ref || item.exception_key || 'Review required' }} · {{ formatAmount(item.amount_num) }}</small>
+                  </span>
+                  <span class="chevron">›</span>
+                </a>
+                <a class="attention-item approval-item" *ngFor="let item of approvals | slice:0:3" [href]="link('/approval-queue')">
+                  <span class="attention-icon approval-icon">✓</span>
+                  <span>
+                    <strong>Approval pending</strong>
+                    <small>{{ item.invoice_number || 'Invoice' }} · {{ item.approver_role_key || 'Assigned reviewer' }}</small>
+                  </span>
+                  <span class="chevron">›</span>
+                </a>
+                <div class="quiet-state" *ngIf="!exceptions.length && !approvals.length">
+                  <strong>All clear</strong>
+                  <span>No invoice decisions are waiting.</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel lane-panel">
+              <div class="panel-header compact">
+                <div>
+                  <p class="eyebrow">Processing health</p>
+                  <h2>Current flow</h2>
+                </div>
+              </div>
+              <div class="lane-row"><span><i class="lane-dot registry"></i>Registry / structured</span><strong>{{ summary.registry_count || summary.matched || 0 }}</strong></div>
+              <div class="lane-row"><span><i class="lane-dot document"></i>Document review</span><strong>{{ summary.in_review || 0 }}</strong></div>
+              <div class="lane-row"><span><i class="lane-dot blocked"></i>Blocked or unmatched</span><strong>{{ summary.unmatched || 0 }}</strong></div>
+              <div class="pipeline-legend">
+                <span><i class="legend-dot pass"></i>Pass</span>
+                <span><i class="legend-dot warn"></i>Review</span>
+                <span><i class="legend-dot fail"></i>Blocked</span>
+              </div>
+            </article>
+          </aside>
+        </section>
+
+        <section class="panel activity-panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Traceability</p>
+              <h2>Recent activity</h2>
+            </div>
+            <a class="outline-button" [href]="link('/entity-audit-logs')">View audit trail</a>
+          </div>
+          <div class="activity-list" *ngIf="activity.length; else emptyActivity">
+            <div class="activity-row" *ngFor="let item of activity | slice:0:6">
+              <span class="activity-dot"></span>
+              <span class="activity-time">{{ formatDate(item.created_at || item.occurred_at) }}</span>
+              <strong>{{ activityLabel(item) }}</strong>
+              <span class="activity-detail">{{ item.resource_id || item.metadata?.invoiceKey || 'System activity recorded' }}</span>
+            </div>
+          </div>
+          <ng-template #emptyActivity>
+            <div class="quiet-state">Processing events will appear here as invoices move through the workflow.</div>
+          </ng-template>
+        </section>
+      </ng-container>
+    </section>
+  </main>
+</div>

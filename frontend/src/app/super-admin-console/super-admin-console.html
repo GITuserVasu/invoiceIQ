@@ -1,0 +1,57 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class="eProbito-brand">
+         
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Super Admin</b>
+        <div class="crumb">  Super Admin Console</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(185,28,28,.1);color:#b91c1c;border-color:#f5a0a0">Super Admin</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="sac-content">
+    <div class="sac-hero">
+      <h1>Super Admin Console</h1>
+      <p>System-level management: tenant configuration, health monitoring, and platform settings.</p>
+    </div>
+
+    <div class="sac-grid">
+      <div class="sac-card">
+        <div class="sac-card-head"><b>System Health</b></div>
+        <div id="healthStatus" class="health-status">Click Check to test backend connectivity.</div>
+        <button class="sac-btn primary" id="checkHealthBtn" type="button">Check Backend Health</button>
+      </div>
+
+      <div class="sac-card">
+        <div class="sac-card-head"><b>Active Tenant</b></div>
+        <div class="sac-kv"><span>Tenant Name</span><strong id="tenantName">Loading&hellip;</strong></div>
+        <div class="sac-kv"><span>Tenant ID</span><code id="tenantId">&mdash;</code></div>
+        <div class="sac-kv"><span>Entities</span><strong id="entityCount">&mdash;</strong></div>
+      </div>
+
+      <div class="sac-card">
+        <div class="sac-card-head"><b>Super Admin Credentials</b></div>
+        <div class="sac-kv"><span>Email</span><code>super.admin&#64;company.com</code></div>
+        <div class="sac-kv"><span>Password</span><code>Super&#64;123</code></div>
+        <div class="sac-note">Configure via <code>SUPER_ADMIN_EMAIL</code> and <code>SUPER_ADMIN_PASSWORD</code> env vars in production.</div>
+      </div>
+
+      <div class="sac-card">
+        <div class="sac-card-head"><b>Quick Actions</b></div>
+        <div class="sac-actions">
+          <a class="sac-btn" href="/entities/create">+ Create Entity</a>
+          <a class="sac-btn" href="/entities">View All Entities</a>
+          <a class="sac-btn" href="/audit-logs">Audit Logs</a>
+          <a class="sac-btn" href="/provider-governance">Providers</a>
+          <a class="sac-btn" href="/entity-creation-settings">Entity Defaults</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,132 @@
+<div class="app">
+    <div class="header-stack">
+      <div class="section-top">
+        <div class="section-title">
+          <div class=" eProbito-brand" aria-label=" eProbito-logo">
+            <span><strong>{{tenantName}}</strong></span>
+          </div>
+          <b>Entity Admin</b>
+          <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Dashboard</div>
+        </div>
+        <div class="global-actions">
+          <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72" id="entityRoleChip">Entity Admin</span>
+          <a class="chip" href="/entities">&#8592; All Entities</a>
+        </div>
+      </div>
+
+    </div>
+
+    <main class="content">
+      <section class="hero">
+        <h1 id="entityHeading">Entity AP Dashboard</h1>
+        <p id="heroSubtitle">Monitor invoices, decisions, exceptions, and processing activity for this entity.</p>
+        <div class="hero-meta">
+          <span class="hero-pill" id="entityIdPill">Entity ID: -</span>
+          <span class="hero-pill" style="background:rgba(13,124,151,.1);border-color:#9ecfdf;color:#0a5d72;font-weight:800" id="entityRolePill">Role: Entity Admin</span>
+          <span class="hero-pill" id="ccLanePill">Intake: —</span>
+          <span class="hero-pill" id="ccScopePill">AP operations</span>
+          <span class="hero-pill" id="ccUpdatedAt">Updated: —</span>
+          <span class="hero-pill">Entity scope: Live</span>
+        </div>
+      </section>
+
+      <section class="kpis">
+        <article class="kpi"><b id="ccTouchlessRate">—</b><span>Touchless rate</span><small>Invoices matched automatically</small></article>
+        <article class="kpi"><b id="ccNeedsAction">0</b><span>Needs action</span><small>Exceptions and approvals waiting</small></article>
+        <article class="kpi"><b id="ccHoldValue">$</b><span>Value on hold</span><small>Unresolved exception value</small></article>
+        <article class="kpi"><b id="ccInvoiceCount">0</b><span>Invoices processed</span><small>Current entity scope</small></article>
+      </section>
+
+      <section class="ops-strip">
+        <article class="ops-card"><b id="ccRegistryCount">0</b><span>Registry / structured</span></article>
+        <article class="ops-card"><b id="ccReviewCount">0</b><span>Document review</span></article>
+        <article class="ops-card"><b id="ccBlockedCount">0</b><span>Blocked or unmatched</span></article>
+        <article class="ops-card"><b id="ccApprovalCount">0</b><span>Approvals waiting</span></article>
+      </section>
+
+      <section class="layout">
+        <article class="panel">
+          <header class="panel-head">
+            <div>
+              <h2>AP Pipeline</h2>
+              <span class="subtle">Every invoice, current state, and decision signal.</span>
+            </div>
+            <div class="actions panel-actions">
+              <a class="btn" id="ccIntakeLink" href="/transactions">Open intake</a>
+              <a class="btn primary" id="ccPipelineLink" href="/reconciliation">Open reconciliation</a>
+            </div>
+          </header>
+          <div class="issues-wrap pipeline-table-wrap">
+            <table>
+              <thead>
+                <tr><th>Invoice</th><th>Supplier</th><th>Amount</th><th>Decision gates</th><th>State</th><th>Received</th></tr>
+              </thead>
+              <tbody id="ccInvoiceTable">
+                <tr><td colspan="6" class="table-empty">Loading invoice pipeline...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <aside class="dashboard-side">
+          <article class="panel">
+            <header class="panel-head">
+              <h2>Work Queue</h2>
+              <span class="tag" id="ccWorkCount">0</span>
+            </header>
+            <div class="attention-list" id="ccWorkQueue">
+              <div class="table-empty">No invoice decisions are waiting.</div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <header class="panel-head">
+              <div>
+                <h2>Current Flow</h2>
+                <span class="subtle">Processing health by lane.</span>
+              </div>
+            </header>
+            <div class="flow-list">
+              <div class="flow-row"><span><i class="flow-dot registry"></i>Registry / structured</span><b id="ccFlowRegistry">0</b></div>
+              <div class="flow-row"><span><i class="flow-dot review"></i>Document review</span><b id="ccFlowReview">0</b></div>
+              <div class="flow-row"><span><i class="flow-dot blocked"></i>Blocked or unmatched</span><b id="ccFlowBlocked">0</b></div>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="panel activity-panel">
+        <header class="panel-head">
+          <div>
+            <h2>Recent Activity</h2>
+            <span class="subtle">Entity-level processing and audit events.</span>
+          </div>
+          <a class="btn" id="ccAuditLink" href="/entity-audit-logs">View audit trail</a>
+        </header>
+        <div class="activity-list" id="ccActivity">
+          <div class="table-empty">Processing events will appear here as invoices move through the workflow.</div>
+        </div>
+      </section>
+
+      <section class="panel profile-panel">
+          <header class="panel-head">
+            <h2>Entity Context</h2>
+            <span class="tag" id="entityStatusBadge">—</span>
+          </header>
+          <dl class="profile-dl">
+            <div class="profile-row"><dt>Entity ID</dt><dd id="profileEntityId">—</dd></div>
+            <div class="profile-row"><dt>Industry</dt><dd id="profileIndustry">—</dd></div>
+            <div class="profile-row"><dt>Region</dt><dd id="profileRegion">—</dd></div>
+            <div class="profile-row"><dt>Intake Mode</dt><dd id="profileIntake">—</dd></div>
+            <div class="profile-row"><dt>Default Role</dt><dd id="profileRole">—</dd></div>
+            <div class="profile-row"><dt>Created</dt><dd id="profileCreated">—</dd></div>
+          </dl>
+          <div class="actions">
+            <a class="btn" id="profileNavModels" href="/models-quality">Models</a>
+            <a class="btn" id="profileNavClassify" href="/document-classification">Classify</a>
+            <a class="btn" id="profileNavProvider" href="/provider-governance">Providers</a>
+            <a class="btn primary" id="profileNavAudit" href="/audit-logs">Audit Trail</a>
+          </div>
+      </section>
+    </main>
+  </div>

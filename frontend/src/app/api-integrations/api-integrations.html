@@ -1,0 +1,447 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand" aria-label=" eProbito-logo">
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Dashboard</b>
+        <div class="crumb" id="pageCrumb">Lexa &gt; Dashboard &gt; API Integrations</div>
+      </div>
+      <div class="mini-stats">
+        <div class="spark">
+          <i style="height:10px;"></i><i style="height:18px;"></i><i style="height:12px;"></i>
+          <i style="height:22px;"></i><i style="height:15px;"></i><i style="height:24px;"></i>
+        </div>
+        <div class="global-actions">
+          <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+          <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+          <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <main class="content">
+
+    <section class="hero">
+      <h1>Government &amp; Compliance API Integrations</h1>
+      <p>Configure and monitor all external API connections required for AP/AR operations. GST verification, Aadhaar/PAN identity checks, bank account validation, and business compliance APIs. All connections are entity-scoped and audited.</p>
+      <div class="hero-meta">
+        <span class="hero-pill">Entity-Scoped APIs</span>
+        <span class="hero-pill">Audit Logged</span>
+        <span class="hero-pill">Sandbox &amp; Production</span>
+        <span class="hero-pill">Journey Step 8 of 9</span>
+      </div>
+    </section>
+
+    <!-- Entity context banner -->
+    <section class="entity-context" id="entityContextBanner" hidden>
+      <div>
+        <span class="ctx-label">Configuring Entity</span>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:3px">
+          <span class="ctx-name" id="ctxEntityName">—</span>
+          <span class="ctx-id" id="ctxEntityId"></span>
+        </div>
+      </div>
+      <div class="ctx-sep"></div>
+      <div class="ctx-badges" id="ctxBadges"></div>
+      <a class="btn" routerLink="/provider-governance" style="margin-left:auto">← Back to Provider Gov</a>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <article class="kpi gst"><b id="kpiTotal">0</b><span>Total API Connections</span></article>
+      <article class="kpi gst"><b id="kpiActive">0</b><span>Active &amp; Verified</span></article>
+      <article class="kpi bank"><b id="kpiSandbox">0</b><span>Sandbox / Testing</span></article>
+      <article class="kpi"><b id="kpiPending">0</b><span>Pending Setup</span></article>
+      <article class="kpi fail"><b id="kpiFailed">0</b><span>Failed / Expired</span></article>
+    </section>
+
+    <!-- Entity API Assignment Panel -->
+    <article class="panel" id="journeyAssignPanel">
+      <header class="panel-head">
+        <div>
+          <h2>Assign APIs to Entity</h2>
+          <span class="subtle" id="assignSubtitle">Select which APIs to activate for this entity and save</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="badge ok" id="assignedCountBadge" style="font-size:11px;padding:3px 10px">0 selected</span>
+          <button class="btn" type="button" id="selectAllBtn">Select All</button>
+          <button class="btn" type="button" id="clearAllBtn">Clear All</button>
+          <button class="btn primary" type="button" id="saveAssignmentBtn">Save Assignment</button>
+        </div>
+      </header>
+
+      <div class="assign-layout">
+        <!-- Left: API checkboxes by category -->
+        <div class="assign-left">
+          <div class="assign-cat-section">
+            <div class="assign-cat-title gst">🧾 GST &amp; Tax Compliance</div>
+            <div class="assign-api-list">
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="GSTIN Verification" data-cat="GST" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">GSTIN Verification</span><span class="assign-api-meta">GSTN / NIC · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="E-Invoice IRN" data-cat="GST" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">E-Invoice (IRN Generation)</span><span class="assign-api-meta">IRP / NIC · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="E-Way Bill API" data-cat="GST" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">E-Way Bill API</span><span class="assign-api-meta">NIC / GSTN · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="GSTR-1 Data" data-cat="GST" data-status="sandbox" /><span class="assign-api-dot sandbox"></span><div class="assign-api-info"><span class="assign-api-name">GSTR-1 / GSTR-3B Data</span><span class="assign-api-meta">GSTN Portal · Sandbox</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="TDS 26AS" data-cat="GST" data-status="pending" /><span class="assign-api-dot pending"></span><div class="assign-api-info"><span class="assign-api-name">TDS / 26AS Check</span><span class="assign-api-meta">Income Tax Dept. · Pending</span></div></label>
+            </div>
+          </div>
+
+          <div class="assign-cat-section">
+            <div class="assign-cat-title kyc">🪪 Identity &amp; KYC</div>
+            <div class="assign-api-list">
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="PAN Verification" data-cat="KYC" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">PAN Verification</span><span class="assign-api-meta">NSDL · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="Aadhaar OTP" data-cat="KYC" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">Aadhaar OTP Authentication</span><span class="assign-api-meta">UIDAI · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="Aadhaar eKYC" data-cat="KYC" data-status="sandbox" /><span class="assign-api-dot sandbox"></span><div class="assign-api-info"><span class="assign-api-name">Aadhaar eKYC Full Profile</span><span class="assign-api-meta">UIDAI · Sandbox</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="PAN-Aadhaar Link" data-cat="KYC" data-status="sandbox" /><span class="assign-api-dot sandbox"></span><div class="assign-api-info"><span class="assign-api-name">PAN–Aadhaar Link Status</span><span class="assign-api-meta">Income Tax · Sandbox</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="Voter ID / DL" data-cat="KYC" data-status="pending" /><span class="assign-api-dot pending"></span><div class="assign-api-info"><span class="assign-api-name">Voter ID / DL Verification</span><span class="assign-api-meta">ECI / Sarathi · Not Configured</span></div></label>
+            </div>
+          </div>
+
+          <div class="assign-cat-section">
+            <div class="assign-cat-title bank">🏦 Banking &amp; Payments</div>
+            <div class="assign-api-list">
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="Penny Drop" data-cat="Banking" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">Bank Account Penny Drop</span><span class="assign-api-meta">Razorpay / NPCI · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="IFSC Lookup" data-cat="Banking" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">IFSC Code Lookup</span><span class="assign-api-meta">RBI · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="UPI Verification" data-cat="Banking" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">UPI Handle Verification</span><span class="assign-api-meta">NPCI · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="Payment Gateway" data-cat="Banking" data-status="failed" /><span class="assign-api-dot failed"></span><div class="assign-api-info"><span class="assign-api-name">Payment Gateway (Disbursement)</span><span class="assign-api-meta">Razorpay / PayU · Failed</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="NEFT RTGS Status" data-cat="Banking" data-status="pending" /><span class="assign-api-dot pending"></span><div class="assign-api-info"><span class="assign-api-name">NEFT / RTGS Status Check</span><span class="assign-api-meta">RBI / NPCI · Not Configured</span></div></label>
+            </div>
+          </div>
+
+          <div class="assign-cat-section">
+            <div class="assign-cat-title biz">🏢 Business Compliance</div>
+            <div class="assign-api-list">
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="CIN MCA21" data-cat="Business" data-status="active" checked /><span class="assign-api-dot active"></span><div class="assign-api-info"><span class="assign-api-name">CIN / MCA21 Verification</span><span class="assign-api-meta">MCA · Production</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="MSME Udyam" data-cat="Business" data-status="sandbox" /><span class="assign-api-dot sandbox"></span><div class="assign-api-info"><span class="assign-api-name">MSME / Udyam Registration</span><span class="assign-api-meta">NIC / MSME Ministry · Sandbox</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="IEC Code" data-cat="Business" data-status="pending" /><span class="assign-api-dot pending"></span><div class="assign-api-info"><span class="assign-api-name">IEC Import Export Code</span><span class="assign-api-meta">DGFT · Not Configured</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="CIBIL Score" data-cat="Business" data-status="sandbox" /><span class="assign-api-dot sandbox"></span><div class="assign-api-info"><span class="assign-api-name">CIBIL Business Credit Score</span><span class="assign-api-meta">TransUnion CIBIL · Sandbox</span></div></label>
+              <label class="assign-api-row"><input type="checkbox" class="assign-cb" value="EPF ESIC" data-cat="Business" data-status="pending" /><span class="assign-api-dot pending"></span><div class="assign-api-info"><span class="assign-api-name">EPF / ESIC Compliance</span><span class="assign-api-meta">EPFO / ESIC · Not Configured</span></div></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: assignment summary -->
+        <div class="assign-right">
+          <div class="assign-entity-card" id="assignEntityCard">
+            <span class="aec-label">Assigning To</span>
+            <span class="aec-name" id="aecName">—</span>
+            <span class="aec-id" id="aecId"></span>
+          </div>
+          <div class="assign-count-row">
+            <div class="assign-count-card"><b id="totalApiCount">—</b><span>Total APIs</span></div>
+            <div class="assign-count-card"><b id="selectedApiCount" style="color:var(--brand)">0</b><span>Selected</span></div>
+          </div>
+          <div class="assigned-list">
+            <div class="assigned-list-head">Selected APIs</div>
+            <div id="assignedApiListBody"><div class="assigned-list-empty">No APIs selected yet.</div></div>
+          </div>
+          <div class="note" id="assignSaveNote" style="display:none"></div>
+        </div>
+      </div>
+      <p class="mini-note" id="assignStatusText" style="padding:0 12px 12px">Check the APIs you want to enable for this entity, then click Save Assignment.</p>
+    </article>
+
+    <!-- API Category Cards -->
+    <article class="panel">
+      <header class="panel-head">
+        <h2>API Catalog by Category</h2>
+        <span class="subtle">Click any API row to open the test &amp; configuration popup</span>
+      </header>
+      <div class="api-cat-grid">
+
+        <div class="api-cat-card">
+          <div class="api-cat-head">
+            <div class="api-cat-icon gst">🧾</div>
+            <div class="api-cat-meta"><strong>GST &amp; Tax Compliance</strong><span>GSTN, NIC, Income Tax APIs</span></div>
+            <span class="api-cat-count">5</span>
+          </div>
+          <div class="api-list">
+            <div class="api-row" data-api="GSTIN Verification" data-cat="gst" data-provider="GSTN / NIC" data-env="Production" data-status="active">
+              <div><div class="api-row-name">GSTIN Verification</div><div class="api-row-provider">GSTN / NIC</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="E-Invoice (IRN Generation)" data-cat="gst" data-provider="IRP / NIC" data-env="Production" data-status="active">
+              <div><div class="api-row-name">E-Invoice (IRN Generation)</div><div class="api-row-provider">IRP / NIC</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="E-Way Bill API" data-cat="gst" data-provider="NIC / GSTN" data-env="Production" data-status="active">
+              <div><div class="api-row-name">E-Way Bill API</div><div class="api-row-provider">NIC / GSTN</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="GSTR-1 Return Data" data-cat="gst" data-provider="GSTN Portal" data-env="Sandbox" data-status="sandbox">
+              <div><div class="api-row-name">GSTR-1 / GSTR-3B Return Data</div><div class="api-row-provider">GSTN Portal</div></div>
+              <span class="badge warn">Sandbox</span><span class="api-status-dot sandbox"></span>
+            </div>
+            <div class="api-row" data-api="TDS / 26AS Check" data-cat="gst" data-provider="Income Tax Dept." data-env="Pending" data-status="pending">
+              <div><div class="api-row-name">TDS Deduction / 26AS Check</div><div class="api-row-provider">Income Tax Dept.</div></div>
+              <span class="badge neutral">Pending</span><span class="api-status-dot pending"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-cat-card">
+          <div class="api-cat-head">
+            <div class="api-cat-icon kyc">🪪</div>
+            <div class="api-cat-meta"><strong>Identity &amp; KYC Verification</strong><span>Aadhaar, PAN, UIDAI</span></div>
+            <span class="api-cat-count">5</span>
+          </div>
+          <div class="api-list">
+            <div class="api-row" data-api="PAN Verification" data-cat="kyc" data-provider="NSDL / Income Tax" data-env="Production" data-status="active">
+              <div><div class="api-row-name">PAN Verification</div><div class="api-row-provider">NSDL / Income Tax Dept.</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="Aadhaar OTP Authentication" data-cat="kyc" data-provider="UIDAI" data-env="Production" data-status="active">
+              <div><div class="api-row-name">Aadhaar OTP Authentication</div><div class="api-row-provider">UIDAI</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="Aadhaar eKYC Full" data-cat="kyc" data-provider="UIDAI" data-env="Sandbox" data-status="sandbox">
+              <div><div class="api-row-name">Aadhaar eKYC Full Profile</div><div class="api-row-provider">UIDAI</div></div>
+              <span class="badge warn">Sandbox</span><span class="api-status-dot sandbox"></span>
+            </div>
+            <div class="api-row" data-api="PAN-Aadhaar Link Status" data-cat="kyc" data-provider="Income Tax Dept." data-env="Sandbox" data-status="sandbox">
+              <div><div class="api-row-name">PAN–Aadhaar Link Status</div><div class="api-row-provider">Income Tax Dept.</div></div>
+              <span class="badge warn">Sandbox</span><span class="api-status-dot sandbox"></span>
+            </div>
+            <div class="api-row" data-api="Voter ID Verification" data-cat="kyc" data-provider="ECI / DigiLocker" data-env="Not Configured" data-status="pending">
+              <div><div class="api-row-name">Voter ID / DL Verification</div><div class="api-row-provider">ECI / Sarathi / DigiLocker</div></div>
+              <span class="badge neutral">Not Configured</span><span class="api-status-dot pending"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-cat-card">
+          <div class="api-cat-head">
+            <div class="api-cat-icon bank">🏦</div>
+            <div class="api-cat-meta"><strong>Banking &amp; Payments</strong><span>RBI, NPCI, Payment Gateways</span></div>
+            <span class="api-cat-count">5</span>
+          </div>
+          <div class="api-list">
+            <div class="api-row" data-api="Bank Account Penny Drop" data-cat="bank" data-provider="Razorpay / NPCI" data-env="Production" data-status="active">
+              <div><div class="api-row-name">Bank Account Penny Drop</div><div class="api-row-provider">Razorpay / NPCI</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="IFSC Code Lookup" data-cat="bank" data-provider="RBI" data-env="Production" data-status="active">
+              <div><div class="api-row-name">IFSC Code Lookup</div><div class="api-row-provider">RBI</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="UPI Handle Verification" data-cat="bank" data-provider="NPCI / Razorpay" data-env="Production" data-status="active">
+              <div><div class="api-row-name">UPI Handle Verification</div><div class="api-row-provider">NPCI / Razorpay</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="Payment Gateway" data-cat="bank" data-provider="Razorpay / PayU" data-env="Production" data-status="failed">
+              <div><div class="api-row-name">Payment Gateway (Disbursement)</div><div class="api-row-provider">Razorpay / PayU</div></div>
+              <span class="badge bad">Failed</span><span class="api-status-dot failed"></span>
+            </div>
+            <div class="api-row" data-api="NEFT/RTGS Status Check" data-cat="bank" data-provider="RBI / NPCI" data-env="Not Configured" data-status="pending">
+              <div><div class="api-row-name">NEFT / RTGS Status Check</div><div class="api-row-provider">RBI / NPCI</div></div>
+              <span class="badge neutral">Not Configured</span><span class="api-status-dot pending"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-cat-card">
+          <div class="api-cat-head">
+            <div class="api-cat-icon biz">🏢</div>
+            <div class="api-cat-meta"><strong>Business Compliance</strong><span>MCA21, MSME, DGFT, CIBIL</span></div>
+            <span class="api-cat-count">5</span>
+          </div>
+          <div class="api-list">
+            <div class="api-row" data-api="CIN / MCA21 Verification" data-cat="biz" data-provider="MCA / Ministry of Corp. Affairs" data-env="Production" data-status="active">
+              <div><div class="api-row-name">CIN / MCA21 Company Verification</div><div class="api-row-provider">MCA / Ministry of Corp. Affairs</div></div>
+              <span class="badge ok">Active</span><span class="api-status-dot active"></span>
+            </div>
+            <div class="api-row" data-api="MSME / Udyam Registration" data-cat="biz" data-provider="NIC / MSME Ministry" data-env="Sandbox" data-status="sandbox">
+              <div><div class="api-row-name">MSME / Udyam Registration Check</div><div class="api-row-provider">NIC / MSME Ministry</div></div>
+              <span class="badge warn">Sandbox</span><span class="api-status-dot sandbox"></span>
+            </div>
+            <div class="api-row" data-api="IEC Import Export Code" data-cat="biz" data-provider="DGFT" data-env="Not Configured" data-status="pending">
+              <div><div class="api-row-name">IEC Import Export Code</div><div class="api-row-provider">DGFT</div></div>
+              <span class="badge neutral">Not Configured</span><span class="api-status-dot pending"></span>
+            </div>
+            <div class="api-row" data-api="CIBIL Business Credit Score" data-cat="biz" data-provider="TransUnion CIBIL" data-env="Sandbox" data-status="sandbox">
+              <div><div class="api-row-name">CIBIL Business Credit Score</div><div class="api-row-provider">TransUnion CIBIL</div></div>
+              <span class="badge warn">Sandbox</span><span class="api-status-dot sandbox"></span>
+            </div>
+            <div class="api-row" data-api="EPF / ESIC Compliance" data-cat="biz" data-provider="EPFO / ESIC Portals" data-env="Not Configured" data-status="pending">
+              <div><div class="api-row-name">EPF / ESIC Compliance Check</div><div class="api-row-provider">EPFO / ESIC Portals</div></div>
+              <span class="badge neutral">Not Configured</span><span class="api-status-dot pending"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+    <!-- API Health Table -->
+    <article class="panel">
+      <header class="panel-head">
+        <h2>API Health Monitor</h2>
+        <span class="subtle">Live status, response time and success rate per API</span>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>API Name</th>
+              <th>Category</th>
+              <th>Provider</th>
+              <th>Environment</th>
+              <th>Last Tested</th>
+              <th>Avg Response</th>
+              <th>Success Rate</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="healthTableBody">
+            <tr><td colspan="9" style="text-align:center;color:#7388a1;padding:16px">Loading API connections from database...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn" type="button" id="refreshHealthBtn">Refresh Health</button>
+        <button class="btn ok-btn" type="button" id="exportReportBtn">Export Report</button>
+        <button class="btn primary" type="button" id="openAddApiBtn">+ Add New API</button>
+      </div>
+      <p class="mini-note" id="healthStatus" style="padding:0 12px 12px"></p>
+    </article>
+
+    <!-- Security note -->
+    <div class="note">
+      All API keys and secrets are stored encrypted at rest and never exposed in logs or audit trails. Rotate credentials every 90 days per security policy. Sandbox connections must be promoted to Production before entity go-live.
+    </div>
+
+    <!-- Journey Step Panel -->
+    <article class="panel" id="journeyStepPanel">
+      <header class="panel-head">
+        <h2>Step 8 of 9 — API Integrations</h2>
+        <span class="subtle">Configure and verify all required APIs, then proceed to go-live</span>
+      </header>
+      <div class="journey-progress">
+        <span class="jp-step done">1. Entity Profile</span>
+        <span class="jp-step done">2. Intake Mode</span>
+        <span class="jp-step done">3. User Access</span>
+        <span class="jp-step done">4. AP / AR Scope</span>
+        <span class="jp-step done">5. Models &amp; Quality</span>
+        <span class="jp-step done">6. Classification</span>
+        <span class="jp-step done">7. Provider Gov</span>
+        <span class="jp-step active">8. API Integrations</span>
+        <span class="jp-step">9. Go-Live</span>
+      </div>
+      <div class="actions">
+        <a class="btn" routerLink="/provider-governance">← Provider Governance</a>
+        <button class="btn" type="button" id="saveApiStepBtn">Save This Step</button>
+        <button class="btn primary" type="button" id="nextToGoLiveBtn">Next: Go-Live Review →</button>
+      </div>
+      <div class="note" id="apiJourneyStatus" style="margin:0 12px 12px">Step 8 active. Verify all critical APIs (GST, PAN, Bank) are Active before proceeding to go-live.</div>
+    </article>
+  </main>
+</div>
+
+<!-- API Test / View Popup -->
+<div class="popup-overlay" id="apiTestPopup" aria-hidden="true">
+  <div class="popup-panel">
+    <div class="popup-head">
+      <h3 id="popupApiTitle">API Test</h3>
+      <button class="btn" type="button" id="closeApiPopupBtn">Close</button>
+    </div>
+    <div class="popup-body">
+      <div class="version-grid">
+        <div class="field">
+          <label>API Name</label>
+          <input id="popupApiName" type="text" readonly />
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <input id="popupApiCat" type="text" readonly />
+        </div>
+        <div class="field">
+          <label>Provider</label>
+          <input id="popupApiProvider" type="text" readonly />
+        </div>
+        <div class="field">
+          <label>Environment</label>
+          <input id="popupApiEnv" type="text" readonly />
+        </div>
+        <div class="field full">
+          <label for="popupTestPayload">Sample Request Payload (JSON)</label>
+          <textarea id="popupTestPayload" style="min-height:80px" placeholder='&#123;"gstin": "29AAACR5055K1Z5"&#125;'></textarea>
+        </div>
+      </div>
+      <div class="actions" style="padding:0">
+        <button class="btn primary" type="button" id="runTestBtn">Run Test</button>
+        <button class="btn" type="button" id="openConfigFromPopupBtn">Configure This API</button>
+      </div>
+      <pre ngNonBindable class="code-block" id="popupTestResult"></pre>
+      <p class="mini-note" id="popupTestStatus">Enter a sample payload and run the test to see a simulated response.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Configure API Popup -->
+<div class="popup-overlay" id="addApiPopup" aria-hidden="true">
+  <div class="popup-panel wide">
+    <div class="popup-head">
+      <h3 id="addApiPopupTitle">Configure API Connection</h3>
+      <button class="btn" type="button" id="closeAddApiPopupBtn">Close</button>
+    </div>
+    <div class="popup-body">
+      <div class="version-grid">
+        <div class="field">
+          <label for="apiCategory">API Category <span style="color:#e34">*</span></label>
+          <select id="apiCategory">
+            <option value="gst">GST &amp; Tax Compliance</option>
+            <option value="kyc">Identity &amp; KYC</option>
+            <option value="bank">Banking &amp; Payments</option>
+            <option value="biz">Business Compliance</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="apiName">API Name <span style="color:#e34">*</span></label>
+          <input id="apiName" type="text" placeholder="e.g. GSTIN Verification" />
+        </div>
+        <div class="field">
+          <label for="apiProvider">Provider / Authority <span style="color:#e34">*</span></label>
+          <input id="apiProvider" type="text" placeholder="e.g. GSTN / NIC" />
+        </div>
+        <div class="field">
+          <label for="apiEnvironment">Environment</label>
+          <select id="apiEnvironment">
+            <option value="production">Production</option>
+            <option value="sandbox">Sandbox / UAT</option>
+            <option value="test">Test</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="apiBaseUrl">Base URL / Endpoint</label>
+          <input id="apiBaseUrl" type="text" placeholder="https://api.provider.gov.in/v2" />
+        </div>
+        <div class="field">
+          <label for="apiClientId">Client ID / App Key</label>
+          <input id="apiClientId" type="text" placeholder="APP-XXXX-XXXX" />
+        </div>
+        <div class="field">
+          <label for="apiSecret">Client Secret / API Key</label>
+          <input id="apiSecret" type="password" placeholder="sk-live-..." />
+        </div>
+        <div class="field">
+          <label for="apiTimeout">Timeout (ms)</label>
+          <input id="apiTimeout" type="number" value="5000" min="500" step="500" />
+        </div>
+        <div class="field full">
+          <label for="apiNotes">Notes / Scope</label>
+          <textarea id="apiNotes" placeholder="e.g. Used for GSTIN lookup during invoice matching. Rate limit: 1000/day."></textarea>
+        </div>
+      </div>
+      <div class="actions" style="padding:0">
+        <button class="btn primary" type="button" id="saveApiBtn">Save API Connection</button>
+        <button class="btn" type="button" id="testApiBtn">Test Connection</button>
+        <button class="btn" type="button" id="clearApiFormBtn">Clear</button>
+      </div>
+      <p class="mini-note" id="apiFormStatus">Fill the form and test the connection before saving.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+/* ── Sidebar Shell ─────────────────────────────── */
+.sidebar {
+  width: 228px;
+  flex: 0 0 228px;
+  min-height: 100vh;
+  height: 100vh;
+  background: var(--navy-dk, #0D2440);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+  z-index: 80;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.18);
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
+
+/* ── Brand ─────────────────────────────────────── */
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 14px;
+}
+
+.sb-logo {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #8B5CF6, #2DD4BF);
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(139,92,246,0.4);
+}
+.sb-logo svg { width: 18px; height: 18px; }
+
+.sb-nm {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+}
+
+.sb-tg {
+  color: rgba(255,255,255,0.36);
+  font-size: 9.5px;
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+}
+
+/* ── Back link (super-admin in entity context) ─── */
+.nb-back {
+  color: rgba(139,92,246,0.8) !important;
+  margin-bottom: 6px;
+  text-decoration: none;
+}
+.nb-back:hover { color: #A78BFA !important; background: rgba(139,92,246,0.1) !important; }
+
+.sb-entity-ctx {
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.25);
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin: 0 0 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sb-entity-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(167,139,250,0.6);
+}
+.sb-entity-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #C4B5FD;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Section headings ──────────────────────────── */
+.sb-sec {
+  color: rgba(255,255,255,0.28);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 10px 6px;
+}
+
+/* ── Nav items ─────────────────────────────────── */
+.nb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  padding: 9px 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 12px;
+  font-family: 'Inter', 'DM Sans', sans-serif;
+  font-weight: 500;
+  margin: 1px 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  border-left: 3px solid transparent;
+}
+
+.nb:hover {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.85);
+}
+
+.nb.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-weight: 600;
+  border-left-color: #86c7f1;
+}
+
+.nb-ico {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+}
+
+.nb-ico svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.nb-badge {
+  margin-left: auto;
+  background: #B91C1C;
+  color: #fff;
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  display: none;
+}
+.nb-badge:not(:empty) { display: inline-block; }
+
+/* ── Bottom section ────────────────────────────── */
+.sb-bot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.nb-logout {
+  margin-bottom: 10px;
+}
+.nb-logout:hover { color: #fca5a5; }
+
+.sb-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+}
+
+.sb-ava {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #b9d9ea;
+  color: #1B3A6B;
+  display: grid;
+  place-items: center;
+  font-size: 9.5px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.sb-user-nm {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.sb-user-rl {
+  color: rgba(255,255,255,0.38);
+  font-size: 9.5px;
+  margin-top: 1px;
+}

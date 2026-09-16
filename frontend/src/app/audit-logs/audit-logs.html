@@ -1,0 +1,187 @@
+<div class="app">
+  <!-- ── Sticky Header ── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand" aria-label=" eProbito-logo">
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Entity Admin</b>
+        <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Audit Log</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72" id="entityRoleChip">Entity Admin</span>
+        <a class="chip" routerLink="/entities">&#8592; All Entities</a>
+        <a class="chip" routerLink="/entity-dashboard" id="backToDashboardLink">Dashboard</a>
+      </div>
+    </div>
+
+  </div>
+
+  <main class="content">
+
+    <!-- Entity banner -->
+    <section class="entity-banner">
+      <div class="eb-icon" id="ebIcon">EN</div>
+      <div class="eb-info">
+        <div class="eb-name" id="ebName">Entity</div>
+        <div class="eb-sub" id="ebSub">Audit Log &mdash; Immutable change trail for this entity</div>
+      </div>
+      <div class="eb-pills">
+        <span class="eb-pill" id="ebEntityId">ID: —</span>
+        <span class="eb-pill ok">Log Integrity: 99.98%</span>
+        <span class="eb-pill warn" id="ebViolations">0 Policy Violations</span>
+        <span class="eb-pill">Retention: 7 Years</span>
+      </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 id="auditHeroTitle">Audit Log</h1>
+      <p>Every sensitive action is captured: who did it, when, what changed, the before and after state, and whether any governance policy was breached.</p>
+      <div class="hero-meta">
+        <span class="hero-pill" id="auditEntityPill">Entity: —</span>
+        <span class="hero-pill" style="background:rgba(13,124,151,.1);border-color:#9ecfdf;color:#0a5d72;font-weight:800" id="auditRolePill">Role: Entity Admin</span>
+        <span class="hero-pill">Scope: Entity-Level Events</span>
+        <span class="hero-pill">Export Ready: CSV / Signed PDF</span>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <article class="kpi"><b id="kpiTotal">0</b><span>Total Events (30 days)</span></article>
+      <article class="kpi warn-kpi"><b id="kpiViolations">0</b><span>Policy Violations</span></article>
+      <article class="kpi bad-kpi"><b id="kpiHigh">0</b><span>High-Risk Actions</span></article>
+      <article class="kpi ok-kpi"><b id="kpiIntegrity">99.98%</b><span>Log Integrity Score</span></article>
+      <article class="kpi"><b id="kpiUsers">0</b><span>Unique Actors (30d)</span></article>
+    </section>
+
+    <!-- Audit Event Explorer -->
+    <article class="panel">
+      <header class="panel-head">
+        <div>
+          <h2>Audit Event Explorer</h2>
+          <span class="subtle" id="explorerSubtitle">Filter by actor, module, action type, severity, and date range</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn sm" type="button" id="exportCsvBtn">Export CSV</button>
+          <button class="btn sm" type="button" id="exportPdfBtn">Export Signed PDF</button>
+          <button class="btn sm primary" type="button" id="auditPackBtn">Generate Audit Pack</button>
+        </div>
+      </header>
+
+      <!-- Filter bar -->
+      <section class="filter-bar">
+        <div class="field">
+          <label>Date Range</label>
+          <select id="filterDate">
+            <option value="1">Last 24 hours</option>
+            <option value="7" selected>Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+            <option value="0">All time</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Action Type</label>
+          <select id="filterAction">
+            <option value="">All Actions</option>
+            <option value="entity">Entity</option>
+            <option value="model">Model</option>
+            <option value="prompt_version">Prompt Version</option>
+            <option value="classification">Classification</option>
+            <option value="provider">Provider</option>
+            <option value="api_connection">API Connection</option>
+            <option value="api_assignment">API Assignment</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Module</label>
+          <select id="filterModule">
+            <option value="">All Modules</option>
+            <option value="Entity Management">Entity Management</option>
+            <option value="Classification">Classification</option>
+            <option value="API / Provider">API / Provider</option>
+            <option value="User Management">User Management</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Severity</label>
+          <select id="filterSeverity">
+            <option value="">All Severity</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Actor</label>
+          <input type="text" id="filterActor" placeholder="Search by user…" />
+        </div>
+        <div class="field" id="userFilterWrap">
+          <label>User Filter</label>
+          <select id="filterUser">
+            <option value="">— All users —</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Table + Sidebar layout -->
+      <div class="audit-layout">
+
+        <div class="table-wrap">
+          <table id="auditTable">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Actor</th>
+                <th>Action</th>
+                <th>Module</th>
+                <th>Target / Object</th>
+                <th>Severity</th>
+                <th>Result</th>
+                <th>Trace ID</th>
+              </tr>
+            </thead>
+            <tbody id="auditTbody">
+              <tr><td colspan="8" style="text-align:center;color:#9aafc4;padding:24px">Loading audit events…</td></tr>
+            </tbody>
+          </table>
+
+          <div class="pagination">
+            <span id="paginationInfo">Loading…</span>
+            <div class="page-btns" id="pageBtns"></div>
+          </div>
+        </div>
+
+        <!-- Right sidebar -->
+        <div class="audit-sidebar">
+          <div class="event-detail-panel" id="eventDetailPanel">
+            <h3>Selected Event Details</h3>
+            <div id="eventDetailBody">
+              <div style="font-size:12px;color:#8a9fb8;text-align:center;padding:20px 0">Click any row to view event details</div>
+            </div>
+          </div>
+          <div class="activity-panel">
+            <h3>Recent Activity</h3>
+            <div id="activityFeed">
+              <div style="font-size:12px;color:#8a9fb8;text-align:center;padding:12px 0">Loading…</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel-actions" id="complianceActions" style="display:none">
+        <button class="btn sm" type="button" id="openIncidentBtn">Open Incident</button>
+        <button class="btn sm" type="button" id="flagReviewBtn">Flag for Review</button>
+        <button class="btn sm primary" type="button" id="escalateBtn">Escalate</button>
+      </div>
+    </article>
+
+    <div style="font-size:11px;color:#8a9fb8;padding:4px 2px 8px;line-height:1.6">
+      All audit events are immutable once written. Export with digital signature for regulatory submissions. Trace IDs are globally unique and can be used for cross-system correlation.
+    </div>
+
+  </main>
+</div>

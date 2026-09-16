@@ -1,0 +1,242 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand" aria-label=" eProbito-logo">
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Dashboard</b>
+        <div class="crumb">  Dashboard > Document Classification</div>
+      </div>
+      <div class="mini-stats">
+        <div class="spark">
+          <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 22px;"></i><i style="height: 15px;"></i><i style="height: 24px;"></i>
+        </div>
+        <div class="global-actions">
+          <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+          <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+          <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <main class="content">
+    <section class="hero">
+      <h1>Document Classification Setup</h1>
+      <p>Register classification models, configure class labels with confidence thresholds per entity, test samples, and publish mappings for production use.</p>
+      <div class="hero-meta">
+        <span class="hero-pill">Model Catalog</span>
+        <span class="hero-pill">Entity-level Mapping</span>
+        <span class="hero-pill">Confidence Gate</span>
+      </div>
+    </section>
+
+    <section class="kpis">
+      <article class="kpi"><b id="kpiModels">3</b><span>Classification Models</span></article>
+      <article class="kpi"><b id="kpiMappings">0</b><span>Published Mappings</span></article>
+      <article class="kpi"><b id="kpiEntities">0</b><span>Configured Entities</span></article>
+      <article class="kpi"><b id="kpiThreshold">90%</b><span>Default Threshold</span></article>
+    </section>
+
+    <!-- Classification Model Catalog -->
+    <article class="panel">
+      <header class="panel-head">
+        <h2>Classification Model Catalog</h2>
+        <span class="subtle">Click a model card to configure classification for an entity</span>
+      </header>
+      <div class="version-builder">
+        <div class="actions" style="margin-bottom:4px">
+          <button class="btn primary" type="button" id="openRegisterClassModelBtn">+ Register New Model</button>
+        </div>
+        <p class="mini-note">Models loaded from database. Click a card to open the classification configuration popup.</p>
+        <div class="model-cards" id="classModelCards">
+          <p style="color:#7388a1">Loading models...</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- Register New Classification Model popup -->
+    <div class="popup-overlay" id="registerClassModelPopup" aria-hidden="true">
+      <div class="popup-panel narrow">
+        <div class="popup-head">
+          <h3>Register New Classification Model</h3>
+          <button class="btn" type="button" id="closeRegisterClassModelBtn">Close</button>
+        </div>
+        <div class="popup-body">
+          <div class="version-grid">
+            <div class="field full">
+              <label for="newClassModelName">Model Display Name <span style="color:#e34">*</span></label>
+              <input id="newClassModelName" type="text" placeholder="e.g. doc-classifier-v3" />
+            </div>
+            <div class="field">
+              <label for="newClassModelProvider">Provider <span style="color:#e34">*</span></label>
+              <input id="newClassModelProvider" type="text" placeholder="e.g. eProbito AI Labs" />
+            </div>
+            <div class="field">
+              <label for="newClassModelVersion">Version</label>
+              <input id="newClassModelVersion" type="text" placeholder="e.g. v3.0" />
+            </div>
+            <div class="field full">
+              <label for="newClassModelDescription">Description</label>
+              <input id="newClassModelDescription" type="text" placeholder="e.g. Fine-tuned invoice classifier" />
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="button" id="saveRegisterClassModelBtn">Register Model</button>
+          </div>
+          <p class="mini-note" id="registerClassModelStatus"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configure Classification popup -->
+    <div class="popup-overlay" id="configureClassPopup" aria-hidden="true">
+      <div class="popup-panel">
+        <div class="popup-head">
+          <h3 id="configureClassTitle">Configure Classification</h3>
+          <button class="btn" type="button" id="closeConfigureClassBtn">Close</button>
+        </div>
+        <div class="popup-body">
+          <div class="version-grid">
+            <div class="field full">
+              <label for="configEntitySelect">Entity <span style="color:#e34">*</span></label>
+              <select id="configEntitySelect">
+                <option value="">— Loading entities... —</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="configModelSelect">Classification Model</label>
+              <select id="configModelSelect">
+                <option value="">— Select model —</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="configDocType">Document Type</label>
+              <select id="configDocType">
+                <option value="invoices">Invoices</option>
+                <option value="po">Purchase Orders</option>
+                <option value="grn">GRN</option>
+                <option value="inspection">Inspection</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="configThreshold">Confidence Threshold (%)</label>
+              <input id="configThreshold" type="number" min="1" max="100" step="1" placeholder="90" value="90" />
+            </div>
+            <div class="field">
+              <label for="configFallback">Fallback Class</label>
+              <select id="configFallback">
+                <option value="manual_review">manual_review</option>
+                <option value="unknown">unknown</option>
+                <option value="invoice">invoice</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="configClassLabels">Class Labels (comma-separated) <span style="color:#e34">*</span></label>
+              <textarea id="configClassLabels" placeholder="e.g. invoice, debit_note, credit_note, remittance"></textarea>
+            </div>
+            <div class="field full">
+              <label for="configSampleText">Sample Text for Test (optional)</label>
+              <textarea id="configSampleText" placeholder="Paste sample document text to test after saving..."></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" type="button" id="previewConfigBtn">Preview Config</button>
+            <button class="btn" type="button" id="testClassBtn">Test Sample</button>
+            <button class="btn primary" type="button" id="savePublishClassBtn">Save &amp; Publish Mapping</button>
+          </div>
+          <pre ngNonBindable class="code-block" id="configJsonOutput">&#123;
+  "entity": "",
+  "model": "",
+  "thresholdPct": 90,
+  "classLabels": []
+&#125;</pre>
+          <p class="mini-note" id="configClassStatus">Select entity, pick a model, define class labels, then publish.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entity Classification Mappings panel -->
+    <article class="panel" id="journeyAssignPanel">
+      <header class="panel-head">
+        <h2>Entity Classification Mappings</h2>
+        <span class="subtle">Published and draft mappings per entity</span>
+      </header>
+      <section class="version-builder">
+        <div class="vb-summary">
+          <div class="vb-col">
+            <span class="vb-label">Selected Entity</span>
+            <span class="vb-value" id="mappingEntityDisplay">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Model</span>
+            <span class="vb-value" id="mappingModelDisplay">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Classes</span>
+            <span class="vb-value" id="mappingClassCount">—</span>
+          </div>
+          <div class="vb-col">
+            <span class="vb-label">Status</span>
+            <span class="badge ok" id="mappingStatusBadge">Ready</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="button" id="openConfigureClassBtn">Configure Classification</button>
+        </div>
+        <p class="mini-note" id="mappingStatus">Click a model card above or use the button to configure classification for an entity.</p>
+      </section>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Model</th>
+              <th>Doc Type</th>
+              <th>Threshold</th>
+              <th>Classes</th>
+              <th>Version</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="mappingsTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center;color:#7388a1">Loading mappings...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button class="btn" type="button" id="refreshMappingsBtn">Refresh Mappings</button>
+      </div>
+    </article>
+
+    <div class="note">Best practice: define a global baseline class set per document type, then allow entity overrides only for specialised workflows. Every mapping change should be versioned, tested, and published through the approval process.</div>
+
+    <article class="panel" id="journeyStepPanel">
+      <header class="panel-head">
+        <h2>Step 6 of 9 — Document Classification</h2>
+        <span class="subtle">Configure class mapping, test, publish, then continue to Provider Governance</span>
+      </header>
+      <div class="journey-progress">
+        <span class="jp-step done">1. Entity Profile</span>
+        <span class="jp-step done">2. Intake Mode</span>
+        <span class="jp-step done">3. User Access</span>
+        <span class="jp-step done">4. AP / AR Scope</span>
+        <span class="jp-step done">5. Models &amp; Quality</span>
+        <span class="jp-step active">6. Classification</span>
+        <span class="jp-step">7. Provider Gov</span>
+        <span class="jp-step">8. API Integrations</span>
+        <span class="jp-step">9. Go-Live</span>
+      </div>
+      <div class="actions">
+        <a class="btn" routerLink="/models-quality">← Back to Models</a>
+        <button class="btn" type="button" id="saveClassificationStepBtn">Save Classification Step</button>
+        <button class="btn primary" type="button" id="nextToProviderBtn">Next: Provider Governance →</button>
+      </div>
+      <div class="note" id="journeyStatus">Step 6 active. Configure classification mapping above, then save and continue.</div>
+    </article>
+  </main>
+</div>

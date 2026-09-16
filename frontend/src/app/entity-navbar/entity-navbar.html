@@ -1,0 +1,78 @@
+<!-- Super Admin Action Bar (only shown when role=super_admin) -->
+<div class="sa-bar" id="saAdminBar" style="display:none">
+  <div class="sa-bar-left">
+    <span class="sa-badge">&#9632; SUPER ADMIN VIEW</span>
+    <span class="sa-entity-label" id="saEntityLabel"></span>
+  </div>
+  <div class="sa-bar-right">
+    <button class="sa-btn sa-btn-blue"  id="saSeedBtn"    title="Insert demo AP data (POs, GRNs, invoices, vendors)">&#9654; Seed Demo Data</button>
+    <button class="sa-btn sa-btn-teal"  id="saMatchBtn"   title="Run 3-way match engine for all pending invoices">&#9881; Run Match</button>
+    <button class="sa-btn sa-btn-red"   id="saArchiveBtn" title="Archive this entity">&#128465; Archive Entity</button>
+    <a      class="sa-btn sa-btn-ghost" id="saAllEntitiesLink" href="/entities">&#8592; All Entities</a>
+  </div>
+</div>
+
+<nav class="entity-header-menu">
+  <!-- 1. Dashboard -->
+  <a class="entity-menu-link" data-route="/entity-dashboard" href="/entity-dashboard">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h8v8H3v-8zm10-10h8v18h-8V3zM3 3h8v8H3V3z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Dashboard</strong><small>Entity overview</small></span>
+  </a>
+  <!-- 4. Transactions (Upload · Classify · Extract) -->
+  <a class="entity-menu-link" data-route="/transactions" href="/transactions">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3l4 4h-3v4h-2v-4H8l4-4zm0 10H8v-2h8v2z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Transactions</strong><small>Upload · Classify · Extract</small></span>
+  </a>
+  <!-- 5. Reconciliation -->
+  <a class="entity-menu-link" data-route="/reconciliation" href="/reconciliation">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zM4 19h16v2H4v-2zM20 3H4v2l8 7 8-7V3z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Reconciliation</strong><small>3-way match</small></span>
+  </a>
+  <!-- 7. Audit Log -->
+  <a class="entity-menu-link" data-route="/entity-audit-logs" href="/entity-audit-logs">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-2 9l-2-2-1.41 1.41L11 21l4.59-4.59L14.17 15l-3.17 3z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Audit Log</strong><small>Activity trail</small></span>
+  </a>
+  <!-- 8. Users -->
+  <a class="entity-menu-link" data-route="/user-management" href="/user-management">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Users</strong><small>Access management</small></span>
+  </a>
+  <!-- 9. Settings -->
+  <div class="entity-menu-group entity-settings-menu" data-settings-menu>
+    <button class="entity-menu-link entity-menu-parent" type="button" aria-haspopup="true" aria-expanded="false">
+      <span class="entity-menu-ico">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.43 12.98c.04-.32.07-.65.07-.98s.03-.66.08-.98l-2.11 1.65 2 3.46 2.49-1c.52.4 1.08.73 1.69.98L15 21h-4l-.36-2.93c-.61-.25-1.17-.58-1.69-.98l-2.49 1-2-3.46 2.11-1.65c-.04-.32-.08-.65-.08-.98s.03-.66.08-.98l-2.11-1.65 2-3.46 2.49 1c.52-.4 1.08-.73 1.69-.98L11 3h4l.36 2.93c.61.25 1.17.58 1.69.98l2.49-1 2 3.46-2.11 1.65zM13 15.5A3.5 3.5 0 1 1 13 8a3.5 3.5 0 0 1 0 7.5z"/></svg>
+      </span>
+      <span class="entity-menu-text"><strong>Settings</strong><small>Entity configuration</small></span>
+      <span class="entity-menu-chevron" aria-hidden="true">&#9662;</span>
+    </button>
+    <div class="entity-submenu" role="menu">
+      <a class="entity-submenu-link" data-route="/data-connectors" href="/data-connectors" role="menuitem">
+        <span class="entity-submenu-ico">&#8644;</span>
+        <span><strong>Connectors</strong><small>Sync &amp; intake</small></span>
+      </a>
+      <a class="entity-submenu-link" data-route="/exception-queue" href="/exception-queue" role="menuitem">
+        <span class="entity-submenu-ico">&#9888;</span>
+        <span><strong>Exceptions</strong><small>SLA &amp; escalation</small></span>
+      </a>
+    </div>
+  </div>
+  <!-- 10. Logout -->
+  <button class="entity-menu-link entity-logout-btn" id="entityLogoutBtn" type="button">
+    <span class="entity-menu-ico">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+    </span>
+    <span class="entity-menu-text"><strong>Logout</strong><small>Sign out</small></span>
+  </button>
+</nav>

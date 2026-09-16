@@ -1,0 +1,72 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+           
+          <span>EY</span>
+        </div>
+        <b>Model Access</b>
+        <div class="crumb">  Create Model / Prompt Access</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="mpa-content">
+    <div class="mpa-hero">
+      <h1>Create Model / Prompt Access</h1>
+      <p>Register a new AI model configuration. Assign it to entities from the Models &amp; Quality screen.</p>
+    </div>
+
+    <div class="mpa-panel">
+      <div class="mpa-panel-head"><b>Model Configuration</b></div>
+      <div class="mpa-form">
+        <div class="mpa-field">
+          <label>Model Name <span class="req">*</span></label>
+          <input type="text" id="modelName" placeholder="e.g. GPT-4o Production" />
+        </div>
+        <div class="mpa-field">
+          <label>Model Key <span class="hint">(auto-generated)</span></label>
+          <input type="text" id="modelKey" placeholder="gpt-4o-production" readonly />
+        </div>
+        <div class="mpa-field">
+          <label>Provider</label>
+          <select id="providerSelect">
+            <option value="openai">OpenAI</option>
+            <option value="anthropic">Anthropic</option>
+            <option value="azure">Azure OpenAI</option>
+            <option value="google">Google Vertex</option>
+          </select>
+        </div>
+        <div class="mpa-field">
+          <label>Model Type</label>
+          <select id="modelType">
+            <option value="LLM">LLM</option>
+            <option value="OCR">OCR</option>
+            <option value="Classifier">Classifier</option>
+          </select>
+        </div>
+        <div class="mpa-field">
+          <label>API Version</label>
+          <input type="text" id="apiVersion" placeholder="e.g. 2024-05-01-preview" />
+        </div>
+        <div class="mpa-field">
+          <label>Max Tokens</label>
+          <input type="number" id="maxTokens" value="4096" min="1" max="128000" />
+        </div>
+        <div class="mpa-field full">
+          <label>Temperature: <strong id="temperatureVal">0.7</strong></label>
+          <input type="range" id="temperature" min="0" max="1" step="0.01" value="0.7" class="mpa-slider" />
+          <div class="mpa-slider-labels"><span>0 — Deterministic</span><span>1 — Creative</span></div>
+        </div>
+      </div>
+      <div class="mpa-footer">
+        <div class="mpa-note">To assign this model to an entity, go to <a href="/models-quality">Models &amp; Quality</a> after creation.</div>
+        <div class="mpa-footer-actions">
+          <div id="modelCreateStatus" class="mpa-status"></div>
+          <button class="mpa-btn primary" id="submitModelBtn" type="button">Create Model</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

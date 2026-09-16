@@ -1,0 +1,367 @@
+<div class="app">
+    <div class="header-stack">
+      <div class="section-top">
+        <div class="section-title">
+          <div class=" eProbito-brand" aria-label=" eProbito-logo">
+            <span><strong>{{tenantName}}</strong></span>
+          </div>
+          <b>Dashboard</b>
+          <div class="crumb">  Dashboard > Models & Quality</div>
+        </div>
+        <div class="mini-stats">
+          <div class="spark">
+            <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 22px;"></i><i style="height: 15px;"></i><i style="height: 24px;"></i>
+          </div>
+          <div class="global-actions">
+            <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+            <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+            <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <main class="content">
+      <section class="hero">
+        <h1>Models &amp; Quality Assignment</h1>
+        <p>Create prompt versions, run the quality gate, approve for release, and assign directly to entities with canary rollout and rollback control.</p>
+        <div class="hero-meta">
+          <span class="hero-pill">Prompt Governance Enabled</span>
+          <span class="hero-pill">Entity-level Deployment</span>
+          <span class="hero-pill">Quality Gate Workflow</span>
+        </div>
+      </section>
+
+      <!-- Entity context banner — populated from URL params by JS -->
+      <section class="entity-context" id="entityContextBanner" hidden>
+        <div>
+          <span class="ctx-label">Configuring Entity</span>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:3px">
+            <span class="ctx-name" id="ctxEntityName">—</span>
+            <span class="ctx-id" id="ctxEntityId"></span>
+          </div>
+        </div>
+        <div class="ctx-sep"></div>
+        <div class="ctx-badges" id="ctxBadges"></div>
+        <a class="btn" routerLink="/entities/create" style="margin-left:auto">← Back to Journey</a>
+      </section>
+
+      <section class="kpis">
+        <article class="kpi"><b>12</b><span>Active Models</span></article>
+        <article class="kpi"><b>27</b><span>Prompt Versions</span></article>
+        <article class="kpi"><b>94.8%</b><span>Avg Extraction F1</span></article>
+        <article class="kpi"><b>18</b><span>Entities On Latest Prompt</span></article>
+      </section>
+
+      <article class="panel">
+        <header class="panel-head">
+          <h2>Model Catalog For Prompt Strategy</h2>
+          <span class="subtle">Click a model card to create a prompt version. Use Register to add new models.</span>
+        </header>
+        <div class="version-builder">
+          <div class="actions" style="margin-bottom:12px">
+            <button class="btn primary" type="button" id="openRegisterModelBtn">+ Register New Model</button>
+          </div>
+          <p class="mini-note">Models loaded from database. Click a card to open the prompt builder for that model.</p>
+          <div class="model-cards" id="modelCards">
+            <p style="color:#7388a1">Loading models...</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Register Model Popup -->
+      <div class="popup-overlay" id="registerModelPopup" aria-hidden="true">
+        <div class="popup-panel narrow">
+          <div class="popup-head">
+            <h3>Register New Model</h3>
+            <button class="btn" type="button" id="closeRegisterModelBtn">Close</button>
+          </div>
+          <div class="popup-body">
+            <div class="version-grid">
+              <div class="field full">
+                <label for="newModelName">Model Display Name <span style="color:#e34">*</span></label>
+                <input id="newModelName" type="text" placeholder="e.g. GPT-4o-mini" />
+              </div>
+              <div class="field">
+                <label for="newModelProvider">Provider <span style="color:#e34">*</span></label>
+                <input id="newModelProvider" type="text" placeholder="e.g. OpenAI" />
+              </div>
+              <div class="field">
+                <label for="newModelKey">Model Key (optional — auto-generated if blank)</label>
+                <input id="newModelKey" type="text" placeholder="e.g. gpt-4o-mini" />
+              </div>
+              <div class="field full">
+                <label for="newModelDescription">Description</label>
+                <input id="newModelDescription" type="text" placeholder="e.g. Cost-efficient GPT-4 class model" />
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn primary" type="button" id="saveRegisterModelBtn">Register Model</button>
+            </div>
+            <p class="mini-note" id="registerModelStatus"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="popup-overlay" id="modelPromptPopup" aria-hidden="true">
+        <div class="popup-panel">
+          <div class="popup-head">
+            <h3 id="popupModelTitle">Model Prompt Builder</h3>
+            <button class="btn" type="button" id="closeModelPopupBtn">Close</button>
+          </div>
+          <div class="popup-body">
+            <div class="version-grid">
+              <div class="field">
+                <label for="popupModelInput">Model</label>
+                <select id="popupModelInput">
+                  <option value="">— Loading models... —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="popupVersionInput">Prompt Version</label>
+                <input id="popupVersionInput" type="text" placeholder="v4.4.1" />
+              </div>
+              <div class="field">
+                <label for="popupDatasetInput">Dataset</label>
+                <input id="popupDatasetInput" type="text" placeholder="AR_Golden_2K" />
+              </div>
+              <div class="field">
+                <label for="popupPrecisionInput">Precision (%)</label>
+                <input id="popupPrecisionInput" type="number" min="0" max="100" step="0.1" placeholder="95.1" />
+              </div>
+              <div class="field">
+                <label for="popupRecallInput">Recall (%)</label>
+                <input id="popupRecallInput" type="number" min="0" max="100" step="0.1" placeholder="94.0" />
+              </div>
+              <div class="field">
+                <label for="popupHallucinationInput">Hallucination (%)</label>
+                <input id="popupHallucinationInput" type="number" min="0" max="100" step="0.1" placeholder="1.0" />
+              </div>
+              <div class="field">
+                <label for="popupLatencyInput">Latency (s)</label>
+                <input id="popupLatencyInput" type="number" min="0" step="0.1" placeholder="1.3" />
+              </div>
+              <div class="field full">
+                <label for="popupPromptChangeInput">Prompt Change Summary</label>
+                <input id="popupPromptChangeInput" type="text" placeholder="Changed extraction rule for GST and vendor aliases" />
+              </div>
+              <div class="field full">
+                <label for="popupPromptInput">Paste Prompt</label>
+                <textarea id="popupPromptInput" placeholder="Paste your full prompt here..."></textarea>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn" type="button" id="formatPromptJsonBtn">Show JSON</button>
+              <button class="btn primary" type="button" id="usePromptInGateBtn">Create Prompt Version</button>
+            </div>
+            <pre ngNonBindable class="code-block" id="popupJsonOutput">&#123;
+  "model": "",
+  "promptVersion": "",
+  "promptText": "",
+  "promptLength": 0,
+  "updatedAt": ""
+&#125;</pre>
+            <p class="mini-note" id="popupStatus">Paste prompt and click Show JSON.</p>
+          </div>
+        </div>
+      </div>
+
+      <article class="panel">
+        <header class="panel-head">
+          <h2>Quality Evaluation & Release Gate</h2>
+          <span class="subtle">Only approved prompts can be assigned to entities</span>
+        </header>
+
+        <section class="version-builder">
+          <!-- hidden data passed between popup and table (used by JS) -->
+          <select id="modelInput" hidden>
+            <option>Qwen3-0.6B</option><option>Qwen3-1.7B</option><option>Qwen3-4B</option>
+            <option selected>Qwen3-8B</option><option>Qwen3-14B</option><option>Qwen3-32B</option>
+          </select>
+          <input id="promptVersionInput" type="hidden" />
+          <input id="datasetInput" type="hidden" />
+          <input id="precisionInput" type="hidden" />
+          <input id="recallInput" type="hidden" />
+          <input id="hallucinationInput" type="hidden" />
+          <input id="latencyInput" type="hidden" />
+          <input id="promptChangeInput" type="hidden" />
+
+          <!-- visible context summary -->
+          <div class="vb-summary">
+            <div class="vb-col">
+              <span class="vb-label">Entity</span>
+              <span class="vb-value" id="vbEntityCtx">—</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Active Model</span>
+              <span class="vb-value" id="vbCurrentModel">—</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Latest Approved Prompt</span>
+              <span class="vb-value">v4.3.2</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Gate Status</span>
+              <span class="badge ok">Approved</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="createPromptVersionBtn">+ New Prompt Version</button>
+          </div>
+          <p class="mini-note" id="promptVersionStatus">Select a model card above, then click to create a new prompt version via the quality gate form.</p>
+        </section>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Prompt Version</th>
+                <th>Dataset</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1</th>
+                <th>Hallucination</th>
+                <th>Latency</th>
+                <th>Gate Result</th>
+              </tr>
+            </thead>
+            <tbody id="qualityGateRows">
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel" id="journeyAssignPanel">
+        <header class="panel-head">
+          <h2>Assign Prompt To Entity Directly</h2>
+          <span class="subtle">Entity-specific mapping with canary and rollback</span>
+        </header>
+        <section class="version-builder">
+          <!-- visible context summary -->
+          <div class="vb-summary">
+            <div class="vb-col">
+              <span class="vb-label">Assigning To</span>
+              <span class="vb-value" id="assignEntityDisplay">—</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Model</span>
+              <span class="vb-value" id="assignModelDisplay">—</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Current Prompt</span>
+              <span class="vb-value">v4.3.1</span>
+            </div>
+            <div class="vb-col">
+              <span class="vb-label">Target Prompt</span>
+              <span class="vb-value" id="assignTargetDisplay">—</span>
+            </div>
+          </div>
+
+          <!-- hidden inputs (used by JS) -->
+          <input id="assignEntityInput" type="hidden" value="" />
+          <select id="assignModelInput" hidden></select>
+          <input id="assignCurrentPromptInput" type="hidden" value="" />
+          <input id="assignTargetPromptInput" type="hidden" />
+
+          <div class="actions">
+            <button class="btn primary" type="button" id="openAssignPopupBtn">Assign Prompt To Entity</button>
+          </div>
+          <p class="mini-note" id="assignmentStatus">Click to open the assignment popup and deploy a prompt version to this entity.</p>
+        </section>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Entity</th>
+                <th>Model</th>
+                <th>Current Prompt</th>
+                <th>Target Prompt</th>
+                <th>Rollout</th>
+                <th>Owner Approval</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="entityAssignmentRows">
+            </tbody>
+          </table>
+        </div>
+        <div class="actions center">
+          <!-- <a class="btn" routerLink="/model-prompt-access-create-form">Assign To Selected Entities</a> -->
+          <!-- <button class="btn" type="button">Schedule Midnight Rollout</button>
+          <button class="btn primary" type="button">Rollback To Previous Version</button> -->
+        </div>
+      </article>
+
+      <div class="popup-overlay" id="assignEntityPopup" aria-hidden="true">
+        <div class="popup-panel narrow">
+          <div class="popup-head">
+            <h3>Assign Prompt To Entity</h3>
+            <button class="btn" type="button" id="closeAssignPopupBtn">Close</button>
+          </div>
+          <div class="popup-body">
+            <div class="version-grid">
+              <div class="field full">
+                <label for="popupAssignEntitySelect">Entity</label>
+                <select id="popupAssignEntitySelect">
+                  <option value="">— Loading entities... —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="popupAssignModelInput">Model</label>
+                <select id="popupAssignModelInput">
+                  <option value="">— Loading models... —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="popupAssignCurrentPromptSelect">Current Prompt (live on entity)</label>
+                <select id="popupAssignCurrentPromptSelect">
+                  <option value="">— None / first assignment —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="popupAssignTargetPromptSelect">Target Prompt (approved versions only)</label>
+                <select id="popupAssignTargetPromptSelect">
+                  <option value="">— Loading approved versions... —</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label style="font-size:11px;color:#7388a1">Only approved prompt versions appear in the target list. Create and approve a version above first.</label>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="btn primary" type="button" id="addAssignmentBtn">Assign Prompt To Entity</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">Recommended operating model: keep a global baseline prompt and allow entity overrides only through approved version tags. Every prompt edit should be versioned, quality-scored, approved, and logged in audit with who changed what and when.</div>
+
+      <article class="panel" id="journeyStepPanel">
+        <header class="panel-head">
+          <h2>Step 5 of 9 — Models &amp; Quality</h2>
+          <span class="subtle">Assign model, create a prompt version, pass quality gate, then continue</span>
+        </header>
+        <div class="journey-progress">
+          <span class="jp-step done">1. Entity Profile</span>
+          <span class="jp-step done">2. Intake Mode</span>
+          <span class="jp-step done">3. User Access</span>
+          <span class="jp-step done">4. AP / AR Scope</span>
+          <span class="jp-step active">5. Models &amp; Quality</span>
+          <span class="jp-step">6. Classification</span>
+          <span class="jp-step">7. Provider Gov</span>
+          <span class="jp-step">8. API Integrations</span>
+          <span class="jp-step">9. Go-Live</span>
+        </div>
+        <div class="actions">
+          <a class="btn" routerLink="/entities/create" id="backToJourneyBtn">← Back to Journey</a>
+          <button class="btn" type="button" id="saveModelStepBtn">Save Models Step</button>
+          <button class="btn primary" type="button" id="nextToClassificationBtn">Next: Document Classification →</button>
+        </div>
+        <div class="note" id="modelJourneyStatus">Step 5 active. Configure model assignment and prompt version above, then save and continue to classification.</div>
+      </article>
+    </main>
+  </div>

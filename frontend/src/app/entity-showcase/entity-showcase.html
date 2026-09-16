@@ -1,0 +1,310 @@
+<div class="app">
+    <div class="header-stack">
+      <div class="section-top">
+        <div class="section-title">
+          <div class=" eProbito-brand" aria-label=" eProbito-logo">
+            <span><strong>{{tenantName}}</strong></span>
+          </div>
+          <b>Dashboard</b>
+          <div class="crumb">  Dashboard > Entity Showcase</div>
+        </div>
+        <div class="mini-stats">
+          <div class="spark">
+            <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 22px;"></i><i style="height: 15px;"></i><i style="height: 24px;"></i>
+          </div>
+        <div class="global-actions">
+          <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+          <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+          <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+        </div>
+        </div>
+      </div>
+
+    </div>
+
+    <main class="content">
+
+      <section class="hero">
+        <h1>Entity Management</h1>
+        <p>Create and manage client entities from this screen. For each entity configure AI models, document classification, provider governance, and the document intake mode: SAP / ERP touchless API, manual document upload portal, or vendor-facing submission portal.</p>
+        <div class="hero-meta">
+          <span class="hero-pill">Live Governance View</span>
+          <span class="hero-pill">Live from Database</span>
+        </div>
+      </section>
+
+      <!-- Filter bar -->
+      <section class="filter-bar">
+        <span class="filter-label">Filter</span>
+        <input class="filter-search" id="filterSearch" type="text" placeholder="Search entity name or ID..." aria-label="Search entities" />
+        <select class="filter-select" id="filterStatus" aria-label="Filter by status">
+          <option value="">All Statuses</option>
+          <option value="go-live">Go-Live Ready</option>
+          <option value="review">Review Pending</option>
+          <option value="blocked">Blocked</option>
+        </select>
+        <select class="filter-select" id="filterRegion" aria-label="Filter by region">
+          <option value="">All Regions</option>
+          <option value="apac">APAC</option>
+          <option value="emea">EMEA</option>
+          <option value="americas">Americas</option>
+        </select>
+        <select class="filter-select" id="filterIntake" aria-label="Filter by intake mode">
+          <option value="">All Intake Modes</option>
+          <option value="sap">Touchless API</option>
+          <option value="upload">Document Upload</option>
+          <option value="vendor">Vendor Portal</option>
+        </select>
+        <span class="filter-count" id="filterCount"></span>
+      </section>
+
+      <!-- KPIs -->
+      <section class="kpi-grid">
+        <article class="kpi"><b id="entityTotalKpi">24</b><span>Active Database Entities</span><small class="trend up">Live</small></article>
+        <article class="kpi"><b id="entityReadyKpi">18</b><span>Active Entities</span><small class="trend up">Live</small></article>
+        <article class="kpi"><b id="entityReviewKpi">4</b><span>Draft Entities</span><small class="trend flat">Live</small></article>
+        <article class="kpi"><b id="entityBlockedKpi">2</b><span>Suspended Entities</span><small class="trend down">Live</small></article>
+        <article class="kpi kpi-touchless"><b id="entityIntakeKpi">—</b><span>Touchless API Entities</span><small class="trend flat">Live</small></article>
+      </section>
+
+      <!-- Entity list + journey panel -->
+      <section class="layout">
+        <article class="panel">
+          <header class="panel-head">
+            <div>
+              <h2>Entity Readiness</h2>
+              <span class="subtle">Onboarding progress, services and intake mode per entity</span>
+            </div>
+            <div class="head-right">
+              <a class="btn primary" routerLink="/entities/create">+ Create Entity</a>
+              <div class="view-toggle" role="tablist" aria-label="View selector">
+                <button class="toggle-btn active" type="button" data-view="cards" aria-pressed="true">Cards</button>
+                <button class="toggle-btn" type="button" data-view="table" aria-pressed="false">Table</button>
+              </div>
+            </div>
+          </header>
+
+          <!-- Cards view -->
+          <div id="readinessCardsView" class="view-panel entity-grid" data-view-panel="cards">
+
+            <article class="entity-card entity-link" data-entity-id="EN-22031" data-entity-name="NTL India Pvt Ltd" data-status="go-live" data-region="apac" data-intake="sap,vendor" tabindex="0" role="link" aria-label="Open NTL India Pvt Ltd dashboard">
+              <div class="entity-top">
+                <div>
+                  <h3 class="entity-title">NTL India Pvt Ltd</h3>
+                  <p class="entity-meta">EN-22031 · APAC · Retail</p>
+                </div>
+                <div class="entity-head-right">
+                  <span class="tag ok">Go-Live Ready</span>
+                  <div class="icon-actions">
+                    <button class="icon-btn edit" type="button" title="Edit Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button>
+                    <button class="icon-btn delete" type="button" title="Delete Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <div class="mini-meta">
+                <div class="info-row"><span>Users</span><strong>42</strong></div>
+                <div class="info-row"><span>Updated</span><strong>15-Jul-2026</strong></div>
+                <div class="info-row readiness-cell">
+                  <span>Readiness</span>
+                  <div class="readiness-wrap"><strong>96%</strong><div class="mini-bar"><div class="mini-bar-fill high" style="width:96%"></div></div></div>
+                </div>
+                <div class="info-row"><span>Approval</span><strong>4-Level</strong></div>
+              </div>
+              <div class="service-row">
+                <span class="service ok">Model: Enabled</span>
+                <span class="service ok">Class: Enabled</span>
+                <span class="service ok">Provider: Enabled</span>
+              </div>
+              <div class="intake-row">
+                <span class="intake-label">Intake</span>
+                <span class="intake-badge sap">⚡ Touchless API</span>
+                <span class="intake-badge vendor">🏢 Vendor Portal</span>
+              </div>
+            </article>
+
+            <article class="entity-card entity-link" data-entity-id="EN-22054" data-entity-name="Northline EMEA GmbH" data-status="review" data-region="emea" data-intake="upload" tabindex="0" role="link" aria-label="Open Northline EMEA GmbH dashboard">
+              <div class="entity-top">
+                <div>
+                  <h3 class="entity-title">Northline EMEA GmbH</h3>
+                  <p class="entity-meta">EN-22054 · EMEA · Manufacturing</p>
+                </div>
+                <div class="entity-head-right">
+                  <span class="tag warn">Review Pending</span>
+                  <div class="icon-actions">
+                    <button class="icon-btn edit" type="button" title="Edit Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button>
+                    <button class="icon-btn delete" type="button" title="Delete Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <div class="mini-meta">
+                <div class="info-row"><span>Users</span><strong>19</strong></div>
+                <div class="info-row"><span>Updated</span><strong>14-Jul-2026</strong></div>
+                <div class="info-row readiness-cell">
+                  <span>Readiness</span>
+                  <div class="readiness-wrap"><strong>78%</strong><div class="mini-bar"><div class="mini-bar-fill mid" style="width:78%"></div></div></div>
+                </div>
+                <div class="info-row"><span>Approval</span><strong>3-Level</strong></div>
+              </div>
+              <div class="service-row">
+                <span class="service ok">Model: Enabled</span>
+                <span class="service warn">Class: Tuning</span>
+                <span class="service warn">Provider: Review</span>
+              </div>
+              <div class="intake-row">
+                <span class="intake-label">Intake</span>
+                <span class="intake-badge upload">⬆ Doc Upload</span>
+              </div>
+            </article>
+
+            <article class="entity-card entity-link" data-entity-id="EN-22102" data-entity-name="Metro Health Billing LLC" data-status="go-live" data-region="americas" data-intake="sap" tabindex="0" role="link" aria-label="Open Metro Health Billing LLC dashboard">
+              <div class="entity-top">
+                <div>
+                  <h3 class="entity-title">Metro Health Billing LLC</h3>
+                  <p class="entity-meta">EN-22102 · Americas · Healthcare</p>
+                </div>
+                <div class="entity-head-right">
+                  <span class="tag ok">Go-Live Ready</span>
+                  <div class="icon-actions">
+                    <button class="icon-btn edit" type="button" title="Edit Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button>
+                    <button class="icon-btn delete" type="button" title="Delete Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <div class="mini-meta">
+                <div class="info-row"><span>Users</span><strong>31</strong></div>
+                <div class="info-row"><span>Updated</span><strong>14-Jul-2026</strong></div>
+                <div class="info-row readiness-cell">
+                  <span>Readiness</span>
+                  <div class="readiness-wrap"><strong>91%</strong><div class="mini-bar"><div class="mini-bar-fill high" style="width:91%"></div></div></div>
+                </div>
+                <div class="info-row"><span>Approval</span><strong>4-Level</strong></div>
+              </div>
+              <div class="service-row">
+                <span class="service ok">Model: Enabled</span>
+                <span class="service ok">Class: Enabled</span>
+                <span class="service ok">Provider: Enabled</span>
+              </div>
+              <div class="intake-row">
+                <span class="intake-label">Intake</span>
+                <span class="intake-badge sap">⚡ Touchless API</span>
+              </div>
+            </article>
+
+            <article class="entity-card entity-link" data-entity-id="EN-22144" data-entity-name="Orbit Foods Distribution" data-status="blocked" data-region="apac" data-intake="upload" tabindex="0" role="link" aria-label="Open Orbit Foods Distribution dashboard">
+              <div class="entity-top">
+                <div>
+                  <h3 class="entity-title">Orbit Foods Distribution</h3>
+                  <p class="entity-meta">EN-22144 · APAC · FMCG</p>
+                </div>
+                <div class="entity-head-right">
+                  <span class="tag bad">Blocked</span>
+                  <div class="icon-actions">
+                    <button class="icon-btn edit" type="button" title="Edit Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button>
+                    <button class="icon-btn delete" type="button" title="Delete Entity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button>
+                  </div>
+                </div>
+              </div>
+              <div class="mini-meta">
+                <div class="info-row"><span>Users</span><strong>11</strong></div>
+                <div class="info-row"><span>Updated</span><strong>13-Jul-2026</strong></div>
+                <div class="info-row readiness-cell">
+                  <span>Readiness</span>
+                  <div class="readiness-wrap"><strong>52%</strong><div class="mini-bar"><div class="mini-bar-fill low" style="width:52%"></div></div></div>
+                </div>
+                <div class="info-row"><span>Approval</span><strong>Pending</strong></div>
+              </div>
+              <div class="service-row">
+                <span class="service warn">Model: In Progress</span>
+                <span class="service bad">Class: Not Ready</span>
+                <span class="service bad">Provider: Not Started</span>
+              </div>
+              <div class="intake-row">
+                <span class="intake-label">Intake</span>
+                <span class="intake-badge upload">⬆ Doc Upload</span>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Table view (entity IDs fixed) -->
+          <div id="readinessTableView" class="view-panel entity-table-wrap" data-view-panel="table" hidden>
+            <table class="entity-table" aria-label="Entity readiness table view">
+              <thead>
+                <tr>
+                  <th>Entity</th>
+                  <th>ID</th>
+                  <th>Region</th>
+                  <th>Users</th>
+                  <th>Readiness</th>
+                  <th>Intake Mode</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="readinessTableBody">
+                <tr class="entity-row-link" data-entity-id="EN-22031" data-entity-name="NTL India Pvt Ltd" data-status="go-live" data-region="apac" data-intake="sap,vendor">
+                  <td><strong>NTL India Pvt Ltd</strong><br><small style="color:#7a90a8">Retail</small></td>
+                  <td>EN-22031</td>
+                  <td>APAC</td>
+                  <td>42</td>
+                  <td><div class="readiness-wrap"><strong>96%</strong><div class="mini-bar" style="width:72px"><div class="mini-bar-fill high" style="width:96%"></div></div></div></td>
+                  <td><span class="intake-badge sap">⚡ Touchless API</span> <span class="intake-badge vendor">🏢 Vendor Portal</span></td>
+                  <td><span class="tag ok">Go-Live Ready</span></td>
+                  <td><span class="cell-actions"><button class="icon-btn edit" type="button" title="Edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button><button class="icon-btn delete" type="button" title="Delete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button></span></td>
+                </tr>
+                <tr class="entity-row-link" data-entity-id="EN-22054" data-entity-name="Northline EMEA GmbH" data-status="review" data-region="emea" data-intake="upload">
+                  <td><strong>Northline EMEA GmbH</strong><br><small style="color:#7a90a8">Manufacturing</small></td>
+                  <td>EN-22054</td>
+                  <td>EMEA</td>
+                  <td>19</td>
+                  <td><div class="readiness-wrap"><strong>78%</strong><div class="mini-bar" style="width:72px"><div class="mini-bar-fill mid" style="width:78%"></div></div></div></td>
+                  <td><span class="intake-badge upload">⬆ Doc Upload</span></td>
+                  <td><span class="tag warn">Review Pending</span></td>
+                  <td><span class="cell-actions"><button class="icon-btn edit" type="button" title="Edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button><button class="icon-btn delete" type="button" title="Delete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button></span></td>
+                </tr>
+                <tr class="entity-row-link" data-entity-id="EN-22102" data-entity-name="Metro Health Billing LLC" data-status="go-live" data-region="americas" data-intake="sap">
+                  <td><strong>Metro Health Billing LLC</strong><br><small style="color:#7a90a8">Healthcare</small></td>
+                  <td>EN-22102</td>
+                  <td>Americas</td>
+                  <td>31</td>
+                  <td><div class="readiness-wrap"><strong>91%</strong><div class="mini-bar" style="width:72px"><div class="mini-bar-fill high" style="width:91%"></div></div></div></td>
+                  <td><span class="intake-badge sap">⚡ Touchless API</span></td>
+                  <td><span class="tag ok">Go-Live Ready</span></td>
+                  <td><span class="cell-actions"><button class="icon-btn edit" type="button" title="Edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button><button class="icon-btn delete" type="button" title="Delete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button></span></td>
+                </tr>
+                <tr class="entity-row-link" data-entity-id="EN-22144" data-entity-name="Orbit Foods Distribution" data-status="blocked" data-region="apac" data-intake="upload">
+                  <td><strong>Orbit Foods Distribution</strong><br><small style="color:#7a90a8">FMCG</small></td>
+                  <td>EN-22144</td>
+                  <td>APAC</td>
+                  <td>11</td>
+                  <td><div class="readiness-wrap"><strong>52%</strong><div class="mini-bar" style="width:72px"><div class="mini-bar-fill low" style="width:52%"></div></div></div></td>
+                  <td><span class="intake-badge upload">⬆ Doc Upload</span></td>
+                  <td><span class="tag bad">Blocked</span></td>
+                  <td><span class="cell-actions"><button class="icon-btn edit" type="button" title="Edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75l11-11.03-3.75-3.75L3 17.25zm17.71-10.04a1 1 0 0 0 0-1.41l-2.5-2.5a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.99-1.83z"/></svg></button><button class="icon-btn delete" type="button" title="Delete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 14H7L6 7zm3-3h6l1 2h4v2H4V6h4l1-2z"/></svg></button></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+  </div>
+
+  <div class="credential-overlay hidden" id="entityCredentialsOverlay" role="dialog" aria-modal="true" aria-labelledby="credentialTitle">
+    <div class="credential-modal">
+      <div class="credential-modal-head">
+        <div>
+          <span class="credential-kicker">ENTITY LOGIN</span>
+          <h2 id="credentialTitle">Credentials</h2>
+        </div>
+        <button class="credential-close" id="closeEntityCredentials" type="button" aria-label="Close credentials">×</button>
+      </div>
+      <div class="credential-modal-body">
+        <div class="credential-row"><span>Primary Admin Email</span><strong id="credentialEmail">—</strong></div>
+        <div class="credential-row password-row"><span>Primary Admin Password</span><code id="credentialPassword">—</code></div>
+        <p class="credential-note" id="credentialNote"></p>
+      </div>
+    </div>
+  </div>

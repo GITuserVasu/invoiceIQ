@@ -1,0 +1,277 @@
+<div class="app">
+
+  <!-- ── Header ──────────────────────────────────────── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+          <svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+            <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+            <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+          </svg>
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Entity Admin</b>
+        <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; User List</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72">Entity Admin</span>
+        <a class="chip" href="/entities">&#8592; All Entities</a>
+        <a class="chip" id="backToDashboardLink" href="entity-dashboard.html">Dashboard</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Content ─────────────────────────────────────── -->
+  <main class="content">
+
+    <!-- Entity banner -->
+    <section class="entity-banner">
+      <div class="eb-icon" id="ebIcon">NT</div>
+      <div class="eb-info">
+        <div class="eb-name" id="ebName">Entity</div>
+        <div class="eb-sub" id="ebSub">User management &mdash; assign roles, set approval levels, and control access</div>
+      </div>
+      <div class="eb-pills">
+        <span class="eb-pill" id="ebEntityId">ID: &mdash;</span>
+        <span class="eb-pill ok">SoD Rules: Active</span>
+        <span class="eb-pill">Policy: 2026.07</span>
+      </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 id="heroTitle">User List</h1>
+      <p>Manage all entity users, assign role templates, set approval levels, and control which modules each user can access.</p>
+      <div class="hero-meta">
+        <span class="hero-pill" id="heroEntityPill">Entity: &mdash;</span>
+        <span class="hero-pill" style="background:rgba(13,124,151,.1);border-color:#9ecfdf;color:#0a5d72;font-weight:800">Role: Entity Admin</span>
+        <span class="hero-pill">Approval: 4-Level Hierarchy</span>
+        <span class="hero-pill">SoD: Enforced</span>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <article class="kpi">
+        <b id="kpiTotal">8</b>
+        <span>Total Users</span>
+      </article>
+      <article class="kpi ok-kpi">
+        <b id="kpiActive">6</b>
+        <span>Active Users</span>
+      </article>
+      <article class="kpi warn-kpi">
+        <b id="kpiPending">1</b>
+        <span>Pending Activation</span>
+      </article>
+      <article class="kpi">
+        <b>4</b>
+        <span>Role Templates</span>
+      </article>
+      <article class="kpi">
+        <b>100%</b>
+        <span>SoD Rules Enabled</span>
+      </article>
+    </section>
+
+    <!-- User List Panel -->
+    <article class="panel">
+      <header class="panel-head">
+        <div>
+          <h2>User List</h2>
+          <span class="subtle" id="panelSubtitle">All users with access to this entity &mdash; click any row to view details</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <span id="userCountBadge" style="font-size:11px;font-weight:700;color:#5a7289">8 users</span>
+          <button class="btn sm primary" type="button" id="addUserBtn">+ Add User</button>
+        </div>
+      </header>
+
+      <!-- Filters -->
+      <section class="filter-bar">
+        <div class="field">
+          <label>Search</label>
+          <input type="text" id="filterSearch" placeholder="Name or email&hellip;" />
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <select id="filterRole">
+            <option value="">All Roles</option>
+            <option>Entity Admin</option>
+            <option>Finance Controller</option>
+            <option>AR Manager</option>
+            <option>AP Manager</option>
+            <option>Viewer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Approval Level</label>
+          <select id="filterLevel">
+            <option value="">All Levels</option>
+            <option>Level 1</option>
+            <option>Level 2</option>
+            <option>Level 3</option>
+            <option>Level 4</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="filterStatus">
+            <option value="">All Status</option>
+            <option>Active</option>
+            <option>Inactive</option>
+            <option>Pending</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Department</label>
+          <select id="filterDept">
+            <option value="">All Departments</option>
+            <option>Finance</option>
+            <option>Operations</option>
+            <option>IT</option>
+            <option>Compliance</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Table + Sidebar layout -->
+      <div class="user-layout">
+
+        <!-- Left: user table -->
+        <div class="table-wrap">
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Approval Level</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="userTbody"></tbody>
+          </table>
+
+          <div class="pagination">
+            <span id="paginationInfo">Showing all 8 users</span>
+            <div class="page-btns">
+              <button class="page-btn active" type="button">1</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: user detail sidebar -->
+        <div class="user-sidebar" id="userSidebar">
+          <div style="padding:28px 16px;text-align:center;color:#9aafc4;font-size:12px">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="display:block;margin:0 auto 10px"><circle cx="18" cy="12" r="7" stroke="#c4d4e4" stroke-width="2"/><path d="M4 33c0-7.73 6.27-12 14-12s14 4.27 14 12" stroke="#c4d4e4" stroke-width="2" stroke-linecap="round"/></svg>
+            Select a user to view details
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<!-- ── Add / Edit User Modal ─────────────────────────── -->
+<div class="modal-overlay hidden" id="userModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Add New User</h3>
+      <button class="modal-close" type="button" id="closeModal" title="Close">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-section-title">Personal Information</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Full Name</label>
+          <input type="text" id="fName" placeholder="e.g. Asha Menon" />
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <input type="email" id="fEmail" placeholder="asha@company.com" />
+        </div>
+        <div class="form-field">
+          <label>Password</label>
+          <input type="password" id="fPassword" placeholder="myxysptlk" />
+        </div>
+        <div class="form-field">
+          <label>Please Re-enter Password</label>
+          <input type="password" id="fPassword2" placeholder="myxysptlk" />
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input type="tel" id="fPhone" placeholder="+1 9876543210" />
+        </div>
+        <div class="form-field">
+          <label>Department</label>
+          <select id="fDept">
+            <option value="">Select department</option>
+            <option>Finance</option>
+            <option>Operations</option>
+            <option>IT</option>
+            <option>Compliance</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-title" style="margin-top:4px">Access Configuration</div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Role Template</label>
+          <select id="fRole">
+            <option value="">Select role</option>
+            <option>Entity Admin</option>
+            <option>Finance Controller</option>
+            <option>AR Manager</option>
+            <option>AP Manager</option>
+            <option>Viewer</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Approval Level</label>
+          <select id="fLevel">
+            <option value="">Select level</option>
+            <option>Level 1 &mdash; Collector</option>
+            <option>Level 2 &mdash; Team Lead</option>
+            <option>Level 3 &mdash; Manager</option>
+            <option>Level 4 &mdash; Controller</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Entity Scope</label>
+          <select id="fScope">
+            <option>This Entity Only</option>
+            <option>All Entities</option>
+            <option>Custom Selection</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Special Restriction</label>
+          <select id="fRestriction">
+            <option>No Restriction</option>
+            <option>Read Only After 8 PM</option>
+            <option>No Exception Override</option>
+            <option>View Only &mdash; No Edit</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label>Notes</label>
+          <textarea id="fNotes" placeholder="Optional onboarding notes or access justification&hellip;"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" type="button" id="cancelModal">Cancel</button>
+      <button class="btn primary" type="button" id="saveUserBtn">Save User</button>
+    </div>
+  </div>
+</div>

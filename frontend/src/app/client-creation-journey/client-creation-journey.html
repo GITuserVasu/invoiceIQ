@@ -1,0 +1,492 @@
+<div class="app">
+    <div class="header-stack">
+      <div class="section-top">
+        <div class="section-title">
+          <div class=" eProbito-brand" aria-label=" eProbito-logo">
+            <span><strong>{{tenantName}}</strong></span>
+          </div>
+          <b>Dashboard</b>
+          <div class="crumb">  Dashboard > Entity Creation Journey</div>
+        </div>
+        <div class="mini-stats">
+          <div class="spark">
+            <i style="height: 10px;"></i><i style="height: 18px;"></i><i style="height: 12px;"></i><i style="height: 22px;"></i><i style="height: 15px;"></i><i style="height: 24px;"></i>
+          </div>
+          <div class="global-actions">
+            <input class="search" type="text" placeholder="Search..." aria-label="Search" />
+            <button class="icon-btn notif-btn" type="button" title="Notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></button>
+            <span class="avatar" id="topBarAvatar" title="My Account">?</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <main class="content">
+      <section class="hero">
+        <h1 id="journeyHeading">Entity Creation Journey</h1>
+        <p>Step-by-step onboarding: create the entity profile, configure the document intake mode (Accounting Package/ERP Touchless API, manual upload, or vendor portal), enable user access, then activate AI models, classification, and provider governance. Override any default before publishing.</p>
+        <div class="hero-meta">
+          <span class="hero-pill">Super Admin</span>
+          <span class="hero-pill">Access + Credentials Enabled</span>
+          <span class="hero-pill">Default Modules: ON</span>
+          <span class="hero-pill">AP + AR Scope Configurable</span>
+        </div>
+      </section>
+
+      <section class="stepper">
+        <div class="step active"><b>1. Entity Profile</b><p>Entity name, industry, region, and legal setup.</p></div>
+        <div class="step"><b>2. Intake Mode</b><p>Accounting Package/ERP touchless API, document upload, or vendor portal.</p></div>
+        <div class="step"><b>3. User Access</b><p>Admin credentials, roles, and RBAC policies.</p></div>
+        <div class="step"><b>4. AP / AR Scope</b><p>Enable Accounts Payable, Receivable, or both.</p></div>
+        <div class="step"><b>5. Review &amp; Publish</b><p>Validate config and create the entity record.</p></div>
+        <div class="step"><b>6. Models &amp; Quality</b><p>Assign AI models and prompt versions.</p></div>
+        <div class="step"><b>7. Classification</b><p>Document classification rules and class labels.</p></div>
+        <div class="step"><b>8. Provider Gov</b><p>Register and assign document providers.</p></div>
+        <div class="step"><b>9. Go-Live</b><p>API integrations, health checks, final review.</p></div>
+      </section>
+
+      <section class="layout">
+        <article class="panel">
+          <header class="panel-head">
+            <h2 id="journeyFormTitle">Creation Journey Form</h2>
+            <span class="subtle">Defaults are ON after onboarding access grant</span>
+          </header>
+
+          <form class="form-grid" id="journeyForm">
+            <div class="field">
+              <label for="clientId">Entity ID</label>
+              <input id="clientId" type="text" placeholder="e.g. CL-10042" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="clientName">Entity Name</label>
+              <input id="clientName" type="text" placeholder="e.g. Northline Retail Ltd." autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label for="industry">Industry</label>
+              <select id="industry">
+                <option value="retail" selected>Retail</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="healthcare">Healthcare</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="region">Region</label>
+              <select id="region">
+                <option value="apac" selected>APAC</option>
+                <option value="emea">EMEA</option>
+                <option value="americas">Americas</option>
+              </select>
+            </div>
+
+            <!-- Intake Mode Selector -->
+            <div class="field full">
+              <label>Document Intake Mode</label>
+              <div class="intake-selector" id="intakeModeSelector">
+                <div class="intake-option selected" data-intake="sap" tabindex="0" role="checkbox" aria-checked="true" aria-label="Touchless API">
+                  <input type="checkbox" value="sap" id="intakeSap" checked />
+                  <span class="intake-icon">⚡</span>
+                  <span class="intake-title">Accounting Package / ERP Touchless API</span>
+                  <span class="intake-desc">Fully automated. Documents pulled directly from QuickBooks, Xero, SAP, Oracle, or any ERP via API. Zero manual upload required.</span>
+                  <span class="intake-check" aria-hidden="true">✓</span>
+                </div>
+                <div class="intake-option" data-intake="upload" tabindex="0" role="checkbox" aria-checked="false" aria-label="Document Upload Portal">
+                  <input type="checkbox" value="upload" id="intakeUpload" />
+                  <span class="intake-icon">⬆</span>
+                  <span class="intake-title">Document Upload Portal</span>
+                  <span class="intake-desc">Client staff upload invoices, POs, and GRNs manually through the secure portal. Supports PDF, XML, and image formats.</span>
+                  <span class="intake-check" aria-hidden="true">✓</span>
+                </div>
+                <div class="intake-option" data-intake="vendor" tabindex="0" role="checkbox" aria-checked="false" aria-label="Vendor Portal">
+                  <input type="checkbox" value="vendor" id="intakeVendor" />
+                  <span class="intake-icon">🏢</span>
+                  <span class="intake-title">Vendor Portal</span>
+                  <span class="intake-desc">Suppliers submit invoices and supporting documents directly via a vendor-facing portal. Ideal for high vendor volume clients.</span>
+                  <span class="intake-check" aria-hidden="true">✓</span>
+                </div>
+                <div class="intake-option" data-intake="mail" tabindex="0" role="checkbox" aria-checked="false" aria-label="Mail Connector">
+                  <input type="checkbox" value="mail" id="intakeMail" />
+                  <span class="intake-icon">✉</span>
+                  <span class="intake-title">Mail Connector</span>
+                  <span class="intake-desc">Connect Gmail or another mailbox to pull invoice emails and attachments into document processing.</span>
+                  <span class="intake-check" aria-hidden="true">✓</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SAP Config (shown when SAP selected) -->
+            <div class="intake-config" id="sapConfig">
+              <p class="intake-config-title">⚡ Accounting Package / ERP Connection Settings</p>
+              <div class="field">
+                <label for="sapEndpoint"> API Endpoint URL</label>
+                <input id="sapEndpoint" type="text" placeholder="https://sap-prod.company.com/api/v1" />
+              </div>
+              <div class="field">
+                <label for="sapClientId"> Client ID</label>
+                <input id="sapClientId" type="text" placeholder="CLT-XXXX" />
+              </div>
+              <div class="field">
+                <label for="sapApiKey">API Key / Bearer Token</label>
+                <input id="sapApiKey" type="password" placeholder="••••••••••••••••" />
+              </div>
+              <div class="field">
+                <label for="sapDocTypes">Document Types to Sync</label>
+                <select id="sapDocTypes">
+                  <option value="invoices,po,grn" selected>Invoices + PO + GRN</option>
+                  <option value="invoices">Invoices Only</option>
+                  <option value="invoices,po">Invoices + PO</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Upload Config (shown when Upload selected) -->
+            <div class="intake-config" id="uploadConfig" hidden>
+              <p class="intake-config-title">⬆ Document Upload Portal Settings</p>
+              <div class="field">
+                <label for="uploadMaxSize">Max File Size Per Upload</label>
+                <select id="uploadMaxSize">
+                  <option value="10mb" selected>10 MB</option>
+                  <option value="25mb">25 MB</option>
+                  <option value="50mb">50 MB</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="uploadFormats">Accepted File Formats</label>
+                <select id="uploadFormats">
+                  <option value="pdf,xml,jpg,png" selected>PDF, XML, JPG, PNG</option>
+                  <option value="pdf">PDF Only</option>
+                  <option value="pdf,xml">PDF + XML</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Vendor Portal Config (shown when Vendor selected) -->
+            <div class="intake-config" id="vendorConfig" hidden>
+              <p class="intake-config-title">🏢 Vendor Portal Settings</p>
+              <div class="field">
+                <label for="vendorPortalUrl">Vendor Portal URL</label>
+                <input id="vendorPortalUrl" type="text" placeholder="https://vendor.company.com" />
+              </div>
+              <div class="field">
+                <label for="vendorAutoApprove">Submission Review Mode</label>
+                <select id="vendorAutoApprove">
+                  <option value="false" selected>Require Manual Review</option>
+                  <option value="true">Auto-Approve Trusted Vendors</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="intake-config" id="mailConfig" hidden>
+              <p class="intake-config-title">✉ Mail Connector Settings</p>
+              <div class="field">
+                <label for="mailProvider">Mail Provider</label>
+                <select id="mailProvider">
+                  <option value="gmail" selected>Gmail / Google Workspace</option>
+                  <option value="microsoft365">Microsoft 365 / Outlook</option>
+                  <option value="imap">Other IMAP Mailbox</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="mailboxAddress">Mailbox Address</label>
+                <input id="mailboxAddress" type="email" placeholder="invoices&#64;company.com" />
+              </div>
+              <div class="field">
+                <label for="mailUsername">Mail Username</label>
+                <input id="mailUsername" type="text" placeholder="invoices&#64;company.com" autocomplete="username" />
+              </div>
+              <div class="field">
+                <label for="mailPassword">Mail Password / App Password</label>
+                <input id="mailPassword" type="password" placeholder="••••••••••••••••" autocomplete="current-password" />
+              </div>
+              <div class="field">
+                <label for="mailFolder">Folder to Monitor</label>
+                <select id="mailFolder">
+                  <option value="inbox" selected>Inbox</option>
+                  <option value="invoices">Invoices</option>
+                  <option value="ap">Accounts Payable</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="mailSyncFrequency">Sync Frequency</label>
+                <select id="mailSyncFrequency">
+                  <option value="every_5_minutes" selected>Every 5 minutes</option>
+                  <option value="every_15_minutes">Every 15 minutes</option>
+                  <option value="hourly">Hourly</option>
+                </select>
+              </div>
+              <div class="field full">
+                <button class="btn" id="connectMailBtn" type="button">Connect Gmail</button>
+                <span class="subtle" id="mailConnectionStatus" style="margin-left:8px;">Not connected. Use OAuth or an app password, not your regular Gmail password.</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="adminEmail">Primary Admin Email</label>
+              <input id="adminEmail" type="email" placeholder="e.g. admin@company.com" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="adminUsername">Primary Admin Username</label>
+              <input id="adminUsername" type="text" placeholder="e.g. john.smith" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label for="adminPassword">Primary Admin Password</label>
+              <input id="adminPassword" type="password" placeholder="Min 8 characters" autocomplete="new-password" />
+            </div>
+            <div class="field">
+              <label for="defaultRole">Default Role For First User</label>
+              <select id="defaultRole">
+                <option value="entity_admin" selected>Entity Admin</option>
+                <option value="ar_manager">AR Manager</option>
+                <option value="ap_manager">AP Manager</option>
+                <option value="finance_controller">Finance Controller</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="notes">Onboarding Notes</label>
+              <textarea id="notes" placeholder="Optional onboarding notes for this entity..."></textarea>
+            </div>
+          </form>
+
+          <section class="module-item" id="matchingPolicyModule" style="margin-top:14px">
+            <div class="module-head">
+              <div class="module-title">Matching And Compliance Setup</div>
+              <span class="badge ok">Entity-level policy</span>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="matchingMode">Matching Method</label>
+                <select id="matchingMode">
+                  <option value="two_way">2-Way: Purchase Order + Invoice</option>
+                  <option value="three_way" selected>3-Way: Purchase Order + Invoice + GRN</option>
+                  <option value="four_way">4-Way: PO + Invoice + GRN + Inspection</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="poSource">Purchase Order Source</label>
+                <select id="poSource">
+                  <option value="sap">Touchless API</option>
+                  <option value="excel">Excel Upload</option>
+                  <option value="manual">Manual Upload</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="grnSource">GRN Source</label>
+                <select id="grnSource">
+                  <option value="sap">Touchless API</option>
+                  <option value="excel">Excel Upload</option>
+                  <option value="vendor_portal">Vendor Portal</option>
+                  <option value="not_applicable">Not Applicable</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="inspectionSource">Inspection / Service Entry</label>
+                <select id="inspectionSource">
+                  <option value="not_applicable" selected>Not Applicable</option>
+                  <option value="sap">Touchless API</option>
+                  <option value="excel">Excel Upload</option>
+                  <option value="quality_api">Quality API</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="ewayBillMode">E-Way Bill Policy</label>
+                <select id="ewayBillMode">
+                  <option value="not_applicable">Not Applicable</option>
+                  <option value="optional">Optional</option>
+                  <option value="required">Required</option>
+                  <option value="required_above_threshold" selected>Required Above Threshold</option>
+                </select>
+              </div>
+              <div class="field" id="ewayThresholdField">
+                <label for="ewayBillThreshold">E-Way Bill Threshold</label>
+                <input id="ewayBillThreshold" type="number" min="0" step="1000" value="50000" />
+              </div>
+              <div class="field full">
+                <div class="note" id="matchingPolicySummary">3-way matching will validate PO, invoice, and GRN. E-Way Bill is required above ₹50,000.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Module selector strip -->
+          <div class="module-selector">
+            <span class="ms-label">Enable modules:</span>
+
+            <label class="mod-toggle active" id="tog-apScope">
+              <input type="checkbox" data-target="mod-apScope" checked />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">📊</span> AP / AR Scope
+            </label>
+
+            <label class="mod-toggle active" id="tog-userAccess">
+              <input type="checkbox" data-target="mod-userAccess" checked />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">👥</span> User Access
+            </label>
+
+            <label class="mod-toggle active" id="tog-models">
+              <input type="checkbox" data-target="mod-models" checked />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">🤖</span> AI Models
+            </label>
+
+            <label class="mod-toggle active" id="tog-classification">
+              <input type="checkbox" data-target="mod-classification" checked />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">📄</span> Classification
+            </label>
+
+            <label class="mod-toggle active" id="tog-providerGov">
+              <input type="checkbox" data-target="mod-providerGov" checked />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">🛡️</span> Provider Governance
+            </label>
+
+            <label class="mod-toggle" id="tog-apiIntegrations">
+              <input type="checkbox" data-target="mod-apiIntegrations" />
+              <span class="mt-check">✓</span>
+              <span class="mt-icon">🔌</span> API Integrations
+            </label>
+          </div>
+
+          <section class="module-grid">
+
+            <article class="module-item" id="mod-apScope">
+              <div class="module-head">
+                <div class="module-title">AP / AR Project Scope</div>
+                <span class="badge ok">Both Active By Default</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableAP" checked /> Accounts Payable (AP) — invoice processing, 3-way match, vendor payments</label>
+                <label><input type="checkbox" id="enableAR" checked /> Accounts Receivable (AR) — invoice generation, collections, reconciliation</label>
+              </div>
+            </article>
+
+            <article class="module-item" id="mod-userAccess">
+              <div class="module-head">
+                <div class="module-title">User Creation Access</div>
+                <span class="badge ok">Enabled By Default</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableUserCreation" checked /> Enable user creation screen</label>
+                <label><input type="checkbox" id="enableRbac" checked /> Enable role-based access</label>
+              </div>
+            </article>
+
+            <article class="module-item" id="mod-models">
+              <div class="module-head">
+                <div class="module-title">AI Model Integration</div>
+                <span class="badge ok">Enabled By Default</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableModelIntegration" checked /> Enable model assignment</label>
+                <label><input type="checkbox" id="enablePromptVersion" checked /> Enable prompt versioning</label>
+              </div>
+            </article>
+
+            <article class="module-item" id="mod-classification">
+              <div class="module-head">
+                <div class="module-title">Document Classification</div>
+                <span class="badge ok">Enabled By Default</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableClassification" checked /> Enable classification process</label>
+                <label><input type="checkbox" id="enableClassOverride" checked /> Allow class override</label>
+              </div>
+            </article>
+
+            <article class="module-item" id="mod-providerGov">
+              <div class="module-head">
+                <div class="module-title">Provider Governance</div>
+                <span class="badge ok">Enabled By Default</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableProviderGov" checked /> Enable provider governance</label>
+                <label><input type="checkbox" id="enableFallbackRouting" checked /> Enable fallback routing</label>
+              </div>
+            </article>
+
+            <article class="module-item" id="mod-apiIntegrations" hidden>
+              <div class="module-head">
+                <div class="module-title">🔌 API Integrations</div>
+                <span class="badge warn">Optional — Configure After Go-Live</span>
+              </div>
+              <div class="toggle-row">
+                <label><input type="checkbox" id="enableGstApi" checked /> GST &amp; Tax APIs (GSTIN, E-Invoice, E-Way Bill)</label>
+                <label><input type="checkbox" id="enableKycApi" checked /> Identity &amp; KYC (Aadhaar OTP, PAN Verification)</label>
+                <label><input type="checkbox" id="enableBankApi" checked /> Banking APIs (Penny Drop, IFSC, UPI Verification)</label>
+                <label><input type="checkbox" id="enableBizApi" /> Business Compliance (MCA21, MSME, CIBIL, IEC)</label>
+              </div>
+            </article>
+
+          </section>
+
+          <div class="actions">
+            <button class="btn" id="validateBtn" type="button">Validate</button>
+            <button class="btn primary" id="publishBtn" type="button">Create Entity Journey</button>
+          </div>
+        </article>
+
+        <article class="panel">
+          <header class="panel-head">
+            <h2>Configuration Summary</h2>
+            <span class="subtle">Review before creating</span>
+          </header>
+          <div class="note" id="statusText">Fill in the entity details and click Create Entity Journey when ready.</div>
+
+          <section class="output-table-section">
+            <div class="created-clients-head">
+              <div>
+                <h3>Configuration Table</h3>
+                <span class="subtle">Selected form and dropdown values</span>
+              </div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Setting</th>
+                    <th>Selected Value</th>
+                  </tr>
+                </thead>
+                <tbody id="configurationSnapshotBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="output-table-section">
+            <div class="created-clients-head">
+              <div>
+                <h3>Role Engine</h3>
+                <span class="subtle" id="roleEngineStatus">Roles generated from AP / AR scope</span>
+              </div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Scope</th>
+                    <th>Permissions</th>
+                    <th>Assignment</th>
+                  </tr>
+                </thead>
+                <tbody id="roleEngineBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="created-clients">
+            <div class="created-clients-head">
+              <h3>After Creation</h3>
+              <span class="subtle" id="createdEntitiesCount">Entity link will appear here</span>
+            </div>
+            <div id="postCreateLinks" class="post-create-area">
+              <p class="post-create-hint">Once the entity is created, you will see a direct link to its dashboard and next steps here.</p>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+  </div>

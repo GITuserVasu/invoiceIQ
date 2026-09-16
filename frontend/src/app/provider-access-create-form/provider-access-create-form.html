@@ -1,0 +1,69 @@
+<div class="app">
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+           
+          <span>EY</span>
+        </div>
+        <b>Provider Access</b>
+        <div class="crumb">  Create Provider Access</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="pac-content">
+    <div class="pac-hero">
+      <h1>Create Provider Access</h1>
+      <p>Register a new AI provider with its connection credentials. Assign it to entities from Provider Governance.</p>
+    </div>
+
+    <div class="pac-panel">
+      <div class="pac-panel-head"><b>Provider Details</b></div>
+      <div class="pac-form">
+        <div class="pac-field">
+          <label>Provider Name <span class="req">*</span></label>
+          <input type="text" id="providerName" placeholder="e.g. OpenAI Production" />
+        </div>
+        <div class="pac-field">
+          <label>Provider Type</label>
+          <select id="providerType">
+            <option value="AI Model">AI Model</option>
+            <option value="OCR Engine">OCR Engine</option>
+            <option value="Document Classifier">Document Classifier</option>
+          </select>
+        </div>
+        <div class="pac-field full">
+          <label>API Endpoint URL <span class="req">*</span></label>
+          <input type="url" id="apiEndpoint" placeholder="https://api.provider.com/v1" />
+        </div>
+        <div class="pac-field">
+          <label>Authentication Type</label>
+          <select id="authType">
+            <option value="Bearer">Bearer Token</option>
+            <option value="API Key">API Key</option>
+            <option value="OAuth2">OAuth 2.0</option>
+          </select>
+        </div>
+        <div class="pac-field">
+          <label>Environment</label>
+          <select id="envType">
+            <option value="Production">Production</option>
+            <option value="Staging">Staging</option>
+          </select>
+        </div>
+        <div class="pac-field full">
+          <label>API Key / Token <span class="req">*</span></label>
+          <input type="password" id="apiKey" placeholder="sk-••••••••••••••••" autocomplete="new-password" />
+        </div>
+      </div>
+      <div class="pac-footer">
+        <div class="pac-note">To assign this provider to an entity, go to <a href="/provider-governance">Provider Governance</a> after creation.</div>
+        <div class="pac-footer-actions">
+          <div id="providerCreateStatus" class="pac-status"></div>
+          <button class="pac-btn primary" id="submitProviderBtn" type="button">Create Provider</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,17 @@
+@if (isLoading()) {
+  <div class="global-loader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="global-loader-card">
+      <span class="global-loader-spinner" aria-hidden="true"></span>
+      <span>Loading...</span>
+    </div>
+  </div>
+}
+
+<div class="app-shell">
+  @if (showSidebar()) {
+    <app-sidebar></app-sidebar>
+  }
+  <div class="app-main" [class.full-width]="!showSidebar()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

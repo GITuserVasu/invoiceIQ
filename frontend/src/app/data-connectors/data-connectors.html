@@ -1,0 +1,273 @@
+<div class="app">
+
+  <!-- ── Sticky Header ─────────────────────────────────────────────── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+          <svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+            <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+            <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+          </svg>
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Entity Admin</b>
+        <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Data Connectors</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72">Entity Admin</span>
+        <a class="chip" href="/entities">&#8592; All Entities</a>
+        <a class="chip" id="backToDashboardLink" href="/entity-dashboard">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Content ───────────────────────────────────────────────── -->
+  <main class="content">
+
+    <!-- Process Steps Bar -->
+    <div class="process-bar">
+      <div class="process-step done">
+        <div class="ps-num">1</div>
+        <div class="ps-label">Configure<br>Credentials</div>
+        <div class="ps-arrow">&#8250;</div>
+      </div>
+      <div class="process-step done">
+        <div class="ps-num">2</div>
+        <div class="ps-label">Trigger<br>Sync</div>
+        <div class="ps-arrow">&#8250;</div>
+      </div>
+      <div class="process-step done">
+        <div class="ps-num">3</div>
+        <div class="ps-label">Upload<br>Documents</div>
+        <div class="ps-arrow">&#8250;</div>
+      </div>
+      <div class="process-step active">
+        <div class="ps-num">4</div>
+        <div class="ps-label">Run<br>3-Way Match</div>
+        <div class="ps-arrow">&#8250;</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">5</div>
+        <div class="ps-label">Review<br>Variances</div>
+        <div class="ps-arrow">&#8250;</div>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">6</div>
+        <div class="ps-label">Approve<br>Payment</div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 1: Connectors ─────────────────────────────────────── -->
+    <div class="dc-section">
+      <div class="dc-section-head">
+        <div>
+          <h2 class="dc-section-title">Step 1 &amp; 2 — Configure &amp; Sync Connectors</h2>
+          <p class="dc-section-sub">Each connector reads from <code>entity_intake_channels</code>. Click <b>Configure</b> to set credentials, then <b>Sync Now</b> to pull documents.</p>
+        </div>
+        <div class="dc-section-tags">
+          <span class="tag-badge sap">ERP/Accounting Data</span>
+          <span class="tag-badge mail">Gmail / M365 / IMAP</span>
+          <span class="tag-badge vendor">Vendor Portal REST</span>
+        </div>
+      </div>
+
+      <div id="connectorGrid" class="connector-grid">
+        <!-- rendered by Angular component -->
+        <div class="connector-card skeleton"></div>
+        <div class="connector-card skeleton"></div>
+        <div class="connector-card skeleton"></div>
+      </div>
+
+      <!-- How connectors work callout -->
+      <div class="how-it-works">
+        <b>How credentials are stored</b>
+        <ol class="hiw-steps">
+          <li>Credentials are saved to <code>entity_intake_channels.connection_settings</code> (JSONB column in PostgreSQL).</li>
+          <li>When you click <b>Sync Now</b>, the backend reads that JSONB, calls the external API, and inserts rows into <code>ap_purchase_orders</code>, <code>ap_goods_receipts</code>, and <code>ap_invoices</code>.</li>
+          <li>Counts of inserted / skipped / error records are returned and shown below each connector card.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: Document Upload ───────────────────────────────── -->
+    <div class="dc-section">
+      <div class="dc-section-head">
+        <div>
+          <h2 class="dc-section-title">Step 3 — Upload Documents Manually</h2>
+          <p class="dc-section-sub">Drag and drop invoice PDFs, PO copies, GRN printouts, e-way bills, or inspection reports. The system detects document type automatically.</p>
+        </div>
+        <div class="accepted-formats">
+          <span class="tag-badge">PDF</span>
+          <span class="tag-badge">XML</span>
+          <span class="tag-badge">XLSX</span>
+          <span class="tag-badge">JPG / PNG</span>
+          <span class="tag-badge">CSV</span>
+        </div>
+      </div>
+
+      <!-- rendered by component based on upload channel status -->
+      <div id="uploadSection"></div>
+
+      <!-- Document type guide -->
+      <div class="doc-guide">
+        <div class="doc-guide-head">Required Documents per Matching Mode</div>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>2-Way Match</th>
+              <th>3-Way Match</th>
+              <th>4-Way Match</th>
+              <th>Accepted Formats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Tax Invoice</b></td>
+              <td class="req">Required</td>
+              <td class="req">Required</td>
+              <td class="req">Required</td>
+              <td>PDF, XML, JPG, PNG</td>
+            </tr>
+            <tr>
+              <td><b>Purchase Order (PO)</b></td>
+              <td class="req">Required</td>
+              <td class="req">Required</td>
+              <td class="req">Required</td>
+              <td>PDF, XML</td>
+            </tr>
+            <tr>
+              <td><b>Goods Receipt Note (GRN)</b></td>
+              <td class="opt">—</td>
+              <td class="req">Required</td>
+              <td class="req">Required</td>
+              <td>PDF, XML</td>
+            </tr>
+            <tr>
+              <td><b>Quality Inspection Report</b></td>
+              <td class="opt">—</td>
+              <td class="opt">—</td>
+              <td class="req">Required</td>
+              <td>PDF, XLSX</td>
+            </tr>
+            <tr>
+              <td><b>E-Way Bill</b></td>
+              <td class="opt">Optional</td>
+              <td class="opt">Optional</td>
+              <td class="opt">Optional</td>
+              <td>PDF, JSON</td>
+            </tr>
+            <tr>
+              <td><b>Debit / Credit Note</b></td>
+              <td class="opt">Optional</td>
+              <td class="opt">Optional</td>
+              <td class="opt">Optional</td>
+              <td>PDF, XML</td>
+            </tr>
+            <tr>
+              <td><b>Bank Statement</b></td>
+              <td class="opt">—</td>
+              <td class="opt">—</td>
+              <td class="opt">Reconciliation</td>
+              <td>PDF, XLSX, CSV</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: Match Engine ──────────────────────────────────── -->
+    <div class="dc-section">
+      <div class="dc-section-head">
+        <div>
+          <h2 class="dc-section-title">Step 4 — Run 3-Way / 4-Way Match</h2>
+          <p class="dc-section-sub">Matches all pending invoices against their linked PO and GRN. Variances within configured tolerance are auto-resolved. The rest become exceptions.</p>
+        </div>
+      </div>
+
+      <div class="match-explained">
+        <div class="me-step">
+          <div class="me-icon" style="background:rgba(10,93,114,.1);color:#0a5d72">&#128196;</div>
+          <div><b>Invoice</b><p>Amount, GSTIN, currency, line items</p></div>
+        </div>
+        <div class="me-arrow">&#8644;</div>
+        <div class="me-step">
+          <div class="me-icon" style="background:rgba(91,63,168,.1);color:#5b3fa8">&#128203;</div>
+          <div><b>Purchase Order</b><p>Ordered qty, unit price, PO number</p></div>
+        </div>
+        <div class="me-arrow">&#8644;</div>
+        <div class="me-step">
+          <div class="me-icon" style="background:rgba(122,74,16,.1);color:#7a4a10">&#128666;</div>
+          <div><b>Goods Receipt</b><p>Received qty, acceptance status, GRN date</p></div>
+        </div>
+        <div class="me-arrow me-optional">&#8644; (4-way)</div>
+        <div class="me-step me-optional-step">
+          <div class="me-icon" style="background:rgba(180,83,9,.1);color:#b45309">&#10003;</div>
+          <div><b>Inspection Report</b><p>Quality check, accepted/rejected qty</p></div>
+        </div>
+      </div>
+
+      <div class="match-tolerance-info">
+        <b>Default Tolerance Rules</b>
+        <div class="tol-grid">
+          <div class="tol-item"><span class="tol-label">Amount Tolerance</span><span class="tol-val">±2%</span></div>
+          <div class="tol-item"><span class="tol-label">Quantity Tolerance</span><span class="tol-val">±5%</span></div>
+          <div class="tol-item"><span class="tol-label">Tax Tolerance</span><span class="tol-val">±1%</span></div>
+          <div class="tol-item"><span class="tol-label">Price per Unit Tolerance</span><span class="tol-val">±3%</span></div>
+          <div class="tol-item"><span class="tol-label">Vendor GSTIN</span><span class="tol-val">Exact Match</span></div>
+          <div class="tol-item"><span class="tol-label">Currency</span><span class="tol-val">Exact Match</span></div>
+        </div>
+      </div>
+
+      <div class="match-action-row">
+        <button id="runMatchBtn" class="btn-match">
+          &#9654;&nbsp; Run 3-Way Match Now
+        </button>
+        <span class="match-note">This processes all invoices with status <code>pending</code> or <code>unmatched</code>.</span>
+      </div>
+
+      <div id="matchResults"></div>
+    </div>
+
+    <!-- ── SECTION 4: What happens next ─────────────────────────────── -->
+    <div class="dc-section">
+      <h2 class="dc-section-title">Step 5 &amp; 6 — Variances &amp; Payment Approval</h2>
+      <p class="dc-section-sub">After matching, invoices with variances appear in the Exceptions queue. Approved invoices move to payment.</p>
+
+      <div class="next-steps-grid">
+        <a class="next-card" href="#" id="linkExceptions">
+          <div class="nc-icon" style="color:#b91c1c">&#9888;</div>
+          <div>
+            <b>Exception Queue</b>
+            <p>Review invoices with open variances, tolerance breaches, or blocked GSTINs.</p>
+          </div>
+          <div class="nc-arrow">&#8250;</div>
+        </a>
+        <a class="next-card" href="#" id="linkReconciliation">
+          <div class="nc-icon" style="color:#1a7a4a">&#9989;</div>
+          <div>
+            <b>Reconciliation</b>
+            <p>View matched invoices, approve for payment, and generate bank transfers.</p>
+          </div>
+          <div class="nc-arrow">&#8250;</div>
+        </a>
+        <a class="next-card" href="#" id="linkTransactions">
+          <div class="nc-icon" style="color:#0a5d72">&#128230;</div>
+          <div>
+            <b>Transaction Pipeline</b>
+            <p>Track document processing batches from upload through to payment status.</p>
+          </div>
+          <div class="nc-arrow">&#8250;</div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Config Modal ──────────────────────────────────────────── -->
+<div id="configModal" class="modal-overlay" style="display:none"></div>
+
+<!-- ── Toast ─────────────────────────────────────────────────── -->
+<div id="toastMsg" class="toast-msg"></div>

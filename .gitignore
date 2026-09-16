@@ -1,0 +1,11 @@
+.vs/
+backend.zip
+database.zip
+frontend.zip
+database_bk_15-08-2026.sql
+backend/.venv/
+backend/dist/
+backend/node_modules/
+frontend/.vscode/
+frontend/dist/
+frontend/node_modules/

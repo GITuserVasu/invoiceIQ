@@ -1,0 +1,307 @@
+<div class="header-stack">
+  <div class="section-top">
+    <div class="section-title">
+      <div class=" eProbito-brand">
+        <!--<svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+          <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+          <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+        </svg>-->
+        <span><strong>{{tenantName}}</strong></span>
+      </div>
+      <b>Entity Admin</b>
+      <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Exception Queue</div>
+    </div>
+    <div class="global-actions">
+      <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72">Entity Admin</span>
+      <a class="chip" href="/entities">&#8592; All Entities</a>
+    </div>
+  </div>
+</div>
+
+<main class="shell">
+  <header class="topbar">
+    <div>
+      <div class="crumb">Accounts Payable / Control Desk</div>
+      <h1>Exception Queue and SLA Escalation</h1>
+      <p class="subtitle">Mismatch triage, ownership, SLA clocks, and approval escalations in one workspace.</p>
+    </div>
+    <div class="top-actions">
+      <a class="chip" href="/entities">&#8592; All Entities</a>
+      <span class="entity-context" id="entityContext">Entity scope: Northline Retail</span>
+      <button class="btn" type="button" id="refreshBtn">Refresh Queue</button>
+      <button class="btn" type="button" id="slaRulesBtn">SLA &amp; Escalation Rules</button>
+      <button class="btn primary" type="button" id="newExceptionBtn">+ Create Exception</button>
+    </div>
+  </header>
+
+  <section class="kpis">
+    <article class="kpi">
+      <div class="kpi-label">Open Exceptions</div>
+      <div class="kpi-value" id="openCount">0</div>
+      <div class="kpi-meta">Across AP entities</div>
+    </article>
+    <article class="kpi red">
+      <div class="kpi-label">SLA Breached</div>
+      <div class="kpi-value" id="breachedCount">0</div>
+      <div class="kpi-meta">Require immediate action</div>
+    </article>
+    <article class="kpi amber">
+      <div class="kpi-label">High Value at Risk</div>
+      <div class="kpi-value" id="valueAtRisk">&#8377; 0</div>
+      <div class="kpi-meta">Unresolved amount</div>
+    </article>
+    <article class="kpi green">
+      <div class="kpi-label">Escalated Today</div>
+      <div class="kpi-value" id="escalatedCount">0</div>
+      <div class="kpi-meta">Approval matrix handoffs</div>
+    </article>
+  </section>
+
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Mismatch Triage Queue</h2>
+          <div class="panel-note">Filter by severity, ownership, business unit, reason code, and SLA state.</div>
+        </div>
+        <span class="status-dot">Live queue</span>
+      </div>
+
+      <div class="filter-grid">
+        <div class="field">
+          <label for="severityFilter">Severity</label>
+          <select id="severityFilter">
+            <option value="">All severities</option>
+            <option value="critical">Critical</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="businessUnitFilter">Business Unit</label>
+          <select id="businessUnitFilter">
+            <option value="">All business units</option>
+            <option value="Consumer">Consumer</option>
+            <option value="Shared Services">Shared Services</option>
+            <option value="Wholesale">Wholesale</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="entityFilter">Entity</label>
+          <select id="entityFilter" disabled>
+            <option value="">Entity scoped view</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="slaFilter">SLA State</label>
+          <select id="slaFilter">
+            <option value="">All SLA states</option>
+            <option value="breached">Breached</option>
+            <option value="warning">Due within 2 hours</option>
+            <option value="ok">Within SLA</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="searchFilter">Search exception, invoice, vendor, or reason code</label>
+          <input id="searchFilter" type="search" placeholder="Try EXC-24018, quantity variance, or vendor name" />
+        </div>
+        <div class="filter-actions full">
+          <button class="btn primary" type="button" id="applyFiltersBtn">Apply Filters</button>
+          <button class="btn ghost" type="button" id="clearFiltersBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="bulk-bar" id="bulkBar">
+        <div class="bulk-left">
+          <span class="bulk-count" id="selectedCount">0 selected</span>
+          <select id="bulkAction">
+            <option value="">Choose bulk action</option>
+            <option value="assign">Assign owner</option>
+            <option value="tag">Apply root-cause tag</option>
+            <option value="escalate">Escalate selected</option>
+            <option value="close">Mark resolved</option>
+          </select>
+          <select id="bulkOwner" hidden>
+            <option value="">— Select owner —</option>
+          </select>
+        </div>
+        <div class="bulk-right">
+          <button class="btn primary" type="button" id="applyBulkBtn">Apply Action</button>
+          <button class="btn ghost" type="button" id="clearSelectionBtn">Clear Selection</button>
+        </div>
+      </div>
+
+      <div class="queue-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><input id="selectAll" type="checkbox" aria-label="Select all exceptions" /></th>
+              <th>Exception</th>
+              <th>Severity</th>
+              <th>Entity / BU</th>
+              <th>Amount</th>
+              <th>Owner</th>
+              <th>SLA clock</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="queueBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <aside class="panel detail">
+      <div class="detail-empty" id="detailEmpty">
+        <strong>Select an exception</strong>
+        Review ownership, root cause, SLA history, and escalation options.
+      </div>
+      <div class="detail-body" id="detailBody">
+        <div class="panel-head">
+          <div>
+            <div class="crumb" id="detailId">EXC-24018</div>
+            <div class="detail-title" id="detailTitle"></div>
+            <div class="detail-meta" id="detailMeta"></div>
+          </div>
+          <span class="pill critical" id="detailSeverity"></span>
+        </div>
+
+        <div class="sla-card">
+          <div class="sla-card-top">
+            <div>
+              <div class="panel-note">Current SLA clock</div>
+              <div class="sla-big" id="detailSla"></div>
+            </div>
+            <span class="pill" id="detailSlaState"></span>
+          </div>
+          <div class="sla-track"><span id="detailSlaTrack"></span></div>
+          <div class="panel-note" id="detailDue"></div>
+        </div>
+
+        <div class="detail-section">
+          <h3>Ownership</h3>
+          <div class="two-col">
+            <div class="field">
+              <label for="ownerSelect">Primary owner</label>
+              <select id="ownerSelect"></select>
+            </div>
+            <div class="field">
+              <label for="backupSelect">Backup owner</label>
+              <select id="backupSelect"></select>
+            </div>
+          </div>
+          <button class="btn primary" type="button" id="saveOwnershipBtn" style="margin-top:9px;width:100%">Save Ownership</button>
+        </div>
+
+        <div class="detail-section">
+          <h3>Root-cause tags</h3>
+          <div class="tag-list" id="rootCauseTags">
+            <button class="tag" type="button" data-tag="PO data quality">PO data quality</button>
+            <button class="tag" type="button" data-tag="Vendor master">Vendor master</button>
+            <button class="tag" type="button" data-tag="Missing GRN">Missing GRN</button>
+            <button class="tag" type="button" data-tag="Tax mismatch">Tax mismatch</button>
+            <button class="tag" type="button" data-tag="Duplicate invoice">Duplicate invoice</button>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h3>Escalation history</h3>
+          <div class="timeline" id="timeline"></div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn purple" type="button" id="escalateBtn">Escalate to Approval Matrix</button>
+          <button class="btn" type="button" id="resolveBtn">Resolve</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<div class="modal-backdrop" id="escalationModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Escalate to Approval Matrix</h2>
+        <div class="panel-note">Route unresolved high-value exceptions to the configured approval chain.</div>
+      </div>
+      <button class="modal-close" type="button" data-close="escalationModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="callout">This exception will be assigned to the next approval level and the owner plus backup owner will receive a breach notification.</div>
+      <div class="filter-grid">
+        <div class="field">
+          <label for="approvalPolicy">Approval policy</label>
+          <select id="approvalPolicy">
+            <option>AP Exception - 4 Level</option>
+            <option>High Value Override - 3 Level</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="approvalLevel">Route to level</label>
+          <select id="approvalLevel">
+            <option>Level 3 - Manager</option>
+            <option>Level 4 - Controller</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="escalationDue">Approval due in</label>
+          <select id="escalationDue">
+            <option>2 hours</option>
+            <option>4 hours</option>
+            <option>1 business day</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="notifyBackup">Notify backup owner</label>
+          <select id="notifyBackup">
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="escalationReason">Escalation reason</label>
+          <textarea id="escalationReason" rows="3" placeholder="Explain why the exception could not be resolved within SLA"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" type="button" data-close="escalationModal">Cancel</button>
+      <button class="btn purple" type="button" id="submitEscalationBtn">Submit Escalation</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="slaModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>SLA and Auto-Escalation Rules</h2>
+        <div class="panel-note">Configure the clock and approval handoff by exception severity.</div>
+      </div>
+      <button class="modal-close" type="button" data-close="slaModal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="rule-table">
+        <div class="rule-row header"><span>Severity</span><span>Target</span><span>Auto-escalation</span></div>
+        <div class="rule-row"><span><span class="pill critical">Critical</span></span><span>1 hour</span><span>At breach to L4 Controller</span></div>
+        <div class="rule-row"><span><span class="pill high">High</span></span><span>4 hours</span><span>30 min after breach to L3 Manager</span></div>
+        <div class="rule-row"><span><span class="pill medium">Medium</span></span><span>1 business day</span><span>Manual escalation only</span></div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label for="autoEscalationToggle">Auto-escalation engine</label>
+        <select id="autoEscalationToggle">
+          <option>Enabled for critical and high</option>
+          <option>Enabled for critical only</option>
+          <option>Disabled</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" type="button" data-close="slaModal">Cancel</button>
+      <button class="btn primary" type="button" id="saveRulesBtn">Save Rules</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>

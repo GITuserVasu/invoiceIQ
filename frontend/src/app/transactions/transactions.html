@@ -1,0 +1,305 @@
+<div class="app">
+
+  <!-- ── Sticky Header ───────────────────────────────── -->
+  <div class="header-stack">
+    <div class="section-top">
+      <div class="section-title">
+        <div class=" eProbito-brand">
+          <!--<svg viewBox="0 0 38 22" fill="none" aria-hidden="true">
+            <path d="M0 0h15.8v3.4H4.4v5.6h10.6v3.3H4.4v6.3h11.4V22H0Z" fill="#FFE000"/>
+            <path d="M20.4 0h17.6v3.4H24.8v5.6h12v3.3h-12v6.3H38V22H20.4Z" fill="#FFE000"/>
+          </svg>-->
+          <span><strong>{{tenantName}}</strong></span>
+        </div>
+        <b>Entity Admin</b>
+        <div class="crumb"><span id="entityCrumbName">Entity</span> &rsaquo; Transactions</div>
+      </div>
+      <div class="global-actions">
+        <span class="chip" style="background:rgba(13,124,151,.12);border-color:#a2cfe0;color:#0a5d72">Entity Admin</span>
+        <a class="chip" href="/entities">&#8592; All Entities</a>
+        <a class="chip" id="backToDashboardLink" href="/entity-dashboard">Dashboard</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Main Content ──────────────────────────────── -->
+  <main class="content">
+
+    <!-- Entity banner -->
+    <section class="entity-banner">
+      <div class="eb-icon" id="ebIcon">NT</div>
+      <div class="eb-info">
+        <div class="eb-name" id="ebName">Entity</div>
+        <div class="eb-sub" id="ebSub">Document transactions — upload, classify, extract, and review</div>
+      </div>
+      <div class="eb-pills">
+        <span class="eb-pill" id="ebEntityId">ID: —</span>
+        <span class="eb-pill ok" id="ebDocCount">12 Documents</span>
+        <span class="eb-pill">Batch Processing: Active</span>
+      </div>
+    </section>
+
+    <!-- Main panel with tabs -->
+    <article class="panel">
+
+      <!-- Tab bar -->
+      <div class="tab-bar">
+        <button class="tab-btn active" type="button" data-tab="upload">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 10V2m0-2L4 4m3.5-4L11 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11v2a1 1 0 001 1h11a1 1 0 001-1v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Upload
+        </button>
+        <button class="tab-btn" type="button" data-tab="classification">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 3a1 1 0 011-1h4l2 2h4a1 1 0 011 1v7a1 1 0 01-1 1H3a1 1 0 01-1-1V3z" stroke="currentColor" stroke-width="1.5"/><path d="M5 8h5M5 10.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Classification
+        </button>
+        <button class="tab-btn" type="button" data-tab="extraction">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="1.5" width="8" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 5h4M4 7.5h3M4 10h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="11.5" cy="11.5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M13.5 13.5l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Extraction
+        </button>
+        <button class="tab-btn" type="button" data-tab="review">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M5 7.5l2 2 3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Review
+        </button>
+      </div>
+
+      <!-- ── UPLOAD TAB ─────────────────────────────── -->
+      <div class="tab-panel active" id="tab-upload">
+
+        <!-- Source summary strip -->
+        <div class="source-strip">
+          <div class="source-card" id="srcCardAll" data-src="" title="Show all sources">
+            <div class="sc-icon sap" style="background:rgba(13,29,47,.06);border-color:rgba(13,29,47,.12)">📋</div>
+            <div class="sc-info">
+              <div class="sc-count" id="srcCountAll">0</div>
+              <div class="sc-label">All Documents</div>
+              <div class="sc-sub">Click to clear filter</div>
+            </div>
+          </div>
+          <div class="source-card" id="srcCardSap" data-src="sap" title="Filter: SAP Integration">
+            <div class="sc-icon sap">⚡</div>
+            <div class="sc-info">
+              <div class="sc-count" id="srcCountSap">0</div>
+              <div class="sc-label">SAP Integration</div>
+              <div class="sc-sub">Auto-pulled via SAP connector</div>
+            </div>
+          </div>
+          <div class="source-card" id="srcCardUpload" data-src="upload" title="Filter: Manual Upload">
+            <div class="sc-icon upload">⬆</div>
+            <div class="sc-info">
+              <div class="sc-count" id="srcCountUpload">0</div>
+              <div class="sc-label">Manual Upload</div>
+              <div class="sc-sub">Uploaded directly by user</div>
+            </div>
+          </div>
+          <div class="source-card" id="srcCardVendor" data-src="vendor" title="Filter: Vendor Master">
+            <div class="sc-icon vendor">🏢</div>
+            <div class="sc-info">
+              <div class="sc-count" id="srcCountVendor">0</div>
+              <div class="sc-label">Vendor Master</div>
+              <div class="sc-sub">Received via vendor portal</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter bar + header row -->
+        <div class="upload-header" style="padding-bottom:8px">
+          <div class="doc-list-title">
+            <h2>Doc List</h2>
+          </div>
+          <button class="upload-btn" type="button" id="openUploadBtn">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 10V2m0 0L4.5 5m3-3L10.5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 11v2a1 1 0 001 1h11a1 1 0 001-1v-2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+            + Upload Document
+          </button>
+        </div>
+
+        <div class="doc-filter-bar">
+          <div class="field">
+            <label>Search Doc ID</label>
+            <div class="input-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#a8bcd0" stroke-width="1.4"/><path d="M9.5 9.5L12 12" stroke="#a8bcd0" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="text" id="docFilterSearch" placeholder="BATCH-2025-…" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Source</label>
+            <div class="select-wrap">
+              <select id="docFilterSource">
+                <option value="">All Sources</option>
+                <option value="sap">⚡ SAP Integration</option>
+                <option value="upload">⬆ Manual Upload</option>
+                <option value="vendor">🏢 Vendor Master</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Doc Type</label>
+            <div class="select-wrap">
+              <select id="docFilterType">
+                <option value="">All Types</option>
+                <option>Invoice</option>
+                <option>Purchase Order</option>
+                <option>Remittance Advice</option>
+                <option>Credit Note</option>
+                <option>Debit Note</option>
+                <option>Bank Statement</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Pipeline Step</label>
+            <div class="select-wrap">
+              <select id="docFilterStep">
+                <option value="">All Steps</option>
+                <option value="0">Upload</option>
+                <option value="1">Duplicate</option>
+                <option value="2">Classify</option>
+                <option value="3">Tariff Map</option>
+                <option value="4">Extract</option>
+                <option value="5">Review</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-table-wrap">
+          <table id="docTable">
+            <thead>
+              <tr>
+                <th style="padding-left:20px">DOC ID</th>
+                <th>SOURCE</th>
+                <th>DOC TYPE</th>
+                <th>NO. OF PDF</th>
+                <th>NO. OF PAGES</th>
+                <th>PIPELINE STATUS</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="docTbody"></tbody>
+          </table>
+          <div style="padding:8px 20px 10px;font-size:11px;color:#8a9fb8;border-top:1px solid var(--line);background:#f9fbfe" id="docTableFooter">Showing all documents</div>
+        </div>
+      </div>
+
+      <!-- ── CLASSIFICATION TAB ─────────────────────── -->
+      <div class="tab-panel" id="tab-classification">
+        <div class="cl-tab-header">
+          <div class="cl-title"><h2>Classification</h2></div>
+          <div class="cl-search-wrap">
+            <input type="text" id="clSearch" placeholder="Search Batch ID…" autocomplete="off" />
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#a8bcd0" stroke-width="1.4"/><path d="M9.5 9.5L12 12" stroke="#a8bcd0" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="cl-batch-list" id="clBatchList"><!-- rendered by JS --></div>
+      </div>
+
+      <!-- ── EXTRACTION TAB ─────────────────────────── -->
+      <div class="tab-panel" id="tab-extraction">
+        <div class="tab-empty">
+          <div class="tab-empty-icon">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect x="3" y="3" width="14" height="19" rx="2.5" stroke="#8a9fb8" stroke-width="1.8"/><path d="M7 9h8M7 13h6M7 17h4" stroke="#8a9fb8" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="20" r="4" stroke="#8a9fb8" stroke-width="1.5"/><path d="M23 23l2.5 2.5" stroke="#8a9fb8" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Extraction</h3>
+          <p>Classified documents will be queued here for AI field extraction — invoice number, amounts, dates, party details, and line items.</p>
+          <!--<span class="coming-pill">Coming Soon</span>-->
+        </div>
+      </div>
+
+      <!-- ── REVIEW TAB ─────────────────────────────── -->
+      <div class="tab-panel" id="tab-review">
+        <div class="tab-empty">
+          <div class="tab-empty-icon">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="10" stroke="#8a9fb8" stroke-width="1.8"/><path d="M8.5 13l3.5 3.5 5.5-7" stroke="#8a9fb8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Review</h3>
+          <p>Extracted documents requiring manual verification, field corrections, or approval before entering the AP / AR workflow.</p>
+          <!--<span class="coming-pill">Coming Soon</span>-->
+        </div>
+      </div>
+
+    </article>
+  </main>
+</div>
+
+<!-- ── Type Selector Popup ────────────────────────── -->
+<div class="type-popup hidden" id="typePopup">
+  <div class="type-popup-title">Change Doc Type</div>
+</div>
+
+<!-- ── Upload Document Modal ──────────────────────── -->
+<div class="modal-overlay hidden" id="uploadModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Upload Document</h3>
+      <button class="modal-close" type="button" id="closeUploadModal">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-drop-zone" id="dropZone">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M17 22V8m0 0l-6 6m6-6l6 6" stroke="#6d8aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 26v3a2 2 0 002 2h24a2 2 0 002-2v-3" stroke="#6d8aaa" stroke-width="2" stroke-linecap="round"/></svg>
+        <b>Drag &amp; drop files here</b>
+        Click to browse — PDF, TIFF, PNG supported
+        <input type="file" id="fileInput" multiple accept=".pdf,.tiff,.png" style="display:none" />
+      </div>
+      <div class="form-field">
+        <label>Batch / Doc ID (auto-generated if blank)</label>
+        <input type="text" id="uploadDocId" placeholder="e.g. BATCH-2025-0501-004" />
+      </div>
+      <div class="form-field">
+        <label>Document Type</label>
+        <select id="uploadDocType">
+          <option value="">Auto-detect</option>
+          <option>Invoice</option>
+          <option>Purchase Order</option>
+          <option>Remittance Advice</option>
+          <option>Credit Note</option>
+          <option>Debit Note</option>
+          <option>Bank Statement</option>
+          <option>Proof of Delivery</option>
+        </select>
+      </div>
+
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#5a6f87;padding-top:4px;border-top:1px solid var(--line)">Intake Source</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="sourceSelector">
+        <label style="cursor:pointer">
+          <input type="radio" name="uploadSource" value="sap" style="display:none" />
+          <div class="source-option-card" data-val="sap">
+            <div style="font-size:20px;margin-bottom:4px">⚡</div>
+            <div style="font-size:12px;font-weight:800;color:#0a5d72">SAP Integration</div>
+            <div style="font-size:10px;color:#6a8899;margin-top:2px">Auto-pulled via connector</div>
+          </div>
+        </label>
+        <label style="cursor:pointer">
+          <input type="radio" name="uploadSource" value="upload" checked style="display:none" />
+          <div class="source-option-card selected" data-val="upload">
+            <div style="font-size:20px;margin-bottom:4px">⬆</div>
+            <div style="font-size:12px;font-weight:800;color:var(--purple)">Manual Upload</div>
+            <div style="font-size:10px;color:#6a8899;margin-top:2px">Uploaded by user</div>
+          </div>
+        </label>
+        <label style="cursor:pointer">
+          <input type="radio" name="uploadSource" value="vendor" style="display:none" />
+          <div class="source-option-card" data-val="vendor">
+            <div style="font-size:20px;margin-bottom:4px">🏢</div>
+            <div style="font-size:12px;font-weight:800;color:#7a4a10">Vendor Master</div>
+            <div style="font-size:10px;color:#6a8899;margin-top:2px">Via vendor portal</div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" type="button" id="cancelUpload">Cancel</button>
+      <button class="btn primary" type="button" id="submitUpload">Upload &amp; Process</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Doc Detail Panel ────────────────────────────── -->
+<div class="doc-detail-overlay hidden" id="docDetailOverlay">
+  <div class="doc-detail-panel">
+    <div class="ddp-header">
+      <h3 id="ddpDocId">—</h3>
+      <button class="modal-close" type="button" id="closeDocDetail">&#x2715;</button>
+    </div>
+    <div class="ddp-body" id="ddpBody"></div>
+  </div>
+</div>

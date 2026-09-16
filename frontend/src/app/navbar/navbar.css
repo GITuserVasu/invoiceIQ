@@ -1,0 +1,98 @@
+/* Shared navbar — ViewEncapsulation.None, matches all page designs */
+.header-menu {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line, #dce8f0);
+  background: linear-gradient(180deg, #ffffff, #f8fbff);
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  align-items: stretch;
+  scrollbar-width: none;
+}
+
+.header-menu::-webkit-scrollbar { display: none; }
+
+.menu-link {
+  text-decoration: none;
+  border: 1px solid var(--line, #dce8f0);
+  border-radius: 12px;
+  background: #fff;
+  color: #3f526b;
+  padding: 7px 9px;
+  min-width: 130px;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 6px;
+  align-items: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.menu-link:hover {
+  border-color: #b9cfdf;
+  box-shadow: 0 10px 20px rgba(15, 35, 56, 0.1);
+  transform: translateY(-1px);
+}
+
+.menu-ico {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  background: #edf5fc;
+  border: 1px solid #d4e2f1;
+  display: grid;
+  place-items: center;
+  color: #476380;
+  flex-shrink: 0;
+}
+
+.menu-ico svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+
+.menu-text {
+  display: grid;
+  gap: 1px;
+  line-height: 1.2;
+}
+
+.menu-text strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: #304b66;
+}
+
+.menu-text small {
+  font-size: 10px;
+  color: #7388a1;
+}
+
+.menu-link.active {
+  border-color: #9ec3d1;
+  background: linear-gradient(180deg, #f0fbff, #e6f5fb);
+  box-shadow: 0 10px 20px rgba(13, 124, 151, 0.16);
+}
+
+.menu-link.active .menu-text strong {
+  color: #165a6d;
+}
+
+.menu-link.active .menu-ico {
+  border-color: #9ec3d1;
+  background: #dbf1f8;
+  color: #165a6d;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+}
+.logout-btn:hover .menu-text strong { color: #b54545; }
