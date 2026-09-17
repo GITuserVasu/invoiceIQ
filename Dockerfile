@@ -27,7 +27,8 @@ WORKDIR /app
 
 # Install ONLY production dependencies for Node.js
 COPY backend/package*.json ./
-RUN npm install --only=production
+#RUN npm install --only=production
+RUN npm install --omit=dev
 
 # Copy compiled JavaScript files from Stage 2 into the production /dist directory
 COPY --from=backend-compiler /app/backend/dist ./dist
