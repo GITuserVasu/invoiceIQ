@@ -25,6 +25,9 @@ RUN npm run build
 FROM node:20-slim
 WORKDIR /app
 
+# Copy the database directory
+COPY database/ .
+
 # Install ONLY production dependencies for Node.js
 COPY backend/package*.json ./
 #RUN npm install --only=production
