@@ -486,7 +486,7 @@ app.use(cors({
 app.use(express.static(path.join(import.meta.dirname, '../public')));
 
 // Wildcard fallback to let Angular handle UI routing
-app.get('/*', (req, res) => {
+app.get('/:splat*', (req, res) => {
     res.sendFile(path.join(import.meta.dirname, '../public', 'index.html'));
 });
 
