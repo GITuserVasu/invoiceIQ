@@ -481,11 +481,11 @@ app.use(cors({
 // Added by Vasu
 // Serve static files from the public folder
 // '../public' climbs out of your backend 'dist' folder into the runtime public folder
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(import.meta.dirname, '../public')));
 
 // Wildcard fallback to let Angular handle UI routing
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
+    res.sendFile(path.join(import.meta.dirname, '../public', 'index.html'));
 });
 
 // end of Vasu addition
