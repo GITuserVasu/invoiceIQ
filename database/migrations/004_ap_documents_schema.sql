@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS ap_vendors (
   id                uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id         uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   entity_id         uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
-  vendor_code       text NOT NULL,                    -- e.g. "VND-001"
+  vendor_code       text NOT NULL,                    -- e.g.  VND-001 
   legal_name        text NOT NULL,
   trade_name        text,
   vendor_type       text NOT NULL DEFAULT 'supplier'
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS ap_vendor_bank_accounts (
   tenant_id         uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   entity_id         uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
   vendor_id         uuid NOT NULL REFERENCES ap_vendors(id) ON DELETE CASCADE,
-  account_nickname  text NOT NULL,                   -- e.g. "HDFC Primary"
+  account_nickname  text NOT NULL,                   -- e.g.  HDFC Primary 
   bank_name         text NOT NULL,
   ifsc_code         text NOT NULL,
   account_number    text NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS ap_purchase_orders (
   tenant_id         uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   entity_id         uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
   vendor_id         uuid REFERENCES ap_vendors(id) ON DELETE SET NULL,
-  po_number         text NOT NULL,                   -- e.g. "PO-NTL-0078"
+  po_number         text NOT NULL,                   -- e.g.  PO-NTL-0078 
   po_date           date NOT NULL,
   delivery_date     date,
   currency          text NOT NULL DEFAULT 'INR',
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS ap_goods_receipts (
   entity_id         uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
   po_id             uuid REFERENCES ap_purchase_orders(id) ON DELETE SET NULL,
   vendor_id         uuid REFERENCES ap_vendors(id) ON DELETE SET NULL,
-  grn_number        text NOT NULL,                   -- e.g. "GRN-NTL-0311"
+  grn_number        text NOT NULL,                   -- e.g.  GRN-NTL-0311 
   grn_date          date NOT NULL,
   delivery_note_ref text,                            -- Vendor delivery note number
   vehicle_number    text,
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS ap_invoices (
   tenant_id         uuid NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
   entity_id         uuid NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
   vendor_id         uuid REFERENCES ap_vendors(id) ON DELETE SET NULL,
-  invoice_number    text NOT NULL,                   -- Vendor invoice number, e.g. "INV-NTL-2291"
+  invoice_number    text NOT NULL,                   -- Vendor invoice number, e.g.  INV-NTL-2291 
   invoice_date      date NOT NULL,
   due_date          date,
   currency          text NOT NULL DEFAULT 'USD',
@@ -354,7 +354,7 @@ CREATE TABLE IF NOT EXISTS ap_match_variances (
   invoice_line_id   uuid REFERENCES ap_invoice_line_items(id) ON DELETE SET NULL,
   po_line_id        uuid REFERENCES ap_po_line_items(id) ON DELETE SET NULL,
   grn_line_id       uuid REFERENCES ap_grn_line_items(id) ON DELETE SET NULL,
-  field_name        text NOT NULL,                   -- e.g. "unit_price", "quantity", "cgst_rate"
+  field_name        text NOT NULL,                   -- e.g.  unit_price ,  quantity ,  cgst_rate 
   po_value          text,
   invoice_value     text,
   grn_value         text,
@@ -438,7 +438,7 @@ CREATE TABLE IF NOT EXISTS ap_payments (
   invoice_id        uuid NOT NULL REFERENCES ap_invoices(id) ON DELETE RESTRICT,
   vendor_id         uuid REFERENCES ap_vendors(id) ON DELETE SET NULL,
   bank_account_id   uuid REFERENCES ap_vendor_bank_accounts(id) ON DELETE SET NULL,
-  payment_reference text NOT NULL,                   -- e.g. "PMT-NTL-8832"
+  payment_reference text NOT NULL,                   -- e.g.  PMT-NTL-8832 
   payment_date      date NOT NULL,
   amount            numeric(14,2) NOT NULL CHECK (amount > 0),
   currency          text NOT NULL DEFAULT 'INR',
