@@ -26,7 +26,7 @@ FROM node:20-slim
 WORKDIR /app
 
 # Copy the database directory
-COPY database/ .
+# COPY database/ .
 
 # Install ONLY production dependencies for Node.js
 COPY backend/package*.json ./
