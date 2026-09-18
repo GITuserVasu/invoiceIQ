@@ -38,7 +38,7 @@ COPY --from=backend-compiler /app/backend/dist ./dist
 
 # Copy the built Angular static files into the production /public directory
 # Maps directly to your output path: dist/client-creation-angular
-COPY --from=frontend-builder /app/frontend/dist/client-creation-angular ./public
+COPY --from=frontend-builder /app/frontend/dist/client-creation-angular/browser ./public
 
 EXPOSE 8080
 
