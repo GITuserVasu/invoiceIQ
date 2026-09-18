@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { EntityAccessService } from '../entity-access.service';
 
-const BACKEND = 'http://0.0.0.0:8080';
+const BACKEND = 'http://127.0.0.1:8080';
 
 @Component({
   selector: 'app-entity-navbar',
