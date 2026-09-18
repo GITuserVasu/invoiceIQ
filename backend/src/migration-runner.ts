@@ -8,7 +8,8 @@ function databasePath(...parts: string[]): string {
 }
 
 function migrationDirectory(): string {
-  return process.env.MIGRATIONS_DIR?.trim() || databasePath("migrations");
+    const migrationPath = './database/migrations';
+  return migrationPath || process.env.MIGRATIONS_DIR?.trim() || databasePath("migrations");
 }
 
 function normalizeMigrationSql(sql: string): string {
