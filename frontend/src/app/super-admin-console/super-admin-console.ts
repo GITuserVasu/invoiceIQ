@@ -45,7 +45,7 @@ export class SuperAdminConsoleComponent implements AfterViewInit {
     var healthBtn = document.getElementById('checkHealthBtn');
     if (healthBtn) {
       healthBtn.addEventListener('click', function() {
-        fetch('http://127.0.0.1:7070/health')
+        fetch('http://127.0.0.1:8080/health')
           .then(function(r) { return r.json(); })
           .then(function(data) {
             var el = document.getElementById('healthStatus');
