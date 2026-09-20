@@ -21,11 +21,11 @@ const app = express();
 const port = Number(process.env.PORT || 8080);
 
 const pool = new Pool({
-  host: process.env.PGHOST || "127.0.0.1",
+    host: process.env.PGHOST || "invoiceiq-508806:us-central1:invoice-iq1",
   port: Number(process.env.PGPORT || 5432),
-  database: process.env.PGDATABASE || "lexa_saas",
+    database: process.env.PGDATABASE || "invoiceiqdb",
   user: process.env.PGUSER || "postgres",
-  password: process.env.PGPASSWORD || undefined,
+    password: process.env.PGPASSWORD || "Yahoo4gan@",
   max: Number(process.env.PGPOOL_MAX || 10),
   idleTimeoutMillis: 30_000
 });
