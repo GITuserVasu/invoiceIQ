@@ -19,9 +19,13 @@ export class EntityNavbarComponent implements AfterViewInit {
   private http = inject(HttpClient);
   private access = inject(EntityAccessService);
 
+  //added
+  private isMenuLoaded = false;
+  //add ends
+
   ngAfterViewInit(): void {
     // Wrap the ENTIRE logic of this function inside a 10ms timeout
-    setTimeout(() => {
+    //setTimeout(() => {
     const params     = new URLSearchParams(window.location.search);
     const entityId   = params.get('entityId')   || '';
     const entityName = params.get('entityName') || '';
@@ -97,23 +101,28 @@ export class EntityNavbarComponent implements AfterViewInit {
 
     const isSuperAdmin = authUser?.role === 'super_admin';
     if (!isSuperAdmin && entityId && tenantId) {
-      document.querySelectorAll('[data-route]').forEach((element: any) => {
-        if (element.getAttribute('data-route') !== '/entity-dashboard') element.hidden = true;
-      });
-      const settings = document.querySelector('[data-settings-menu]') as HTMLElement | null;
-      if (settings) settings.hidden = true;
-      const emailQuery = authUser?.email
-        ? `?userEmail=${encodeURIComponent(authUser.email)}`
-        : '';
-      this.http.get<any>(
-        `${BACKEND}/api/v1/tenants/${encodeURIComponent(tenantId)}/entities/${encodeURIComponent(entityId)}/menu${emailQuery}`
-      ).subscribe({
-        next: (response) => {
-          this.access.setPermissions(response.permissions || []);
-          this.applyPermissionMenu(response.menu || []);
-        },
-        error: () => this.applyPermissionMenu([{ key: 'dashboard', visible: true }])
-      });
+      //added
+      if (!this.isMenuLoaded) {
+        this.isMenuLoaded = true; // Block subsequent structural passes instantly
+        // add ends
+        document.querySelectorAll('[data-route]').forEach((element: any) => {
+          if (element.getAttribute('data-route') !== '/entity-dashboard') element.hidden = true;
+        });
+        const settings = document.querySelector('[data-settings-menu]') as HTMLElement | null;
+        if (settings) settings.hidden = true;
+        const emailQuery = authUser?.email
+          ? `?userEmail=${encodeURIComponent(authUser.email)}`
+          : '';
+        this.http.get<any>(
+          `${BACKEND}/api/v1/tenants/${encodeURIComponent(tenantId)}/entities/${encodeURIComponent(entityId)}/menu${emailQuery}`
+        ).subscribe({
+          next: (response) => {
+            this.access.setPermissions(response.permissions || []);
+            this.applyPermissionMenu(response.menu || []);
+          },
+          error: () => this.applyPermissionMenu([{ key: 'dashboard', visible: true }])
+        });
+      }
     }
     const saBar = document.getElementById('saAdminBar');
     if (isSuperAdmin && saBar) {
@@ -199,7 +208,7 @@ export class EntityNavbarComponent implements AfterViewInit {
         error: () => { /* silently ignore if tenant lookup fails */ }
       });
       }
-    }, 10);
+    //}, 10);
   }
 
   private applyPermissionMenu(menu: any[]): void {
