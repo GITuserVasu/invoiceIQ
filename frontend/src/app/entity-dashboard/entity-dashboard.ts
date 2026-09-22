@@ -39,15 +39,15 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
 
     const loadDashboard = (tenantId: string) => {
       this.loadCommandCenterData(tenantId, entityId, entityName);
-      // this.startAutoRefresh(tenantId, entityId, entityName);
+      this.startAutoRefresh(tenantId, entityId, entityName);
       this.api.getEntityDashboard(tenantId, entityId).subscribe({
         next: (response: any) => {
           this.renderDashboard(response, entityId, entityName);
           this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => {} });
-          this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
+      /*    this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
             next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
             error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
-          });
+          });*/
         },
         error: () => {
           this.showError('Entity data could not be loaded from the backend.');
