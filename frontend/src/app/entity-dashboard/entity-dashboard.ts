@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { OnInit, AfterViewInit, Component, inject, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { OnInit, AfterViewInit, Component, inject, OnDestroy, ViewEncapsulation, NgZone } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { ApiService } from '../api.service';
 import { initTopBar } from '../shared/topbar';
@@ -16,6 +16,7 @@ import { environment } from '../../environments/environment';
 //export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
 export class EntityDashboardComponent implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);
+  private readonly zone = inject(NgZone);
   private refreshTimer: ReturnType<typeof setInterval> | null = null;
   private refreshInFlight = false;
   tenantName = environment.TENANTNAME;
@@ -38,24 +39,25 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
       this.resetCommandCenter();
       return;
     }
-
-    const loadDashboard = (tenantId: string) => {
-      this.loadCommandCenterData(tenantId, entityId, entityName);
-      this.startAutoRefresh(tenantId, entityId, entityName);
-      this.api.getEntityDashboard(tenantId, entityId).subscribe({
-        next: (response: any) => {
-          this.renderDashboard(response, entityId, entityName);
-          this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => {} });
-          this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
-                next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
-                error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
-          });
-        },
-        error: () => {
-          this.showError('Entity data could not be loaded from the backend.');
-        }
-      });
-    };
+    this.zone.runOutsideAngular(() => {
+      const loadDashboard = (tenantId: string) => {
+        this.loadCommandCenterData(tenantId, entityId, entityName);
+        this.startAutoRefresh(tenantId, entityId, entityName);
+        this.api.getEntityDashboard(tenantId, entityId).subscribe({
+          next: (response: any) => {
+            this.renderDashboard(response, entityId, entityName);
+            this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => { } });
+            this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
+              next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
+              error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
+            });
+          },
+          error: () => {
+            this.showError('Entity data could not be loaded from the backend.');
+          }
+        });
+      };
+    })
 
     if (tenantIdFromUrl) {
       loadDashboard(tenantIdFromUrl);
@@ -83,10 +85,13 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
 
   private startAutoRefresh(tenantId: string, entityId: string, entityName: string): void {
     if (this.refreshTimer) clearInterval(this.refreshTimer);
-    this.refreshTimer = setInterval(() => {
-      this.loadCommandCenterData(tenantId, entityId, entityName);
-    }, 10000);
-  }
+    this.zone.runOutsideAngular(() => {
+      this.refreshTimer = setInterval(() => {
+        this.loadCommandCenterData(tenantId, entityId, entityName);
+      }, 10000);
+    })
+    }
+  
 
   private loadCommandCenterData(tenantId: string, entityId: string, entityName: string): void {
     if (this.refreshInFlight) return;
