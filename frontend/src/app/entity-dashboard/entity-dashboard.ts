@@ -19,7 +19,8 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
   private refreshInFlight = false;
   tenantName = environment.TENANTNAME;
 
-  ngAfterViewInit(): void {
+  //ngAfterViewInit(): void {
+  ngOnInit(): void {
     initTopBar();
     const params = new URLSearchParams(window.location.search);
     const entityId = params.get('entityId')?.trim() || localStorage.getItem('lx_entity_id') || '';
@@ -46,17 +47,17 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
           this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => {} });
           this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
 
-            //    next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
-            next: (menuResponse: any) => {
+                next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
+           // next: (menuResponse: any) => {
 
-              if (menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
-                //this.applyMenu(menuResponse.menu || []);
-              } else {
+             // if (menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
+               // this.applyMenu(menuResponse.menu || []);
+              //} else {
                 // Fallback if the JSON structure is unexpected
-                this.applyMenu([{ key: 'dashboard', visible: true }]);
-              }
-            }
-       //     error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
+               // this.applyMenu([{ key: 'dashboard', visible: true }]);
+             // }
+            //}
+            error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
           });
           // try {
           //   const response = await fetch(menuUrl, { headers: { 'Accept': 'application/json' } });
