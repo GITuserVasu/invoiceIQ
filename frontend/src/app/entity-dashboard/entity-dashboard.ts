@@ -39,7 +39,7 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
 
     const loadDashboard = (tenantId: string) => {
       this.loadCommandCenterData(tenantId, entityId, entityName);
-      this.startAutoRefresh(tenantId, entityId, entityName);
+      // this.startAutoRefresh(tenantId, entityId, entityName);
       this.api.getEntityDashboard(tenantId, entityId).subscribe({
         next: (response: any) => {
           this.renderDashboard(response, entityId, entityName);
