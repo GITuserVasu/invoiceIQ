@@ -50,7 +50,7 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
             next: (menuResponse: any) => {
 
               if (menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
-                this.applyMenu(menuResponse.menu || []);
+                //this.applyMenu(menuResponse.menu || []);
               } else {
                 // Fallback if the JSON structure is unexpected
                 this.applyMenu([{ key: 'dashboard', visible: true }]);
