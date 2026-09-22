@@ -44,10 +44,36 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
         next: (response: any) => {
           this.renderDashboard(response, entityId, entityName);
           this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => {} });
-      /*    this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
-            next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
-            error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
-          });*/
+          this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
+
+            //    next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
+
+            if(menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
+            this.applyMenu(menuResponse.menu || []);
+            } else {
+            // Fallback if the JSON structure is unexpected
+              this.applyMenu([{ key: 'dashboard', visible: true }]);
+            }
+
+       //     error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
+          });
+          // try {
+          //   const response = await fetch(menuUrl, { headers: { 'Accept': 'application/json' } });
+          //   const contentType = response.headers.get("content-type");
+
+          //   if (!response.ok || !contentType.includes("application/json")) {
+          //     throw new TypeError("Expected JSON, got " + contentType);
+          //   }
+
+          //   return await response.json();
+          // } catch (error) {
+          //   console.error("Fetch failed, stopping loop:", error);
+          //   // Do not auto-retry without a counter or delay
+          // }
+
+
+
+
         },
         error: () => {
           this.showError('Entity data could not be loaded from the backend.');
