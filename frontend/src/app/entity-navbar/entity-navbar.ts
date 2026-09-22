@@ -20,6 +20,8 @@ export class EntityNavbarComponent implements AfterViewInit {
   private access = inject(EntityAccessService);
 
   ngAfterViewInit(): void {
+    // Wrap the ENTIRE logic of this function inside a 10ms timeout
+    setTimeout(() => {
     const params     = new URLSearchParams(window.location.search);
     const entityId   = params.get('entityId')   || '';
     const entityName = params.get('entityName') || '';
@@ -196,7 +198,8 @@ export class EntityNavbarComponent implements AfterViewInit {
         },
         error: () => { /* silently ignore if tenant lookup fails */ }
       });
-    }
+      }
+    }, 10);
   }
 
   private applyPermissionMenu(menu: any[]): void {
