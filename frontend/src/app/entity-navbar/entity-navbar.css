@@ -257,3 +257,24 @@
   font: inherit;
 }
 .logout-btn:hover .menu-text strong { color: #b54545; }
+
+/* Ensure the parent container forms an anchor context */
+[data-settings-menu] {
+  position: relative;
+}
+
+  /* Force the dropdown to attach cleanly using plain CSS */
+  [data-settings-menu] .entity-submenu {
+    display: none; /* Hide when not open */
+    position: absolute;
+    top: 100%; /* Push exactly below the button bounding box */
+    margin-top: 6px;
+    right: 0; /* Align to right side boundary */
+    left: auto;
+    z-index: 1000;
+  }
+
+  /* Display the container drop element gracefully when toggled open */
+  [data-settings-menu].open .entity-submenu {
+    display: block;
+  }

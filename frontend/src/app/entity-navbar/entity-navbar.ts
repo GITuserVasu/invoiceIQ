@@ -60,19 +60,19 @@ export class EntityNavbarComponent implements AfterViewInit {
 
 
       const submenu = settingsGroup.querySelector('.entity-submenu') as HTMLElement | null;
-      const positionSubmenu = () => {
-        if (!submenu || !settingsGroup.classList.contains('open')) return;
-        const rect = settingsButton.getBoundingClientRect();
-        submenu.style.top = `${rect.bottom + 6}px`;
-        submenu.style.left = 'auto';
-        submenu.style.right = `${Math.max(8, window.innerWidth - rect.right)}px`;
-      };
+      // const positionSubmenu = () => {
+      //   if (!submenu || !settingsGroup.classList.contains('open')) return;
+      //   const rect = settingsButton.getBoundingClientRect();
+      //   submenu.style.top = `${rect.bottom + 6}px`;
+      //   submenu.style.left = 'auto';
+      //   submenu.style.right = `${Math.max(8, window.innerWidth - rect.right)}px`;
+      // };
       settingsButton.addEventListener('click', () => {
         const isOpen = settingsGroup.classList.toggle('open');
         settingsButton.setAttribute('aria-expanded', String(isOpen));
         if (isOpen) positionSubmenu();
       });
-      window.addEventListener('resize', positionSubmenu);
+      //window.addEventListener('resize', positionSubmenu);
       // window.addEventListener('scroll', positionSubmenu, true);
     }
 
