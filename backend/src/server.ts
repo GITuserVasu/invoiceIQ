@@ -1316,10 +1316,7 @@ app.get("/api/v1/tenants/:tenantId/entities/:entityId/menu", async (req, res, ne
       menu
     });
   } catch (error) {
-      res.json({
-          entityId: req.params.entityId,
-      });
-   // next(error);
+     next(error);
   }
 });
 

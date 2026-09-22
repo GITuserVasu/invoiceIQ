@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { AfterViewInit, Component, inject, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { OnInit, AfterViewInit, Component, inject, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { catchError, of } from 'rxjs';
 import { ApiService } from '../api.service';
 import { initTopBar } from '../shared/topbar';
@@ -13,7 +13,8 @@ import { environment } from '../../environments/environment';
   styleUrl: './entity-dashboard.css',
   encapsulation: ViewEncapsulation.None
 })
-export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
+//export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
+export class EntityDashboardComponent implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);
   private refreshTimer: ReturnType<typeof setInterval> | null = null;
   private refreshInFlight = false;
@@ -46,36 +47,9 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
           this.renderDashboard(response, entityId, entityName);
           this.api.logAudit(tenantId, 'entity.dashboard.viewed', 'entity', entityId, { entityName }).subscribe({ error: () => {} });
           this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
-
                 next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
-           // next: (menuResponse: any) => {
-
-             // if (menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
-               // this.applyMenu(menuResponse.menu || []);
-              //} else {
-                // Fallback if the JSON structure is unexpected
-               // this.applyMenu([{ key: 'dashboard', visible: true }]);
-             // }
-            //}
-            error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
+                error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
           });
-          // try {
-          //   const response = await fetch(menuUrl, { headers: { 'Accept': 'application/json' } });
-          //   const contentType = response.headers.get("content-type");
-
-          //   if (!response.ok || !contentType.includes("application/json")) {
-          //     throw new TypeError("Expected JSON, got " + contentType);
-          //   }
-
-          //   return await response.json();
-          // } catch (error) {
-          //   console.error("Fetch failed, stopping loop:", error);
-          //   // Do not auto-retry without a counter or delay
-          // }
-
-
-
-
         },
         error: () => {
           this.showError('Entity data could not be loaded from the backend.');
