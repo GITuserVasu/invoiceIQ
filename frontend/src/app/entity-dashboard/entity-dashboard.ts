@@ -47,14 +47,15 @@ export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
           this.api.getEntityMenu(tenantId, entityId, this.currentUserEmail()).subscribe({
 
             //    next: (menuResponse: any) => this.applyMenu(menuResponse.menu || []),
+            next: (menuResponse: any) => {
 
-            if(menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
-            this.applyMenu(menuResponse.menu || []);
-            } else {
-            // Fallback if the JSON structure is unexpected
-              this.applyMenu([{ key: 'dashboard', visible: true }]);
+              if (menuResponse && typeof menuResponse === 'object' && 'menu' in menuResponse) {
+                this.applyMenu(menuResponse.menu || []);
+              } else {
+                // Fallback if the JSON structure is unexpected
+                this.applyMenu([{ key: 'dashboard', visible: true }]);
+              }
             }
-
        //     error: () => this.applyMenu([{ key: 'dashboard', visible: true }])
           });
           // try {
