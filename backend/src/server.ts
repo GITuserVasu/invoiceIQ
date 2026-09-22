@@ -1318,12 +1318,6 @@ app.get("/api/v1/tenants/:tenantId/entities/:entityId/menu", async (req, res, ne
   } catch (error) {
       res.json({
           entityId: req.params.entityId,
-          userId: requestedUserId,
-          userEmail: requestedEmail || null,
-          accessSource,
-          roles: [...new Set(accessRows.map((row) => row.role_key))],
-          permissions,
-          menu
       });
    // next(error);
   }
