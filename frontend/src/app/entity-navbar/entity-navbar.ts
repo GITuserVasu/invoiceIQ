@@ -49,6 +49,16 @@ export class EntityNavbarComponent implements AfterViewInit {
     if (settingsGroup && settingsButton) {
       if (settingsIsActive) settingsGroup.classList.add('active');
       settingsButton.setAttribute('aria-expanded', String(settingsIsActive));
+
+      // Added
+      // ✅ SIMPLIFIED: No calculations, no window scroll/resize listener bombs
+      settingsButton.addEventListener('click', () => {
+        const isOpen = settingsGroup.classList.toggle('open');
+        settingsButton.setAttribute('aria-expanded', String(isOpen));
+      });
+      // Add ends
+
+
       const submenu = settingsGroup.querySelector('.entity-submenu') as HTMLElement | null;
       const positionSubmenu = () => {
         if (!submenu || !settingsGroup.classList.contains('open')) return;
@@ -63,7 +73,7 @@ export class EntityNavbarComponent implements AfterViewInit {
         if (isOpen) positionSubmenu();
       });
       window.addEventListener('resize', positionSubmenu);
-      window.addEventListener('scroll', positionSubmenu, true);
+      // window.addEventListener('scroll', positionSubmenu, true);
     }
 
     // -- Logout button ------------------------------------------------------
