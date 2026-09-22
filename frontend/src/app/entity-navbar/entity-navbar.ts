@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { AfterViewInit, Component, inject, ViewEncapsulation } from '@angular/core';
+import { OnInit, AfterViewInit, Component, inject, ViewEncapsulation } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { EntityAccessService } from '../entity-access.service';
 
-const BACKEND = 'http://127.0.0.1:8080';
+//const BACKEND = 'http://127.0.0.1:8080';
 const BACKEND = '';
 
 @Component({
@@ -23,7 +23,8 @@ export class EntityNavbarComponent implements AfterViewInit {
   private isMenuLoaded = false;
   //add ends
 
-  ngAfterViewInit(): void {
+  //ngAfterViewInit(): void {
+  ngOnInit(): void {
     // Wrap the ENTIRE logic of this function inside a 10ms timeout
     //setTimeout(() => {
     const params     = new URLSearchParams(window.location.search);
