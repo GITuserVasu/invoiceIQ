@@ -17,8 +17,8 @@ import { SapScheduler } from "./sap-scheduler.js";
 import { requireEntityPermission } from "./auth/rbac.js";
 
 const app = express();
-// const port = Number(process.env.PORT || 7070);
-const port = Number(process.env.PORT || 8080);
+const port = Number(process.env.PORT || 7070);
+// const port = Number(process.env.PORT || 8080);
 
 const pool = new Pool({
     host: process.env.PGHOST || "/cloudsql/invoiceiq-508806:us-central1:invoice-iq1",
@@ -3550,8 +3550,7 @@ const sapScheduler = new SapScheduler(pool);
 async function startServer(): Promise<void> {
   await runMigrations(pool);
   await applySchemaPatches();
-    //server = app.listen(port, () => {
-    server = app.listen(port, () => {
+    server = app.listen(port, '127.0.0.1', () => {
     console.log(`Lexa SaaS backend listening on http://127.0.0.1:${port}`);
     ocrWorker.start();
     sapScheduler.start();
