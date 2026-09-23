@@ -485,10 +485,6 @@ app.use(cors({
 // '../public' climbs out of your backend 'dist' folder into the runtime public folder
 app.use(express.static(path.join(import.meta.dirname, '../public')));
 
-// Wildcard fallback to let Angular handle UI routing
-// app.get('/*splat', (req, res) => {
-//     res.sendFile(path.join(import.meta.dirname, '../public', 'index.html'));
-// });
 
 // end of Vasu addition
 
@@ -3513,6 +3509,12 @@ app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   console.error(error);
   res.status(500).json({ error: "Internal server error" });
 });
+
+// Added by Vasu - Wildcard fallback to let Angular handle UI routing
+app.get('/*splat', (req, res) => {
+    res.sendFile(path.join(import.meta.dirname, '../public', 'index.html'));
+});
+// end of Vasu addition
 
 // ── One-time schema patches ───────────────────────────────────────────────
 async function applySchemaPatches(): Promise<void> {
