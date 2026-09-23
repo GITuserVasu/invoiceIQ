@@ -39,7 +39,7 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
       this.resetCommandCenter();
       return;
     }
-    this.zone.runOutsideAngular(() => {
+    //this.zone.runOutsideAngular(() => {
       const loadDashboard = (tenantId: string) => {
         this.loadCommandCenterData(tenantId, entityId, entityName);
         this.startAutoRefresh(tenantId, entityId, entityName);
@@ -57,7 +57,7 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
           }
         });
       };
-    })
+   // })
 
     if (tenantIdFromUrl) {
       loadDashboard(tenantIdFromUrl);
@@ -85,11 +85,11 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
 
   private startAutoRefresh(tenantId: string, entityId: string, entityName: string): void {
     if (this.refreshTimer) clearInterval(this.refreshTimer);
-    this.zone.runOutsideAngular(() => {
+   // this.zone.runOutsideAngular(() => {
       this.refreshTimer = setInterval(() => {
         this.loadCommandCenterData(tenantId, entityId, entityName);
-      }, 100000);
-    })
+      }, 10000);
+   // })
     }
   
 
