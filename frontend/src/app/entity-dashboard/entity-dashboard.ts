@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 //export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
-export class EntityDashboardComponent implements OnInit, OnDestroy {
+export class EntityDashboardComponent implements AfterViewInit, OnDestroy {
   private readonly api = inject(ApiService);
   private readonly zone = inject(NgZone);
   private refreshTimer: ReturnType<typeof setInterval> | null = null;

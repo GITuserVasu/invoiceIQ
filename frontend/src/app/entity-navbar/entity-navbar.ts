@@ -15,7 +15,7 @@ const BACKEND = '';
   styleUrl: './entity-navbar.css',
   encapsulation: ViewEncapsulation.None
 })
-export class EntityNavbarComponent implements OnInit {
+export class EntityNavbarComponent implements AfterViewInit {
   private http = inject(HttpClient);
   private access = inject(EntityAccessService);
 
