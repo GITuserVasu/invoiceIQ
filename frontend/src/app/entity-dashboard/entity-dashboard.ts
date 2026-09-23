@@ -88,7 +88,7 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
     this.zone.runOutsideAngular(() => {
       this.refreshTimer = setInterval(() => {
         this.loadCommandCenterData(tenantId, entityId, entityName);
-      }, 10000);
+      }, 100000);
     })
     }
   
