@@ -7,6 +7,7 @@ export class ApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
   tenantName = environment.TENANTNAME;
+  testbaseUrl = "http://127.0.0.1:7070";
 
   getTenant(tenantKey?: string) {
     const storedTenantId = localStorage.getItem('lx_tenant_id');
@@ -30,7 +31,8 @@ export class ApiService {
 
   getEntityDashboard(tenantId: string, entityId: string) {
     return this.http.get<any>(
-      `${this.baseUrl}/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
+      //`${this.baseUrl}/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
+     `${this.testbaseUrl}/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
     );
   }
 
