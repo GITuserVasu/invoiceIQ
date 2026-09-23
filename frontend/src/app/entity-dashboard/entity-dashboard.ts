@@ -21,8 +21,8 @@ export class EntityDashboardComponent implements OnInit, OnDestroy {
   private refreshInFlight = false;
   tenantName = environment.TENANTNAME;
 
-  //ngAfterViewInit(): void {
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+  //ngOnInit(): void {
     initTopBar();
     const params = new URLSearchParams(window.location.search);
     const entityId = params.get('entityId')?.trim() || localStorage.getItem('lx_entity_id') || '';
