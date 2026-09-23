@@ -17,7 +17,7 @@ import { SapScheduler } from "./sap-scheduler.js";
 import { requireEntityPermission } from "./auth/rbac.js";
 
 const app = express();
-const port = Number(process.env.PORT || 7070);
+const port = Number(process.env.PORT || 8080);
 // const port = Number(process.env.PORT || 8080);
 
 const pool = new Pool({
