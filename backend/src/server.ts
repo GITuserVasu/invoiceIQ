@@ -517,7 +517,7 @@ app.use((req, res, next) => {
   const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
   const claims = token ? verifyAccessToken(token) : null;
   if (!claims) {
-  //  res.status(401).json({ error: "Authentication required" });
+    res.status(401).json({ error: "Authentication required" });
     return;
   }
   req.auth = claims;
