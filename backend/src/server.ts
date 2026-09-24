@@ -519,10 +519,12 @@ app.use((req, res, next) => {
     return;
   }
 
-  const header = req.header("authorization") || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+    const header = req.header("authorization") || "";
+    //const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+    var token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+    if (token == "") { token = gToken };
     //const claims = token ? verifyAccessToken(token) : null;
-    const claims = token ? verifyAccessToken(token) : gToken;
+    const claims = token ? verifyAccessToken(token) : null;
   if (!claims) {
     res.status(401).json({ error: "Authentication required" });
     return;
