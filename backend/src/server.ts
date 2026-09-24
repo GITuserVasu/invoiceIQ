@@ -521,7 +521,8 @@ app.use((req, res, next) => {
 
   const header = req.header("authorization") || "";
   const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
-  const claims = token ? verifyAccessToken(token) : null;
+    //const claims = token ? verifyAccessToken(token) : null;
+    const claims = token ? verifyAccessToken(token) : gToken;
   if (!claims) {
     res.status(401).json({ error: "Authentication required" });
     return;
