@@ -3043,7 +3043,7 @@ app.post("/api/v1/auth/login", async (req, res, next) => {
           id: s.admin_user_id
         },
         accessToken,
-          redirectTo: `/entity-dashboard?entityId=${encodeURIComponent(s.entity_key)}&entityName=${encodeURIComponent(s.entity_name)}&tenantId=${s.tenant_id}&token=${encodeURIComponent(gToken)}`
+          redirectTo: `/entity-dashboard?entityId=${encodeURIComponent(s.entity_key)}&entityName=${encodeURIComponent(s.entity_name)}&tenantId=${s.tenant_id}`
       });
       return;
     }
