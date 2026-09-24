@@ -31,8 +31,8 @@ export class ApiService {
 
   getEntityDashboard(tenantId: string, entityId: string) {
     return this.http.get<any>(
-      //`${this.baseUrl}/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
-     `127.0.0.1:8080/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
+      `${this.baseUrl}/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
+     //`127.0.0.1:8080/tenants/${tenantId}/entities/${encodeURIComponent(entityId)}/dashboard`
     );
   }
 
