@@ -3521,7 +3521,7 @@ app.delete("/api/v1/tenants/:tenantId/entities/:entityId/users/:userId", async (
 
 // Added by Vasu - Wildcard fallback to let Angular handle UI routing
 app.get('/*splat', (req, res) => {
-    res.sendFile(path.join(import.meta.dirname, '../public', 'index.html'));
+    res.sendFile(path.join(import.meta.dirname, '../../public', 'index.html'));
 });
 // end of Vasu addition
 
