@@ -3573,7 +3573,7 @@ async function startServer(): Promise<void> {
   await runMigrations(pool);
   await applySchemaPatches();
     server = app.listen(port, '0.0.0.0', () => {
-    console.log(`Lexa SaaS backend listening on http://127.0.0.1:${port}`);
+    console.log(`invoiceiqdb backend listening on http://127.0.0.1:${port}`);
     ocrWorker.start();
     sapScheduler.start();
   });

@@ -8,7 +8,7 @@ function databasePath(...parts: string[]): string {
 }
 
 function migrationDirectory(): string {
-    const migrationPath = '../database/migrations';
+    const migrationPath = './database/migrations';
   return migrationPath || process.env.MIGRATIONS_DIR?.trim() || databasePath("migrations");
 }
 
