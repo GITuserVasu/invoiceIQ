@@ -535,9 +535,9 @@ app.use((req, res, next) => {
     var token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
     if (token == "") { token = gToken };
     //const claims = token ? verifyAccessToken(token) : null;
-    const claims = token ? verifyAccessToken(token) : null;
+    var claims = token ? verifyAccessToken(token) : null;
     if (!claims) {
-        const claims = {
+        claims = {
             userId: "",         // Can be a string
             email: "vasu@eprobito.com",
             name: "",
@@ -548,8 +548,6 @@ app.use((req, res, next) => {
        
         //res.status(401).json({ error: "Authentication required" });
         //return;
-        req.auth = claims;
-        return;
       }
   req.auth = claims;
   next();
