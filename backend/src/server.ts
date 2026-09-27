@@ -1,6 +1,7 @@
 import "dotenv/config";
 import crypto from "node:crypto";
-import path from "node:path";
+import { dirname, join, resolve } from "node:path";
+import path  from "node:path";
 import { readFile } from "node:fs/promises";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
@@ -15,6 +16,16 @@ import { runMigrations } from "./migration-runner.js";
 import { OcrWorker } from "./ocr-worker.js";
 import { SapScheduler } from "./sap-scheduler.js";
 import { requireEntityPermission } from "./auth/rbac.js";
+
+// Vasu
+
+// Inside your custom server file, make sure paths align like this:
+// const serverDistFolder = resolve('dist/server');
+// const browserDistFolder = resolve('dist/browser');
+// const indexHtml = join(serverDistFolder, 'index.server.html');
+// import bootstrap from '../server/main.server.mjs'; 
+
+// end Vasu
 
 const app = express();
 const port = Number(process.env.PORT || 8080);

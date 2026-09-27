@@ -34,13 +34,15 @@ COPY backend/package*.json ./
 RUN npm install --omit=dev
 
 # Copy compiled JavaScript files from Stage 2 into the production /dist directory
-COPY --from=backend-compiler /app/backend/dist ./dist
+COPY --from=backend-compiler /app/backend/dist ./dist/backend
 
 # Copy the built Angular static files into the production /public directory
 # Maps directly to your output path: dist/client-creation-angular
 COPY --from=frontend-builder /app/frontend/dist/client-creation-angular/browser ./public
+#COPY --from=frontend-builder /app/frontend/dist/client-creation-angular/browser ./dist/browser
+#COPY --from=frontend-builder /app/frontend/dist/client-creation-angular/browser ./dist/server
 
 EXPOSE 8080
 
 # Run the compiled Node.js entry point
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/backend/server.js"]
