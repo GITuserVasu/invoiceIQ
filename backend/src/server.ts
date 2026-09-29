@@ -2170,7 +2170,8 @@ app.post("/api/v1/tenants/:tenantId/entities/:entityId/classification/publish", 
 /* ── Manual audit event insert (from frontend) ──────────────────── */
 app.post("/api/v1/tenants/:tenantId/audit-events", async (req, res, next) => {
   try {
-    const tenant = tenantId(req);
+    //const tenant = tenantId(req);
+    const tenant = req.params.tenantId;
     const body   = req.body as JsonObject;
     const actor  = actorHeaders(req);
     const action = text(body.action, "action");
