@@ -29,6 +29,8 @@ WORKDIR /app
 COPY database/ ./database/
 COPY database/migrations ./database/migrations
 
+# Copy the storage directory
+COPY backend/storage ./storage/
 
 # Install ONLY production dependencies for Node.js
 COPY backend/package*.json ./
