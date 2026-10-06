@@ -9,3 +9,4 @@ backend/node_modules/
 frontend/.vscode/
 frontend/dist/
 frontend/node_modules/
+backend/storage/
