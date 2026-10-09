@@ -3587,7 +3587,7 @@ async function startServer(): Promise<void> {
     server = app.listen(port, '0.0.0.0', () => {
     console.log(`invoiceiqdb backend listening on http://127.0.0.1:${port}`);
     ocrWorker.start();
-    sapScheduler.start();
+    // sapScheduler.start();
   });
 }
 
@@ -3599,7 +3599,7 @@ void startServer().catch(async (error) => {
 
 async function shutdown(signal: string) {
   console.log(`${signal} received, shutting down`);
-  sapScheduler.stop();
+  // sapScheduler.stop();
   await ocrWorker.stop();
   if (!server) {
     await pool.end();
