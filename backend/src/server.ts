@@ -162,8 +162,8 @@ function isConfiguredServiceRequest(req: Request): boolean {
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function isUuid(value: unknown): value is string {
-  return typeof value === "string" && UUID_PATTERN.test(value);
-}
+        return typeof value === "string" && UUID_PATTERN.test(value);
+    }
 
 function requireUuid(value: unknown, label: string): string {
   if (!isUuid(value)) {
@@ -256,7 +256,7 @@ async function insertAudit(
     await db.query(
       `INSERT INTO audit_events (tenant_id, actor_user_id, action, resource_type, resource_id, metadata)
        VALUES ($1, $2::uuid, $3, $4, $5::uuid, $6::jsonb)`,
-      [tenant, actorId ?? null, action, resourceType, resourceId ?? null, JSON.stringify(metadata)]
+        [tenant, actorId ?? null, action, resourceType, isUuid(resourceId) ? resourceId : null,  JSON.stringify(metadata)]
     );
   } catch {
     // Audit failures must never break the main request flow
