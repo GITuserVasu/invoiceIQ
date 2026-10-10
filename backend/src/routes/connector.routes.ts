@@ -32,10 +32,19 @@ async function auditSync(pool: Pool, tenantId: string, entityUuid: string, req: 
 
 export function createConnectorRoutes(pool: Pool): Router {
   const router = Router({ mergeParams: true });
-  // All routes are mounted at: /api/v1/tenants/:tenantId/entities/:entityId
-  router.use((req, _res, next) => {
+    // All routes are mounted at: /api/v1/tenants/:tenantId/entities/:entityId
+    router.use((req, _res, next) => {
     const tenantId = req.params.tenantId;
     const auth = (req as any).auth;
+
+        // Add this block to isolate the mismatching values:
+        console.log('[Tenant Guard Debug]:', {
+            urlPath: req.originalUrl,
+            extractedTenantIdParam: tenantId,
+            authTokenTenantId: auth?.tenantId,
+            userRole: auth?.role
+        });
+
     if (auth && !['super_admin', 'service'].includes(auth.role) && auth.tenantId !== tenantId) {
       next(Object.assign(new Error('Tenant access denied'), { status: 403 }));
       return;
