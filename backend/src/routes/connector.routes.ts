@@ -35,15 +35,21 @@ export function createConnectorRoutes(pool: Pool): Router {
     // All routes are mounted at: /api/v1/tenants/:tenantId/entities/:entityId
     router.use((req, _res, next) => {
     const tenantId = req.params.tenantId;
-    const auth = (req as any).auth;
+        const auth = (req as any).auth;
 
-        // Add this block to isolate the mismatching values:
+        // Debug code - find what auth contains
+
         console.log('[Tenant Guard Debug]:', {
             urlPath: req.originalUrl,
             extractedTenantIdParam: tenantId,
             authTokenTenantId: auth?.tenantId,
-            userRole: auth?.role
+            // Add these two lines to see what is actually inside the token:
+            rawAuthKeys: auth ? Object.keys(auth) : [],
+            rawAuthObject: auth
         });
+
+        // Debug code ends
+
 
     if (auth && !['super_admin', 'service'].includes(auth.role) && auth.tenantId !== tenantId) {
       next(Object.assign(new Error('Tenant access denied'), { status: 403 }));
