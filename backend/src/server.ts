@@ -611,6 +611,28 @@ app.get("/api/v1/tenants/:tenantId/providers", async (req, res, next) => {
   }
 });
 
+/* Added by Vasu */
+app.get("/api/v1/tenants/:tenantId/entities/:entityId/invoice-hashes", async (req, res, next) => {
+    try {
+        /* get the most recent (say 90 days) invoices for this entity  */
+        const tenant = tenantId(req);
+        const entity = await resolveEntityId(pool, tenant, req.params.entityId);
+        const hashes = await pool.query(
+            `SELECT id, invoice_number, intake_batch_id, file_hash, perceptual_hash, average_hash FROM ap_invoices 
+               WHERE tenant_id = $1 AND entity_id = $2 AND created_at >= NOW() - INTERVAL '90 days' 
+               ORDER BY created_at DESC; `,
+            [tenant, entity]
+        );
+        res.json({ data: hashes.rows });
+
+    } catch (error) {
+        next(error);
+    }
+});
+/* End Vasu Add */
+
+
+
 app.post("/api/v1/tenants/:tenantId/providers", async (req, res, next) => {
   try {
     const tenant = tenantId(req);
