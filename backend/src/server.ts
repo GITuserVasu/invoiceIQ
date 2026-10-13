@@ -2421,7 +2421,12 @@ app.post("/api/v1/tenants/:tenantId/entities/:entityId/invoices/intake", async (
     }
 
     // Fallback invoice number if OCR didn't extract one
-    const invoiceNum = invoice_number || `OCR-${Date.now().toString(36).toUpperCase()}`;
+      const invoiceNum = invoice_number || `OCR-${Date.now().toString(36).toUpperCase()}`;
+
+    // The hashes
+      const file_hash = body.file_hash;
+      const perceptual_hash = body.perceptual_hash;
+      const average_hash = body.average_hash;
 
     // ── 3. Insert ap_invoices ────────────────────────────────────────────
     const invInsert = await client.query(
@@ -2432,9 +2437,9 @@ app.post("/api/v1/tenants/:tenantId/entities/:entityId/invoices/intake", async (
           cgst_amount, sgst_amount, igst_amount,
           total_amount, source_channel, intake_batch_id,
           ocr_confidence, status,
-          po_ref, grn_ref, notes, metadata)
+          po_ref, grn_ref, notes, metadata, file_hash, perceptual_hash, average_hash)
        VALUES
-         ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,'received',$16,$17,$18,$19::jsonb)
+         ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,'received',$16,$17,$18,$19::jsonb, $20, $21, $22)
        RETURNING id`,
       [
         tenant, entity, vendorId,
@@ -2449,6 +2454,7 @@ app.post("/api/v1/tenants/:tenantId/entities/:entityId/invoices/intake", async (
         grn_number || null,
         `OCR extracted via ${document_type || "document"}`,
         JSON.stringify({ document_type, ocr_source: true, intake_batch_id }),
+          file_hash, perceptual_hash, average_hash  ,
       ]
     );
     const apInvoiceId: string = invInsert.rows[0].id;
