@@ -2454,7 +2454,7 @@ app.post("/api/v1/tenants/:tenantId/entities/:entityId/invoices/intake", async (
         grn_number || null,
         `OCR extracted via ${document_type || "document"}`,
         JSON.stringify({ document_type, ocr_source: true, intake_batch_id }),
-          file_hash, perceptual_hash, average_hash  ,
+          file_hash, perceptual_hash, average_hash
       ]
     );
     const apInvoiceId: string = invInsert.rows[0].id;

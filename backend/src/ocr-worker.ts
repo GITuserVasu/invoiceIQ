@@ -121,17 +121,46 @@ export class OcrWorker {
       if (!response.ok) {
         throw new Error(`OCR service returned HTTP ${response.status}: ${await response.text()}`);
       }
-      await this.pool.query(
+      const result = await response.json();
+console.log(result.notes);
+if (result.notes === "duplicate") {
+    await this.pool.query(
         `UPDATE entity_processing_batches
-            SET status = 'completed',
-                active_step = 4,
-                completed_steps = ARRAY[1,2,3,4],
-                ocr_completed_at = NOW(),
-                last_error = NULL,
-                updated_at = NOW()
-          WHERE id = $1`,
+    SET status = 'stopped',
+        active_step = 2,
+        completed_steps = ARRAY[1],
+        ocr_completed_at = NOW(),
+        last_error = NULL,
+        updated_at = NOW()
+  WHERE id = $1`,
         [batch.id],
-      );
+    );
+}
+if (result.notes === "not_in_allowed_classes") {
+        await this.pool.query(
+            `UPDATE entity_processing_batches
+    SET status = 'stopped',
+        active_step = 3,
+        completed_steps = ARRAY[1,2,3],
+        ocr_completed_at = NOW(),
+        last_error = NULL,
+        updated_at = NOW()
+  WHERE id = $1`,
+            [batch.id],
+        );
+    }
+if (result.notes === "none") {
+    await this.pool.query(
+        `UPDATE entity_processing_batches
+    SET status = 'completed',
+        active_step = 4,
+        completed_steps = ARRAY[1,2,3,4],
+        ocr_completed_at = NOW(),
+        last_error = NULL,
+        updated_at = NOW()
+  WHERE id = $1`,
+        [batch.id],
+    );
     } catch (error) {
       await this.failBatch(
         batch.id,
