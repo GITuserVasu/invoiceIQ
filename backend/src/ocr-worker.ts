@@ -101,31 +101,31 @@ export class OcrWorker {
       return;
     }
 
-    try {
-      const response = await fetch(`${this.ocrUrl}/process`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...(process.env.OCR_SERVICE_TOKEN
-            ? { "x-service-token": process.env.OCR_SERVICE_TOKEN }
-            : {}),
-        },
-        body: JSON.stringify({
-          tenant_id: batch.tenant_id,
-          entity_id: batch.entity_id,
-          image_path: path.resolve(batch.stored_file_path),
-          batch_id: batch.batch_id,
-          channel_key: "upload",
-        }),
-      });
-      if (!response.ok) {
-        throw new Error(`OCR service returned HTTP ${response.status}: ${await response.text()}`);
-      }
-      const result = await response.json();
-console.log(result.notes);
-if (result.notes === "duplicate") {
-    await this.pool.query(
-        `UPDATE entity_processing_batches
+      try {
+          const response = await fetch(`${this.ocrUrl}/process`, {
+              method: "POST",
+              headers: {
+                  "content-type": "application/json",
+                  ...(process.env.OCR_SERVICE_TOKEN
+                      ? { "x-service-token": process.env.OCR_SERVICE_TOKEN }
+                      : {}),
+              },
+              body: JSON.stringify({
+                  tenant_id: batch.tenant_id,
+                  entity_id: batch.entity_id,
+                  image_path: path.resolve(batch.stored_file_path),
+                  batch_id: batch.batch_id,
+                  channel_key: "upload",
+              }),
+          });
+          if (!response.ok) {
+              throw new Error(`OCR service returned HTTP ${response.status}: ${await response.text()}`);
+          }
+          const result = await response.json();
+          console.log(result.notes);
+          if (result.notes === "duplicate") {
+              await this.pool.query(
+                  `UPDATE entity_processing_batches
     SET status = 'stopped',
         active_step = 2,
         completed_steps = ARRAY[1],
@@ -133,12 +133,12 @@ if (result.notes === "duplicate") {
         last_error = NULL,
         updated_at = NOW()
   WHERE id = $1`,
-        [batch.id],
-    );
-}
-if (result.notes === "not_in_allowed_classes") {
-        await this.pool.query(
-            `UPDATE entity_processing_batches
+                  [batch.id],
+              );
+          }
+          if (result.notes === "not_in_allowed_classes") {
+              await this.pool.query(
+                  `UPDATE entity_processing_batches
     SET status = 'stopped',
         active_step = 3,
         completed_steps = ARRAY[1,2,3],
@@ -146,12 +146,12 @@ if (result.notes === "not_in_allowed_classes") {
         last_error = NULL,
         updated_at = NOW()
   WHERE id = $1`,
-            [batch.id],
-        );
-    }
-if (result.notes === "none") {
-    await this.pool.query(
-        `UPDATE entity_processing_batches
+                  [batch.id],
+              );
+          }
+          if (result.notes === "none") {
+              await this.pool.query(
+                  `UPDATE entity_processing_batches
     SET status = 'completed',
         active_step = 4,
         completed_steps = ARRAY[1,2,3,4],
@@ -159,9 +159,10 @@ if (result.notes === "none") {
         last_error = NULL,
         updated_at = NOW()
   WHERE id = $1`,
-        [batch.id],
-    );
-    } catch (error) {
+                  [batch.id],
+              );
+          }
+      } catch (error) {
       await this.failBatch(
         batch.id,
         error instanceof Error ? error.message : String(error),
