@@ -355,19 +355,16 @@ async function resolveEntityUserId(
 
 async function resolveEntityId(db: DbConnection, tenant: string, value: unknown): Promise<string> {
     const entityValue = text(value, "entityId");
-    // 1. Check if the input string is a valid UUID format
-    //const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\$/i.test(entityValue);
   const result = await db.query(
     `SELECT id
        FROM entities
       WHERE tenant_id = $1
-        // AND (id::text = $2 OR entity_key = $2)
-        //AND (${isValidUuid ? "id = $2::uuid" : "false"} OR entity_key = $2)
-        AND (id = $2::uuid OR entity_key = $2)
+         AND (id::text = $2 OR entity_key = $2)
       LIMIT 1`,
     [tenant, entityValue]
   );
-  if (!result.rows[0]) {
+    if (!result.rows[0]) {
+        console.log("Entity not found");
     throw new HttpError(404, `Entity ${entityValue} was not found`);
   }
   return result.rows[0].id as string;
@@ -621,6 +618,7 @@ app.get("/api/v1/tenants/:tenantId/entities/:entityId/invoice-hashes", async (re
         /* get the most recent (say 90 days) invoices for this entity  */
         const tenant = tenantId(req);
         const entity = await resolveEntityId(pool, tenant, req.params.entityId);
+        console.log(entity);
         const hashes = await pool.query(
             `SELECT id, invoice_number, intake_batch_id, file_hash, perceptual_hash, average_hash FROM ap_invoices 
                WHERE tenant_id = $1 AND entity_id = $2 AND created_at >= NOW() - INTERVAL '90 days' 
