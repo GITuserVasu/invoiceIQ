@@ -356,7 +356,7 @@ async function resolveEntityUserId(
 async function resolveEntityId(db: DbConnection, tenant: string, value: unknown): Promise<string> {
     const entityValue = text(value, "entityId");
     // 1. Check if the input string is a valid UUID format
-    const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\$/i.test(entityValue);
+    //const isValidUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\$/i.test(entityValue);
   const result = await db.query(
     `SELECT id
        FROM entities
